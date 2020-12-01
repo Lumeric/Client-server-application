@@ -52,14 +52,36 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Network\Enums\ResultCode.cs" />
+    <Compile Include="Network\Enums\TransportType.cs" />
+    <Compile Include="Network\EventArgs\ConnectionStateChangedEventArgs.cs" />
+    <Compile Include="Network\EventArgs\MessageRecievedEventArgs.cs" />
+    <Compile Include="Network\Handlers\RequestHandler.cs" />
+    <Compile Include="Network\ITransport.cs" />
+    <Compile Include="Network\Messages\ConnectionRequest.cs" />
+    <Compile Include="Network\Messages\ConnectionResponse.cs" />
+    <Compile Include="Network\Messages\MessageBroadcast.cs" />
+    <Compile Include="Network\Messages\MessageContainer.cs" />
+    <Compile Include="Network\Messages\MessageRequest.cs" />
+    <Compile Include="Network\Packets\BufferPrimitives.cs" />
+    <Compile Include="Network\Packets\ConnectionRequest.cs" />
+    <Compile Include="Network\Packets\ConnectionResponse.cs" />
+    <Compile Include="Network\Packets\MessageBroadcast.cs" />
+    <Compile Include="Network\Packets\MessageRequest.cs" />
+    <Compile Include="Network\Packets\PacketId.cs" />
+    <Compile Include="Network\TcpSocket\TcpClient.cs" />
+    <Compile Include="Network\TcpSocket\TcpConnection.cs" />
+    <Compile Include="Network\TcpSocket\TcpServer.cs" />
+    <Compile Include="Network\TransportFactory.cs" />
+    <Compile Include="Network\WebSocket\WsClient.cs" />
+    <Compile Include="Network\WebSocket\WsConnection.cs" />
+    <Compile Include="Network\WebSocket\WsServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Network\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
