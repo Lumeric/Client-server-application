@@ -1,0 +1,7 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:Client.Themes.ResourceDictionaries">
+    <Color x:Key="CoolGreyColor">#919398</Color>
+    <Color x:Key="WhiteColor">#f2f2f2</Color>
+    <Color x:Key="DarkColor">#1d2835</Color>
+</ResourceDictionary>
