@@ -8,7 +8,7 @@ using Prism.Mvvm;
 
 namespace Client.ViewModels
 {
-    class LoginViewModel : BindableBase
+    public class LoginViewModel : BindableBase
     {
     }
 }

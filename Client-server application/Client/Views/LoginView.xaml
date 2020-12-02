@@ -12,25 +12,29 @@
              d:DataContext="{d:DesignInstance viewModel:LoginViewModel}"> 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="20"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="20"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="20"/>
-            <ColumnDefinition Width="0.2*"/>
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
-        <ListBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"/>
+        <TextBlock Grid.Row="2" Grid.Column="3" Margin="5" FontSize="48" HorizontalAlignment="Center" VerticalAlignment="Top" Text="TushenkaRecords"/>
+
+        <!--<ListBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"/>
         <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding CurrentText}"/>
         <Button Grid.Row="2" Grid.Column="2" Content="Send" 
-                Command="{Binding SendCommand}"
-                Style="{StaticResource PrimaryButtonStyle}"/>
+                Command="{Binding SendCommand}"/>
         <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal">
             <CheckBox Content="Service Available" IsChecked="{Binding IsAvailableService}"/>
-        </StackPanel>
+        </StackPanel> -->
     </Grid>
 </UserControl>

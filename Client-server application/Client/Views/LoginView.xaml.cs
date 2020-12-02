@@ -22,7 +22,6 @@ namespace Client.Views
     {
         public LoginView()
         {
-            InitializeComponent();
         }
     }
 }

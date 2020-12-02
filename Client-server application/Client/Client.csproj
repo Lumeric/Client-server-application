@@ -80,8 +80,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ViewsModel\LoginViewModel.cs" />
-    <Compile Include="ViewsModel\MainWindowViewModel.cs" />
+    <Compile Include="BusinessLogic\LoginController.cs" />
+    <Compile Include="ViewModels\LoginViewModel.cs" />
+    <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Views\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
     </Compile>
@@ -148,7 +149,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="BusinessLogic\" />
+    <Folder Include="BusinessLogic\Interfaces\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
