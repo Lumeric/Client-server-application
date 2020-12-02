@@ -20,6 +20,7 @@
     {
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            containerRegistry.RegisterSingleton<ILoginController, LoginController>();
             containerRegistry.Register<LoginViewModel>();
         }
 
@@ -36,12 +37,12 @@
             return mainView;
         }
 
-        protected override void OnInitialized()
+        /*protected override void OnInitialized()
         {
             var login = Container.Resolve<LoginView>();
 
             base.OnInitialized();
-        }
+        }*/
 
         private void BindViewModelToView<ViewModel, View>()
         {

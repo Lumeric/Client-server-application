@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace Client.BusinessLogic
 {
-    public class LoginController : ILoginController
+    public interface ILoginController
     {
-        public void LoginUser()
-        {
-
-        }
+        void LoginUser();
     }
 }

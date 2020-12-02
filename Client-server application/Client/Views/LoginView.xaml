@@ -8,18 +8,20 @@
              xmlns:interactivity="http://prismlibrary.com/"
              interactivity:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
-             d:DesignHeight="400" d:DesignWidth="600"
-             d:DataContext="{d:DesignInstance viewModel:LoginViewModel}"> 
+             d:DesignHeight="200" d:DesignWidth="500"
+             d:DataContext="{d:DesignInstance viewModel:LoginViewModel}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="150"/>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
@@ -27,9 +29,19 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
-        <TextBlock Grid.Row="2" Grid.Column="3" Margin="5" FontSize="48" HorizontalAlignment="Center" VerticalAlignment="Top" Text="TushenkaRecords"/>
+        <TextBlock Grid.Row="0" Grid.Column="0" Margin="5" FontSize="18" Text="Server IP"/>
+        <TextBlock Grid.Row="1" Grid.Column="0" Margin="5" FontSize="18" Text="Port"/>
+        <TextBlock Grid.Row="2" Grid.Column="0" Margin="5" FontSize="18" Text="Interface"/>
+        <TextBlock Grid.Row="0" Grid.Column="2" Margin="5" FontSize="18" Text="Username"/>
 
-        <!--<ListBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"/>
+        <TextBox Grid.Row="0" Grid.Column="1" Margin="5" />
+        <TextBox Grid.Row="1" Grid.Column="1" Margin="5" />
+        <TextBox Grid.Row="2" Grid.Column="1" Margin="5" />
+        <TextBox Grid.Row="0" Grid.Column="3" Margin="5" Grid.ColumnSpan="3" />
+
+        <Button Command="{Binding LoginCommand}" Content="Connect" Grid.Row="2" Grid.Column="5" Margin="5" FontSize="14"/>
+
+        <!-- <ListBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"/>
         <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding CurrentText}"/>
         <Button Grid.Row="2" Grid.Column="2" Content="Send" 
                 Command="{Binding SendCommand}"/>
