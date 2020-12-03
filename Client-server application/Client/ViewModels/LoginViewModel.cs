@@ -17,6 +17,8 @@
             _loginController = loginController ?? throw new ArgumentNullException(nameof(loginController));
 
             LoginCommand = new DelegateCommand(ExecuteLoginCommand);
+
+            ValidUsername = new DelegateCommand(ValidatingUsername);
         }
 
         public DelegateCommand LoginCommand { get; }
@@ -53,6 +55,16 @@
             errorMessage = "Username must be valid username  format.\n" +
                "For example 'Hasagi' ";
             return false;
+        }
+
+        public void ValidatingUsername()
+        {
+            string errorMsg;
+
+            if (ValidateUsername(_username, out errorMsg))
+            {
+                Username = "Dummy";
+            }
         }
     }
 }
