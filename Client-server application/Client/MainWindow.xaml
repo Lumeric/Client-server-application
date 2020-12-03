@@ -6,7 +6,9 @@
         xmlns:local="clr-namespace:Client" 
         xmlns:view="clr-namespace:Client.Views"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" WindowStartupLocation="CenterScreen">
+        Title="MainWindow" MinHeight="150" MinWidth="500"
+        SizeToContent="WidthAndHeight"
+        MaxHeight="800" MaxWidth="1200" WindowStartupLocation="CenterScreen">
     <Grid>
         <view:LoginView></view:LoginView>
     </Grid>

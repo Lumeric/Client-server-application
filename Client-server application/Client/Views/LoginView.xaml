@@ -8,7 +8,7 @@
              xmlns:interactivity="http://prismlibrary.com/"
              interactivity:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
-             d:DesignHeight="200" d:DesignWidth="500"
+             d:DesignHeight="100" d:DesignWidth="500"
              d:DataContext="{d:DesignInstance viewModel:LoginViewModel}">
     <Grid>
         <Grid.RowDefinitions>
@@ -37,9 +37,9 @@
         <TextBox Grid.Row="0" Grid.Column="1" Margin="5" />
         <TextBox Grid.Row="1" Grid.Column="1" Margin="5" />
         <TextBox Grid.Row="2" Grid.Column="1" Margin="5" />
-        <TextBox Grid.Row="0" Grid.Column="3" Margin="5" Grid.ColumnSpan="3" />
+        <TextBox Grid.Row="0" Grid.Column="3" Margin="5" Grid.ColumnSpan="3" Text="{Binding Username}"/>
 
-        <Button Command="{Binding LoginCommand}" Content="Connect" Grid.Row="2" Grid.Column="5" Margin="5" FontSize="14"/>
+        <Button Command="{Binding ValidUsername}" Content="Connect" Grid.Row="2" Grid.Column="5" Margin="5" FontSize="14"/>
 
         <!-- <ListBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"/>
         <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding CurrentText}"/>

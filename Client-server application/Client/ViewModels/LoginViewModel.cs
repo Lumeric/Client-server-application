@@ -4,6 +4,7 @@
     using Prism.Commands;
     using Prism.Mvvm;
     using BusinessLogic;
+    using System.Text.RegularExpressions;
 
     public class LoginViewModel : BindableBase
     {
@@ -19,10 +20,39 @@
         }
 
         public DelegateCommand LoginCommand { get; }
-        
+        public DelegateCommand ValidUsername { get; }
+
         private void ExecuteLoginCommand()
         {
             _loginController.LoginUser();
+        }
+        
+
+        private readonly string regexUsername = @"\w";
+        private string _username;
+        public string Username
+        {
+            get => _username;
+            set => SetProperty(ref _username, value);
+        }
+
+        public bool ValidateUsername(string username, out string errorMessage)
+        {
+            if (username.Length == 0)
+            {
+                errorMessage = "Username is required.";
+                return false;
+            }
+
+            if (Regex.IsMatch(username, regexUsername))
+            {
+                errorMessage = "";
+                return true;
+            }
+
+            errorMessage = "Username must be valid username  format.\n" +
+               "For example 'Hasagi' ";
+            return false;
         }
     }
 }
