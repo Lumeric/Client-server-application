@@ -22,6 +22,7 @@
         {
             containerRegistry.RegisterSingleton<ILoginController, LoginController>();
             containerRegistry.Register<LoginViewModel>();
+            containerRegistry.Register<ChatViewModel>();
         }
 
         protected override void ConfigureViewModelLocator()
@@ -29,20 +30,13 @@
             base.ConfigureViewModelLocator();
 
             BindViewModelToView<LoginViewModel, LoginView>();
+            BindViewModelToView<ChatView, ChatViewModel>();
         }
 
         protected override Window CreateShell()
         {
-            var mainView = Container.Resolve<MainWindow>();
-            return mainView;
+            return Container.Resolve<MainWindow>();
         }
-
-        /*protected override void OnInitialized()
-        {
-            var login = Container.Resolve<LoginView>();
-
-            base.OnInitialized();
-        }*/
 
         private void BindViewModelToView<ViewModel, View>()
         {
