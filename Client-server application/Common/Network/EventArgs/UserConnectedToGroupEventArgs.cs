@@ -8,7 +8,7 @@
 
         public int GroupNumber { get; }
 
-        #endregion Properties
+        #endregion //Properties
 
         #region Constructors
 
@@ -18,6 +18,6 @@
             GroupNumber = group;
         }
 
-        #endregion Constructors
+        #endregion //Constructors
     }
 }

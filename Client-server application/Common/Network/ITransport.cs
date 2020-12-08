@@ -6,7 +6,7 @@ namespace Common.Network
     {
         #region Events
 
-        event EventHandler<ConnectionStateChangedEventArgs> ConnectionStateChanged;
+        //event EventHandler<ConnectionStateChangedEventArgs> ConnectionStateChanged;
         event EventHandler<MessageReceivedEventArgs> MessageReceived;
         #endregion Events
 

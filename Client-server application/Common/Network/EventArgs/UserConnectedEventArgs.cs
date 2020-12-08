@@ -5,6 +5,7 @@ namespace Common.Network
     public class UserConnectedEventArgs
     {
         #region Properties
+
         public string ClientName { get; }
 
         public Guid ClientId { get; }
@@ -18,6 +19,7 @@ namespace Common.Network
             ClientName = clientName;
             ClientId = clientId;
         }
+
         #endregion //Constructors
     }
 }
