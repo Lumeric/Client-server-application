@@ -1,15 +1,10 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------------------------------------
-// Copyright ElcomPlus LLC. All rights reserved.
-// Author: Пальников М. С.
-// ---------------------------------------------------------------------------------------------------------------------------------------------------
-
-namespace Common.Network.Messages
+﻿namespace Common.Network.Messages
 {
     public class ConnectionRequest
     {
         #region Properties
 
-        public string Login { get; set; }
+        public string Username { get; set; }
 
         #endregion Properties
 
@@ -17,7 +12,7 @@ namespace Common.Network.Messages
 
         public ConnectionRequest(string login)
         {
-            Login = login;
+            Username = login;
         }
 
         #endregion Constructors
