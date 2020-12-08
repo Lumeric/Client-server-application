@@ -24,7 +24,7 @@
 
         public Guid Id { get; set; }
 
-        public string Username { get; set; }
+        public string Login { get; set; }
 
         public bool IsConnected => Context.WebSocket?.ReadyState == WebSocketState.Open;
 

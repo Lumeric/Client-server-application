@@ -79,9 +79,27 @@
             }
         }
 
-        internal void HandleMessage(Guid userId, MessageContainer container)
+        internal void HandleMessage(Guid clientId, MessageContainer container)
         {
+            if (!_connections.TryGetValue(clientId, out WsConnection connection))
+                return;
 
+            switch (container.Identifier)
+            {
+                case nameof(ConnectionRequest):
+                    {
+                        var connectionRequest = ((JObject)container.Payload).ToObject(typeof(ConnectionRequest)) as ConnectionRequest;
+                        UserConnected?.Invoke(this, new UserConnectedEventArgs(connection.Login, clientId));
+                        break;
+                    }
+                case nameof(MessageRequest):
+                    {
+                        var messageRequest = ((JObject)container.Payload).ToObject(typeof(MessageRequest)) as MessageRequest;
+                        MessageReceived?.Invoke(this, new MessageReceivedEventArgs(connection.Login, messageRequest.Message, messageRequest.Group));
+                        break;
+                    }
+
+            }
         }
 
         internal void AddConnection(WsConnection connection)
