@@ -12,23 +12,23 @@
     {
         #region Fields
 
-        public WsServer _wsServer;
-
         private readonly ConcurrentQueue<MessageContainer> _sendQueue;
+
+        public WsServer _wsServer;
 
         private int _sending;
 
-        #endregion Fields
+        #endregion //Fields
 
         #region Properties
 
         public Guid Id { get; set; }
 
-        public string Login { get; set; }
+        public string Username { get; set; }
 
         public bool IsConnected => Context.WebSocket?.ReadyState == WebSocketState.Open;
 
-        #endregion Properties
+        #endregion //Properties
 
         #region Constructors
 
@@ -39,7 +39,7 @@
             Id = Guid.NewGuid();
         }
 
-        #endregion Constructors
+        #endregion //Constructors
 
         #region Methods
 
@@ -85,6 +85,7 @@
 
         private void SendCompleted(bool completed)
         {
+            // При отправке произошла ошибка.
             if (!completed)
             {
                 _wsServer.RemoveConnection(Id);
@@ -108,6 +109,6 @@
             SendAsync(serializedMessages, SendCompleted);
         }
 
-        #endregion Methods
+        #endregion //Methods
     }
 }

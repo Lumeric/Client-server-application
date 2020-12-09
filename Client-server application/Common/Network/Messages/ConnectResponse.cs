@@ -1,6 +1,6 @@
 ﻿namespace Common.Network.Messages
 {
-    public class ConnectionResponse
+    public class ConnectResponse
     {
         #region Properties
 
@@ -8,7 +8,7 @@
 
         public string Reason { get; set; }
 
-        #endregion Properties
+        #endregion //Properties
 
         #region Methods
 
@@ -16,13 +16,13 @@
         {
             var container = new MessageContainer
             {
-                Identifier = nameof(ConnectionResponse),
+                Identifier = nameof(ConnectResponse),
                 Payload = this
             };
 
             return container;
         }
 
-        #endregion Methods
+        #endregion //Methods
     }
 }

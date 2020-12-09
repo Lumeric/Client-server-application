@@ -1,21 +1,21 @@
 ﻿namespace Common.Network.Messages
 {
-    public class ConnectionRequest
+    public class ConnectRequest
     {
         #region Properties
 
         public string Username { get; set; }
 
-        #endregion Properties
+        #endregion //Properties
 
         #region Constructors
 
-        public ConnectionRequest(string login)
+        public ConnectRequest(string username)
         {
-            Username = login;
+            Username = username;
         }
 
-        #endregion Constructors
+        #endregion //Constructors
 
         #region Methods
 
@@ -23,13 +23,13 @@
         {
             var container = new MessageContainer
             {
-                Identifier = nameof(ConnectionRequest),
+                Identifier = nameof(ConnectRequest),
                 Payload = this
             };
 
             return container;
         }
 
-        #endregion Methods
+        #endregion //Methods
     }
 }

@@ -23,7 +23,6 @@ namespace Common.Network
 
         #region Events
 
-        //public event EventHandler<ConnectionStateChangedEventArgs> ConnectionStateChanged;
         public event EventHandler<MessageReceivedEventArgs> MessageReceived;
 
         #endregion Events

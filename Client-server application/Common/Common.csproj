@@ -54,14 +54,19 @@
   <ItemGroup>
     <Compile Include="Network\Enums\ResultCode.cs" />
     <Compile Include="Network\Enums\TransportType.cs" />
+    <Compile Include="Network\EventArgs\GroupRemovedEventArgs.cs" />
     <Compile Include="Network\EventArgs\MessageRecievedEventArgs.cs" />
     <Compile Include="Network\Handlers\RequestHandler.cs" />
     <Compile Include="Network\ITransport.cs" />
-    <Compile Include="Network\Messages\ConnectionRequest.cs" />
-    <Compile Include="Network\Messages\ConnectionResponse.cs" />
-    <Compile Include="Network\Messages\MessageBroadcast.cs" />
+    <Compile Include="Network\Messages\ConnectUserToGroupRequest.cs" />
+    <Compile Include="Network\Messages\ConnectRequest.cs" />
+    <Compile Include="Network\Messages\ConnectResponse.cs" />
+    <Compile Include="Network\Messages\CreateNewGroupRequest.cs" />
+    <Compile Include="Network\Messages\DisconnectRequest.cs" />
     <Compile Include="Network\Messages\MessageContainer.cs" />
     <Compile Include="Network\Messages\MessageRequest.cs" />
+    <Compile Include="Network\Messages\NotifyUsers.cs" />
+    <Compile Include="Network\Messages\RemoveGroupRequest.cs" />
     <Compile Include="Network\Packets\BufferPrimitives.cs" />
     <Compile Include="Network\Packets\ConnectionRequest.cs" />
     <Compile Include="Network\Packets\ConnectionResponse.cs" />

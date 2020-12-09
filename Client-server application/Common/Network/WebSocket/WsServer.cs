@@ -15,7 +15,7 @@
     {
         #region Fields
 
-        private IPEndPoint _listenAddress;
+        private readonly IPEndPoint _listenAddress;
         private readonly ConcurrentDictionary<Guid, WsConnection> _connections;
 
         private WebSocketServer _server;
@@ -29,6 +29,8 @@
         public event EventHandler<UserConnectedEventArgs> UserConnected;
         public event EventHandler<UserDisconnectedEventArgs> UserDisconnected;
         public event EventHandler<UserConnectedToGroupEventArgs> UserConnectedToGroup;
+        public event EventHandler<GroupRemovedEventArgs> GroupRemoved;
+
 
         #endregion //Events
 
@@ -36,8 +38,7 @@
 
         public WsServer(IPEndPoint listenAddress)
         {
-
-            _server = new WebSocketServer(listenAddress.Address, listenAddress.Port, false);
+            _listenAddress = listenAddress;
             _connections = new ConcurrentDictionary<Guid, WsConnection>();
         }
 
@@ -55,7 +56,7 @@
                 });
                 _server.Start();
         }
-
+            
         public void Stop()
         {
             _server?.Stop();
@@ -66,6 +67,7 @@
             {
                 connection.Close();
             }
+
             _connections.Clear();
         }
 
@@ -75,6 +77,7 @@
             {
                 if (!_connections.TryGetValue(id, out WsConnection connection))
                     continue;
+
                 connection.Send(message);
             }
         }
@@ -86,19 +89,42 @@
 
             switch (container.Identifier)
             {
-                case nameof(ConnectionRequest):
+                case nameof(ConnectRequest):
                     {
-                        var connectionRequest = ((JObject)container.Payload).ToObject(typeof(ConnectionRequest)) as ConnectionRequest;
-                        UserConnected?.Invoke(this, new UserConnectedEventArgs(connection.Login, clientId));
+                        var connectRequest = ((JObject)container.Payload).ToObject(typeof(ConnectRequest)) as ConnectRequest;
+                        UserConnected?.Invoke(this, new UserConnectedEventArgs(connection.Username, clientId));
+                        break;
+                    }
+                case nameof(DisconnectRequest):
+                    {
+                        var disconnectRequest = ((JObject)container.Payload).ToObject(typeof(ConnectRequest)) as ConnectRequest;
+                        UserDisconnected?.Invoke(this, new UserDisconnectedEventArgs(connection.Username));
                         break;
                     }
                 case nameof(MessageRequest):
                     {
                         var messageRequest = ((JObject)container.Payload).ToObject(typeof(MessageRequest)) as MessageRequest;
-                        MessageReceived?.Invoke(this, new MessageReceivedEventArgs(connection.Login, messageRequest.Message, messageRequest.Group));
+                        MessageReceived?.Invoke(this, new MessageReceivedEventArgs(connection.Username, messageRequest.Message, messageRequest.Group));
                         break;
                     }
-
+                case nameof(CreateNewGroupRequest):
+                    {
+                        var createNewGroupRequest = ((JObject)container.Payload).ToObject(typeof(CreateNewGroupRequest)) as CreateNewGroupRequest;
+                        GroupCreated?.Invoke(this, new GroupCreatedEventArgs(connection.Username, createNewGroupRequest.Users));
+                        break;
+                    }
+                case nameof(ConnectUserToGroupRequest):
+                    {
+                        var connectUserToGroupRequest = ((JObject)container.Payload).ToObject(typeof(ConnectUserToGroupRequest)) as ConnectUserToGroupRequest;
+                        UserConnectedToGroup?.Invoke(this, new UserConnectedToGroupEventArgs(connection.Username, connectUserToGroupRequest.GroupNumber));
+                        break;
+                    }
+                case nameof(RemoveGroupRequest):
+                    {
+                        var removeGroupRequest = ((JObject)container.Payload).ToObject(typeof(RemoveGroupRequest)) as RemoveGroupRequest;
+                        GroupRemoved?.Invoke(this, new GroupRemovedEventArgs(connection.Username, removeGroupRequest.GroupNumber));
+                        break;
+                    }               
             }
         }
 
