@@ -14,10 +14,11 @@ namespace Server
 
         ConcurrentDictionary<int, List<MessageInfo>> GetAllMessageFromChats();
 
-        Task<bool> AddNewClient(UserInfo container);
+        Task<bool> AddNewUser(UserInfo container);
 
+        Task<int> CreateNewGroup(CreateGroupInfo container);
 
-
+        Task<bool> RemoveChat(int groupNumber);
 
         #endregion //Methods
     }
