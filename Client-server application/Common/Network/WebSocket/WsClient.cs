@@ -24,20 +24,23 @@
         private int _sending;
         private string _login;
 
-        #endregion Fields
+        #endregion //Fields
 
         #region Properties
         public bool IsConnected => _socket?.ReadyState == WebSocketState.Open;
 
-        #endregion Properties
+        #endregion //Properties
 
         #region Events
 
+        public event EventHandler<GroupCreatedEventArgs> GroupCreated;
+        public event EventHandler<GroupRemovedEventArgs> GroupRemoved;
         public event EventHandler<MessageReceivedEventArgs> MessageReceived;
+        public event EventHandler<UserConnectedEventArgs> UserConnected;
+        public event EventHandler<UserConnectedToGroupEventArgs> UserConnectedToGroup;
         public event EventHandler<UserDisconnectedEventArgs> UserDisconnected;
 
-
-        #endregion Events
+        #endregion //Events
 
         #region Constructors
 
@@ -47,7 +50,7 @@
             _sending = 0;
         }
 
-        #endregion Constructors
+        #endregion //Constructors
 
         #region Methods
 
@@ -115,6 +118,6 @@
 
         }
 
-        #endregion Methods
+        #endregion //Methods
     }
 }

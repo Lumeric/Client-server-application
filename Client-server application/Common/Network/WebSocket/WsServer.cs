@@ -25,12 +25,11 @@
         #region Events
 
         public event EventHandler<GroupCreatedEventArgs> GroupCreated;
+        public event EventHandler<GroupRemovedEventArgs> GroupRemoved;
         public event EventHandler<MessageReceivedEventArgs> MessageReceived;
         public event EventHandler<UserConnectedEventArgs> UserConnected;
-        public event EventHandler<UserDisconnectedEventArgs> UserDisconnected;
         public event EventHandler<UserConnectedToGroupEventArgs> UserConnectedToGroup;
-        public event EventHandler<GroupRemovedEventArgs> GroupRemoved;
-
+        public event EventHandler<UserDisconnectedEventArgs> UserDisconnected;
 
         #endregion //Events
 
