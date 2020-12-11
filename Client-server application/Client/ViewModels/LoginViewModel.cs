@@ -7,7 +7,7 @@
     using System.Text.RegularExpressions;
     using System.Collections.ObjectModel;
 
-    public class LoginViewModel : BindableBase
+    public class LoginViewModel : BindableBase, IViewModel
     {
         #region Constants
 
@@ -29,6 +29,7 @@
         private string _port;
         private string _username = "";
         private string _ip = "";
+        private string _error = "";
         private ObservableCollection<string> _sockets;
         private string _selectedSocket;
 
@@ -54,6 +55,12 @@
             set => SetProperty(ref _port, value);
         }
 
+        public string Error 
+        {
+            get => _error;
+            set => SetProperty(ref _error, value);
+        }
+
         public ObservableCollection<string> Sockets
         {
             get { return _sockets; }
@@ -76,6 +83,19 @@
         {
             _loginController = loginController ?? throw new ArgumentNullException(nameof(loginController));
 
+            Sockets = new ObservableCollection<string>();
+            Sockets.Add("WebSocket");
+            Sockets.Add("TcpSocket");
+            SelectedSocket = Sockets[0];
+
+            //LoginCommand = new DelegateCommand(ExecuteLoginCommand);
+
+            Validation = new DelegateCommand(ExecuteValidation, CanExecuteValidation).ObservesProperty(() => IP).ObservesProperty(() => Port).ObservesProperty(() => Username);
+        }
+
+        public LoginViewModel()
+        {
+            //empty constructor
             Sockets = new ObservableCollection<string>();
             Sockets.Add("WebSocket");
             Sockets.Add("TcpSocket");
@@ -119,7 +139,7 @@
                 errorMessage = "OK";
             }
 
-            Username = errorMessage;
+            Error = errorMessage;
         }
 
         private void ValidateIP(string ip)

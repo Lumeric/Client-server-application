@@ -10,6 +10,18 @@
         SizeToContent="WidthAndHeight"
         MaxHeight="800" MaxWidth="1200" WindowStartupLocation="CenterScreen">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
         <view:LoginView></view:LoginView>
+        <ContentControl Content="{Binding SelectedViewModel}"/>
+        <Button Grid.Column="1" Grid.Row="1" Content="GoToView" Command="{Binding UpdateView, UpdateSourceTrigger=PropertyChanged}" CommandParameter="ChatView"/>
     </Grid>
+    
+    
 </Window>
