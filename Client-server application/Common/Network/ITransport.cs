@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Common.Network.Messages;
+using System;
+using System.Collections.Generic;
 
 namespace Common.Network
 {
@@ -6,7 +8,7 @@ namespace Common.Network
     {
         #region Events
 
-        event EventHandler<ConnectionStateChangedEventArgs> ConnectionStateChanged;
+        //event EventHandler<ConnectionStateChangedEventArgs> ConnectionStateChanged;
         event EventHandler<MessageReceivedEventArgs> MessageReceived;
         #endregion Events
 
@@ -18,7 +20,7 @@ namespace Common.Network
 
         void Login(string login);
 
-        void Send(string message);
+        void Send(List<Guid> listClientId, MessageContainer message);
 
         #endregion Methods
     }

@@ -1,23 +1,24 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------------------------------------
-// Copyright ElcomPlus LLC. All rights reserved.
-// Author: Пальников М. С.
-// ---------------------------------------------------------------------------------------------------------------------------------------------------
-
-namespace Common.Network.Messages
+﻿namespace Common.Network.Messages
 {
     public class MessageRequest
     {
         #region Properties
 
+        public string Login { get; set; }
+
         public string Message { get; set; }
+
+        public int Group { get; set; }
 
         #endregion Properties
 
         #region Constructors
 
-        public MessageRequest(string message)
+        public MessageRequest(string login, string message, int group)
         {
+            Login = login;
             Message = message;
+            Group = group;
         }
 
         #endregion Constructors

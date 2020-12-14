@@ -6,23 +6,24 @@ using System.Threading.Tasks;
 
 namespace Common.Network
 {
-    public class ConnectionStateChangedEventArgs
+    public class GroupRemovedEventArgs
     {
         #region Properties
+
         public string ClientName { get; }
 
-        public bool Connected { get; }
+        public int GroupNumber { get; }
 
-        #endregion Properties
+        #endregion //Properties
 
         #region Constructors
 
-        public ConnectionStateChangedEventArgs(string clientName, bool connected)
+        public GroupRemovedEventArgs(string clientName, int group)
         {
             ClientName = clientName;
-            Connected = connected;
+            GroupNumber = group;
         }
 
-        #endregion Constructors
+        #endregion //Constructors
     }
 }

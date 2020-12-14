@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Common.Network.Messages;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,7 +17,7 @@ namespace Common.Network
 
         #region Events
 
-        public event EventHandler<ConnectionStateChangedEventArgs> ConnectionStateChanged;
+        //public event EventHandler<ConnectionStateChangedEventArgs> ConnectionStateChanged;
         public event EventHandler<MessageReceivedEventArgs> MessageReceived;
 
         #endregion Events
@@ -41,7 +42,7 @@ namespace Common.Network
             throw new NotImplementedException();
         }
 
-        public void Send(string message)
+        public void Send(List<Guid> listClientId, MessageContainer message)
         {
             throw new NotImplementedException();
         }
