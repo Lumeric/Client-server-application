@@ -5,22 +5,27 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Client" 
         xmlns:view="clr-namespace:Client.Views"
+        xmlns:viewModel="clr-namespace:Client.ViewModels"
+        xmlns:interactivity="http://prismlibrary.com/"
+        interactivity:ViewModelLocator.AutoWireViewModel="True"
         mc:Ignorable="d"
         Title="MainWindow" MinHeight="150" MinWidth="500"
         SizeToContent="WidthAndHeight"
-        MaxHeight="800" MaxWidth="1200" WindowStartupLocation="CenterScreen">
+        MaxHeight="800" MaxWidth="1200" WindowStartupLocation="CenterScreen"
+        d:DataContext="{d:DesignInstance viewModel:MainWindowViewModel}">
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-        <view:LoginView></view:LoginView>
-        <ContentControl Content="{Binding SelectedViewModel}"/>
-        <Button Grid.Column="1" Grid.Row="1" Content="GoToView" Command="{Binding UpdateView, UpdateSourceTrigger=PropertyChanged}" CommandParameter="ChatView"/>
+        <view:LoginView Grid.Row="0" Grid.Column="0"></view:LoginView>
+        <view:ChatView Grid.Row="1" Grid.Column="0"></view:ChatView>
     </Grid>
     
     

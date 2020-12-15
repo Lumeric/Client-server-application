@@ -7,14 +7,6 @@
              xmlns:unity="http://prismlibrary.com/">
     <Application.Resources>
         <ResourceDictionary>
-            <DataTemplate DataType="{x:Type viewmodels:LoginViewModel}">
-                <views:LoginView/>
-            </DataTemplate>
-
-            <DataTemplate DataType="{x:Type viewmodels:ChatViewModel}">
-                <views:ChatView/>
-            </DataTemplate>
-
             <ResourceDictionary.MergedDictionaries>
                 <!--<ResourceDictionary Source="Themes" /> -->
             </ResourceDictionary.MergedDictionaries>

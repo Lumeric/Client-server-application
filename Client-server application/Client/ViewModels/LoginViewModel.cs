@@ -6,8 +6,13 @@
     using BusinessLogic;
     using System.Text.RegularExpressions;
     using System.Collections.ObjectModel;
+    using System.Windows;
+    using Prism.Events;
+    using Prism.Common;
+    using System.ComponentModel;
+    using System.Collections.Generic;
 
-    public class LoginViewModel : BindableBase, IViewModel
+    public class LoginViewModel : BindableBase, IViewModel, IDataErrorInfo
     {
         #region Constants
 
@@ -23,19 +28,71 @@
 
         #region Fields
 
+        private IEventAggregator _eventAggregator;
         private readonly ILoginController _loginController;
         private static readonly string regexIP = @"^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$";
         private static readonly string regexUsername = @"^(?!.*[0-9])[a-z](?:[\w]*|[a-z\d\.]*|[a-z\d-]*)[a-z0-9]$";
         private string _port;
         private string _username = "";
         private string _ip = "";
-        private string _error = "";
+        private bool _isValidated;
         private ObservableCollection<string> _sockets;
         private string _selectedSocket;
+        private Visibility _visibility;
 
         #endregion //Fields
 
         #region Properties
+
+        public string this[string parameter]
+        {
+            get
+            {
+                string error = null;
+
+                switch (parameter)
+                {
+                    case "Username":
+                        Regex regex = new Regex(regexUsername);
+                        Match match = regex.Match(Username);
+
+                        if (string.IsNullOrWhiteSpace(Username))
+                        {
+                            error = "Username is required.";
+                        }
+                        else if (!match.Success)
+                        {
+                            error = "Username must be valid username format and contains only alphabetic symbols and numbers.\n" +
+                                       "For example 'Cyberpunk2020'";
+                        }
+                        else if (Username.Length < 6 || Username.Length > 20)
+                        {
+                            error = "Username length nust be no less than 6 symbols and no more than 20 symbols.";                        
+                        }
+                        break;
+
+                    case "IP":
+                        regex = new Regex(regexIP);
+                        match = regex.Match(IP);
+
+                        if (string.IsNullOrWhiteSpace(IP))
+                        {
+                            error = "IP is required";
+                        }
+                        else if (!match.Success)
+                        {
+                            error = "IP must be valid ip format. For example '192.168.1.0'";
+                        }
+                        break;
+                }
+
+                if (Errors.ContainsKey(parameter))
+                    Errors[parameter] = error;
+                else if (error != null)
+                    Errors.Add(parameter, error);
+                return error;
+            }
+        }
 
         public string Username
         {
@@ -55,11 +112,13 @@
             set => SetProperty(ref _port, value);
         }
 
-        public string Error 
+        public bool IsValidated
         {
-            get => _error;
-            set => SetProperty(ref _error, value);
+            get => _isValidated;
+            set => SetProperty(ref _isValidated, value);
         }
+
+        private Dictionary<string, string> Errors { get; set; }
 
         public ObservableCollection<string> Sockets
         {
@@ -74,32 +133,29 @@
         }
 
         public DelegateCommand Validation { get; }
+        public Visibility Visibility 
+        { 
+            get => _visibility;
+            set => SetProperty(ref _visibility, value); 
+        }
+
+        public string Error { get { return null; } }
 
         #endregion //Properties
 
         #region Constructors
 
-        public LoginViewModel(ILoginController loginController)
+        public LoginViewModel(IEventAggregator eventAggregator, ILoginController loginController)
         {
+            _eventAggregator = eventAggregator;
             _loginController = loginController ?? throw new ArgumentNullException(nameof(loginController));
+            Errors = new Dictionary<string, string>();
+            _isValidated = false;
 
-            Sockets = new ObservableCollection<string>();
-            Sockets.Add("WebSocket");
-            Sockets.Add("TcpSocket");
-            SelectedSocket = Sockets[0];
-
-            //LoginCommand = new DelegateCommand(ExecuteLoginCommand);
-
-            Validation = new DelegateCommand(ExecuteValidation, CanExecuteValidation).ObservesProperty(() => IP).ObservesProperty(() => Port).ObservesProperty(() => Username);
-        }
-
-        public LoginViewModel()
-        {
-            //empty constructor
-            Sockets = new ObservableCollection<string>();
-            Sockets.Add("WebSocket");
-            Sockets.Add("TcpSocket");
-            SelectedSocket = Sockets[0];
+            _sockets = new ObservableCollection<string>();
+            _sockets.Add("WebSocket");
+            _sockets.Add("TcpSocket");
+            _selectedSocket = _sockets[0];
 
             //LoginCommand = new DelegateCommand(ExecuteLoginCommand);
 
@@ -115,54 +171,6 @@
         //    _loginController.LoginUser();
         //}
 
-        private void ValidateUsername(string username)
-        {
-            string errorMessage;
-            Regex regex = new Regex(regexUsername);
-            Match match = regex.Match(username);
-
-            if (username.Length == 0)
-            {
-                errorMessage = "Username is required.";
-            }
-            else if (!match.Success)
-            {
-                errorMessage = "Username must be valid username format and contains only alphabetic symbols and numbers.\n" +
-                           "For example 'Cyberpunk2020'";
-            }
-            else if (username.Length < 6 || username.Length > 20)
-            {
-                errorMessage = "Username length nust be no less than 6 symbols and no more than 20 symbols.";
-            }
-            else
-            {
-                errorMessage = "OK";
-            }
-
-            Error = errorMessage;
-        }
-
-        private void ValidateIP(string ip)
-        {
-            string errorMessage;
-            Regex regex = new Regex(regexIP);
-            Match match = regex.Match(ip);
-
-            if (ip.Length == 0)
-            {
-                errorMessage = "IP is required.";
-            }
-            else if (!match.Success)
-            {
-                errorMessage = "IP must be valid ip format. For example '192.168.1.0'";
-            }
-            else
-            {
-                errorMessage = "OK";
-            }
-
-            IP = errorMessage;
-        }
         private bool CanExecuteValidation()
         {
             return !String.IsNullOrWhiteSpace(IP) && !String.IsNullOrWhiteSpace(Port) && !String.IsNullOrWhiteSpace(Username);
@@ -171,8 +179,16 @@
         //общий метод вызова валидации
         private void ExecuteValidation()
         {
-                ValidateUsername(Username);
-                ValidateIP(IP);
+            //ValidateUsername(Username);
+            //ValidateIP(IP);
+            _eventAggregator.GetEvent<UserValidatedEvent>().Publish(IsValidated);
+        }
+
+        private void OnValidated()
+        {
+            if (IsValidated)
+            {
+            }
         }
 
         #endregion //Methods         

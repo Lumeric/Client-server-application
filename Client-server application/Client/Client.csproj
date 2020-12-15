@@ -82,7 +82,7 @@
     </ApplicationDefinition>
     <Compile Include="BusinessLogic\ChatController.cs" />
     <Compile Include="BusinessLogic\Interfaces\ILoginController.cs" />
-    <Compile Include="BusinessLogic\UpdateView.cs" />
+    <Compile Include="BusinessLogic\UserValidatedEvent.cs" />
     <Compile Include="ViewModels\IViewModel.cs" />
     <Compile Include="BusinessLogic\LoginController.cs" />
     <Compile Include="TempHelperStructure.cs" />

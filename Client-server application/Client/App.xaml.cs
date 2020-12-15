@@ -23,6 +23,7 @@
             containerRegistry.RegisterSingleton<ILoginController, LoginController>();
             containerRegistry.Register<LoginViewModel>();
             containerRegistry.Register<ChatViewModel>();
+            containerRegistry.Register<MainWindowViewModel>();
         }
 
         protected override void ConfigureViewModelLocator()
@@ -31,6 +32,7 @@
 
             BindViewModelToView<LoginViewModel, LoginView>();
             BindViewModelToView<ChatView, ChatViewModel>();
+            BindViewModelToView<MainWindow, MainWindowViewModel>();
         }
 
         protected override Window CreateShell()

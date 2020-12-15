@@ -9,7 +9,8 @@
              interactivity:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="500"
-             d:DataContext="{d:DesignInstance viewModel:LoginViewModel}">
+             d:DataContext="{d:DesignInstance viewModel:LoginViewModel}"
+             Visibility="{Binding Visibility}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -34,11 +35,11 @@
         <TextBlock Grid.Row="0" Grid.Column="2" Margin="5" FontSize="18" Text="Username"/>
         <TextBlock Grid.Row="2" Grid.Column="2" Margin="5" FontSize="10" Grid.ColumnSpan="2" Text="{Binding Error}" />
 
-        <TextBox Grid.Row="0" Grid.Column="1" Margin="5" Text="{Binding IP, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Row="0" Grid.Column="1" Margin="5" Text="{Binding IP, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
         <TextBox Grid.Row="1" Grid.Column="1" Margin="5" Text="{Binding Port, UpdateSourceTrigger=PropertyChanged}"/>
         <ComboBox Grid.Row="2" Grid.Column="1" Margin="5" ItemsSource="{Binding Path=Sockets}" SelectedItem="{Binding Path=SelectedSocket}"/>
-        <TextBox Grid.Row="0" Grid.Column="3" Margin="5" Grid.ColumnSpan="3" Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"/>
-
+        <TextBox Grid.Row="0" Grid.Column="3" Margin="5" Grid.ColumnSpan="3" Text="{Binding Username, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" ToolTip="{Binding Errors}"/>
+    
         <Button Command="{Binding Validation}" Content="Connect" Grid.Row="2" Grid.Column="5" Margin="5" FontSize="14"/>
 
         <!-- <ListBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"/>
