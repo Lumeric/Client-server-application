@@ -8,9 +8,8 @@
              xmlns:interactivity="http://prismlibrary.com/"
              interactivity:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800"
-             d:DataContext="{d:DesignInstance viewModel:ChatViewModel}"
-             Visibility="{Binding Visibility}">
+             d:DesignHeight="450" d:DesignWidth="800" MinWidth="400" MinHeight="300"
+             d:DataContext="{d:DesignInstance viewModel:ChatViewModel}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -21,7 +20,7 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
@@ -32,9 +31,16 @@
             <TextBlock Text="Temporar general chat for testing purpose" />
         </StackPanel>
 
-        <ListBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5"/>
+        <ListBox Grid.Row="1" Grid.Column="0">
+            <ListBoxItem HorizontalAlignment="Center">
+                <TextBlock Text="Users">
+                </TextBlock>
+            </ListBoxItem>
+        </ListBox>
+        
+        <!--<ListBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5"/>
         <TextBox Grid.Row="2" Grid.Column="0" Text="{Binding TypingText}"/>
-        <Button Grid.Row="2" Grid.Column="1" Content="Send" Command="{Binding SendMessage}" />
+        <Button Grid.Row="2" Grid.Column="1" Content="Send" Command="{Binding SendMessage}" />-->
 
 
     </Grid>

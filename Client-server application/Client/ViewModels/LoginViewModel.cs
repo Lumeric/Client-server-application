@@ -12,11 +12,12 @@
     using System.ComponentModel;
     using System.Collections.Generic;
 
-    public class LoginViewModel : BindableBase, IViewModel, IDataErrorInfo
+    public class LoginViewModel : BindableBase, IDataErrorInfo
     {
         #region Constants
 
-
+        private const int MIN_USERNAME_LENGTH = 6;
+        private const int MAX_USERNAME_LENGTH = 20;
 
         #endregion //Constants
 
@@ -38,11 +39,13 @@
         private bool _isValidated;
         private ObservableCollection<string> _sockets;
         private string _selectedSocket;
-        private Visibility _visibility;
+        private Visibility _viewVisibility;
 
         #endregion //Fields
 
         #region Properties
+
+        public string Error { get { return null; } }
 
         public string this[string parameter]
         {
@@ -59,16 +62,24 @@
                         if (string.IsNullOrWhiteSpace(Username))
                         {
                             error = "Username is required.";
+                            IsValidUsername = false;
                         }
                         else if (!match.Success)
                         {
                             error = "Username must be valid username format and contains only alphabetic symbols and numbers.\n" +
                                        "For example 'Cyberpunk2020'";
+                            IsValidUsername = false;
                         }
-                        else if (Username.Length < 6 || Username.Length > 20)
+                        else if (Username.Length < MIN_USERNAME_LENGTH || Username.Length > MAX_USERNAME_LENGTH)
                         {
-                            error = "Username length nust be no less than 6 symbols and no more than 20 symbols.";                        
+                            error = "Username length nust be no less than 6 symbols and no more than 20 symbols.";
+                            IsValidUsername = false;
                         }
+                        else
+                        {
+                            IsValidUsername = true;
+                        }
+
                         break;
 
                     case "IP":
@@ -78,18 +89,28 @@
                         if (string.IsNullOrWhiteSpace(IP))
                         {
                             error = "IP is required";
+                            IsValidIP = false;
                         }
                         else if (!match.Success)
                         {
                             error = "IP must be valid ip format. For example '192.168.1.0'";
+                            IsValidIP = false;
                         }
-                        break;
+                        else
+                        {
+                            IsValidIP = true;
+                        }
+
+                        break;           
                 }
 
                 if (Errors.ContainsKey(parameter))
                     Errors[parameter] = error;
                 else if (error != null)
                     Errors.Add(parameter, error);
+
+                RaisePropertyChanged(nameof(Errors));
+                OnValidated();
                 return error;
             }
         }
@@ -118,7 +139,11 @@
             set => SetProperty(ref _isValidated, value);
         }
 
-        private Dictionary<string, string> Errors { get; set; }
+        public bool IsValidUsername { get; private set; }
+
+        public bool IsValidIP { get; private set; }
+
+        public Dictionary<string, string> Errors { get; set; }
 
         public ObservableCollection<string> Sockets
         {
@@ -132,14 +157,12 @@
             set { _selectedSocket = value; }
         }
 
-        public DelegateCommand Validation { get; }
-        public Visibility Visibility 
+        public DelegateCommand LoginCommand { get; }
+        public Visibility ViewVisibility 
         { 
-            get => _visibility;
-            set => SetProperty(ref _visibility, value); 
+            get => _viewVisibility;
+            set => SetProperty(ref _viewVisibility, value); 
         }
-
-        public string Error { get { return null; } }
 
         #endregion //Properties
 
@@ -149,46 +172,41 @@
         {
             _eventAggregator = eventAggregator;
             _loginController = loginController ?? throw new ArgumentNullException(nameof(loginController));
-            Errors = new Dictionary<string, string>();
-            _isValidated = false;
+            Errors  = new Dictionary<string, string>();
+            _viewVisibility = Visibility.Visible;
 
             _sockets = new ObservableCollection<string>();
             _sockets.Add("WebSocket");
             _sockets.Add("TcpSocket");
             _selectedSocket = _sockets[0];
 
-            //LoginCommand = new DelegateCommand(ExecuteLoginCommand);
+            LoginCommand = new DelegateCommand(ExecuteLoginCommand, CanExecuteLoginCommand).ObservesProperty(() => Port).ObservesProperty(() => IsValidated);
 
-            Validation = new DelegateCommand(ExecuteValidation, CanExecuteValidation).ObservesProperty(() => IP).ObservesProperty(() => Port).ObservesProperty(() => Username);
+            //Validation = new DelegateCommand(ExecuteValidation, CanExecuteValidation).ObservesProperty(() => IP).ObservesProperty(() => Port).ObservesProperty(() => Username);
         }
 
         #endregion //Constructors
 
         #region Methods
 
-        //private void ExecuteLoginCommand()
-        //{
-        //    _loginController.LoginUser();
-        //}
-
-        private bool CanExecuteValidation()
+        private void ExecuteLoginCommand()
         {
-            return !String.IsNullOrWhiteSpace(IP) && !String.IsNullOrWhiteSpace(Port) && !String.IsNullOrWhiteSpace(Username);
+            //_loginController.LoginUser();
+            _eventAggregator.GetEvent<UserValidatedEvent>().Publish(ViewVisibility);
+            ViewVisibility = Visibility.Collapsed;
         }
 
-        //общий метод вызова валидации
-        private void ExecuteValidation()
+        private bool CanExecuteLoginCommand()
         {
-            //ValidateUsername(Username);
-            //ValidateIP(IP);
-            _eventAggregator.GetEvent<UserValidatedEvent>().Publish(IsValidated);
+            return !String.IsNullOrWhiteSpace(Port) && IsValidated;
         }
 
         private void OnValidated()
         {
-            if (IsValidated)
-            {
-            }
+            if (IsValidUsername && IsValidIP)
+                IsValidated = true;
+            else IsValidated = false;
+
         }
 
         #endregion //Methods         

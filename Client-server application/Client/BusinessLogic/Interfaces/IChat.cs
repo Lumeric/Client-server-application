@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Client.BusinessLogic
+namespace Client.BusinessLogic.Interfaces
 {
-    public interface ILoginController
+    public interface IChat
     {
-        void LoginUser();
+        void SendCommand();
 
     }
 }

@@ -15,17 +15,20 @@
         d:DataContext="{d:DesignInstance viewModel:MainWindowViewModel}">
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="5"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="5"/>
         </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-        <view:LoginView Grid.Row="0" Grid.Column="0"></view:LoginView>
-        <view:ChatView Grid.Row="1" Grid.Column="0"></view:ChatView>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="5"/>
+        </Grid.ColumnDefinitions>
+
+        <view:LoginView Grid.Row="1" Grid.Column="1" Visibility="{Binding ViewVisibility}"></view:LoginView>
+        <view:ChatView Grid.Row="2" Grid.Column="1" Visibility="{Binding ViewVisibility}"></view:ChatView>
     </Grid>
     
     
