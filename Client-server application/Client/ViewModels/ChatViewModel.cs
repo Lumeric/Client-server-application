@@ -3,6 +3,7 @@ using Prism.Events;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,7 +19,6 @@ namespace Client.ViewModels
         private string _serverIP;
         private List<string> _activeUsers;
         private List<string> _inactiveUsers;
-
 
         //Properties
         public Visibility ViewVisibility
@@ -39,6 +39,18 @@ namespace Client.ViewModels
             set => SetProperty(ref _serverIP, value);
         }
 
+        public List<string> ActiveUsers
+        {
+            get => _activeUsers;
+            set => SetProperty(ref _activeUsers, value);
+        }
+        public List<string> InactiveUsers
+        {
+            get => _inactiveUsers;
+            set => SetProperty(ref _inactiveUsers, value);
+        }
+
+        public ObservableCollection<TabItemViewModel> PrivateGroups { get; set; }
         //ctors
         public ChatViewModel(IEventAggregator eventAggregator)
         {

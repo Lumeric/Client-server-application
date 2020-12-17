@@ -33,6 +33,7 @@
             BindViewModelToView<LoginViewModel, LoginView>();
             BindViewModelToView<ChatView, ChatViewModel>();
             BindViewModelToView<MainWindow, MainWindowViewModel>();
+            BindViewModelToView<ChatView, TabItemViewModel>();
         }
 
         protected override Window CreateShell()

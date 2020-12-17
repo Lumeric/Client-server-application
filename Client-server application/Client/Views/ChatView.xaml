@@ -12,29 +12,31 @@
              d:DataContext="{d:DesignInstance viewModel:ChatViewModel}">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Vertical">
-            <TextBlock Text="{Binding Username}"/>
-            <TextBlock Text="{Binding ServerIP}"/>
-        </StackPanel>
-
-        <TextBlock Grid.Row="1" Grid.Column="0" Text="Users"/>
-        <ListBox Grid.Row="2" Grid.Column="0" ItemsSource="{Binding ActiveUsers}"/>
-        <ListBox Grid.Row="3" Grid.Column="0" ItemsSource="{Binding InactiveUsers}" Foreground="#FF959393"/>
+        <TabControl Grid.Row="1" Grid.Column="0" FontSize="18" ItemsSource="{Binding PrivateChats}">
+            <!--<TabItem x:Name="GeneralChat" Header="General"/>-->
+            <TabControl.Resources>
+                <Style TargetType="TabItem">
+                    <Setter Property="IsSelected" Value="{Binding IsSelected}"/>
+                </Style>
+            </TabControl.Resources>
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <local:ChatView/>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+            <TabControl.ContentTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding PrivateGroupname}"/>
+                </DataTemplate>
+            </TabControl.ContentTemplate>
+        </TabControl>
 
         <!--<ListBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5"/>
         <TextBox Grid.Row="2" Grid.Column="0" Text="{Binding TypingText}"/>
