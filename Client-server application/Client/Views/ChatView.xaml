@@ -13,9 +13,9 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -27,17 +27,15 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
-            <TextBlock Text="Temporar general chat for testing purpose" />
+        <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Vertical">
+            <TextBlock Text="{Binding Username}"/>
+            <TextBlock Text="{Binding ServerIP}"/>
         </StackPanel>
 
-        <ListBox Grid.Row="1" Grid.Column="0">
-            <ListBoxItem HorizontalAlignment="Center">
-                <TextBlock Text="Users">
-                </TextBlock>
-            </ListBoxItem>
-        </ListBox>
-        
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="Users"/>
+        <ListBox Grid.Row="2" Grid.Column="0" ItemsSource="{Binding ActiveUsers}"/>
+        <ListBox Grid.Row="3" Grid.Column="0" ItemsSource="{Binding InactiveUsers}" Foreground="#FF959393"/>
+
         <!--<ListBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5"/>
         <TextBox Grid.Row="2" Grid.Column="0" Text="{Binding TypingText}"/>
         <Button Grid.Row="2" Grid.Column="1" Content="Send" Command="{Binding SendMessage}" />-->

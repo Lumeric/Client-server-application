@@ -32,7 +32,7 @@
         private IEventAggregator _eventAggregator;
         private readonly ILoginController _loginController;
         private static readonly string regexIP = @"^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$";
-        private static readonly string regexUsername = @"^(?!.*[0-9])[a-z](?:[\w]*|[a-z\d\.]*|[a-z\d-]*)[a-z0-9]$";
+        private static readonly string regexUsername = @"^[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$";
         private string _port;
         private string _username = "";
         private string _ip = "";
@@ -47,6 +47,7 @@
 
         public string Error { get { return null; } }
 
+        //validation module
         public string this[string parameter]
         {
             get
@@ -56,7 +57,7 @@
                 switch (parameter)
                 {
                     case "Username":
-                        Regex regex = new Regex(regexUsername);
+                        Regex regex = new Regex(regexUsername); 
                         Match match = regex.Match(Username);
 
                         if (string.IsNullOrWhiteSpace(Username))
@@ -181,8 +182,6 @@
             _selectedSocket = _sockets[0];
 
             LoginCommand = new DelegateCommand(ExecuteLoginCommand, CanExecuteLoginCommand).ObservesProperty(() => Port).ObservesProperty(() => IsValidated);
-
-            //Validation = new DelegateCommand(ExecuteValidation, CanExecuteValidation).ObservesProperty(() => IP).ObservesProperty(() => Port).ObservesProperty(() => Username);
         }
 
         #endregion //Constructors
@@ -198,7 +197,8 @@
 
         private bool CanExecuteLoginCommand()
         {
-            return !String.IsNullOrWhiteSpace(Port) && IsValidated;
+            //return !String.IsNullOrWhiteSpace(Port) && IsValidated;
+            return true; // temporal code for faster testing
         }
 
         private void OnValidated()
