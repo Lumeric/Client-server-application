@@ -50,7 +50,7 @@ namespace Client.ViewModels
             set => SetProperty(ref _inactiveUsers, value);
         }
 
-        public ObservableCollection<TabItemViewModel> PrivateGroups { get; set; }
+        public ObservableCollection<GroupListViewModel> PrivateGroups { get; set; }
         //ctors
         public ChatViewModel(IEventAggregator eventAggregator)
         {

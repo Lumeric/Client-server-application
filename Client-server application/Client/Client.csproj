@@ -84,27 +84,30 @@
     <Compile Include="BusinessLogic\Interfaces\IChat.cs" />
     <Compile Include="BusinessLogic\Interfaces\ILoginController.cs" />
     <Compile Include="BusinessLogic\UserValidatedEvent.cs" />
+    <Compile Include="ViewModels\GeneralChatViewModel.cs" />
+    <Compile Include="ViewModels\GroupListViewModel.cs" />
     <Compile Include="ViewModels\IViewModel.cs" />
     <Compile Include="BusinessLogic\LoginController.cs" />
     <Compile Include="TempHelperStructure.cs" />
     <Compile Include="ViewModels\ChatViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
-    <Compile Include="ViewModels\TabItemViewModel.cs" />
+    <Compile Include="ViewModels\PrivateChatViewModel.cs" />
+    <Compile Include="ViewModels\UsersViewModel.cs" />
     <Compile Include="Views\ChatView.xaml.cs">
       <DependentUpon>ChatView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\LoginView.xaml.cs">
-      <DependentUpon>LoginView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\EventLog.xaml.cs">
       <DependentUpon>EventLog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\UserControls\GeneralChat.xaml.cs">
-      <DependentUpon>GeneralChat.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\UserControls\GroupList.xaml.cs">
       <DependentUpon>GroupList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LoginView.xaml.cs">
+      <DependentUpon>LoginView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\GeneralChat.xaml.cs">
+      <DependentUpon>GeneralChat.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\PrivateChat.xaml.cs">
       <DependentUpon>PrivateChat.xaml</DependentUpon>
@@ -140,19 +143,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\LoginView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\UserControls\EventLog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\UserControls\GeneralChat.xaml">
+    <Page Include="Views\UserControls\GroupList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\UserControls\GroupList.xaml">
+    <Page Include="Views\LoginView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\GeneralChat.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

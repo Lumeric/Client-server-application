@@ -37,7 +37,7 @@
         private string _username = "";
         private string _ip = "";
         private bool _isValidated;
-        private ObservableCollection<string> _sockets;
+        private List<string> _sockets;
         private string _selectedSocket;
         private Visibility _viewVisibility;
 
@@ -146,7 +146,7 @@
 
         public Dictionary<string, string> Errors { get; set; }
 
-        public ObservableCollection<string> Sockets
+        public List<string> Sockets
         {
             get { return _sockets; }
             set { _sockets = value; }
@@ -176,7 +176,7 @@
             Errors  = new Dictionary<string, string>();
             _viewVisibility = Visibility.Visible;
 
-            _sockets = new ObservableCollection<string>();
+            _sockets = new List<string>();
             _sockets.Add("WebSocket");
             _sockets.Add("TcpSocket");
             _selectedSocket = _sockets[0];

@@ -24,6 +24,10 @@
             containerRegistry.Register<LoginViewModel>();
             containerRegistry.Register<ChatViewModel>();
             containerRegistry.Register<MainWindowViewModel>();
+            containerRegistry.Register<GroupListViewModel>();
+            containerRegistry.Register<GeneralChatViewModel>();
+            containerRegistry.Register<PrivateChatViewModel>();
+            containerRegistry.Register<UsersViewModel>();
         }
 
         protected override void ConfigureViewModelLocator()
@@ -33,7 +37,10 @@
             BindViewModelToView<LoginViewModel, LoginView>();
             BindViewModelToView<ChatView, ChatViewModel>();
             BindViewModelToView<MainWindow, MainWindowViewModel>();
-            BindViewModelToView<ChatView, TabItemViewModel>();
+            BindViewModelToView<GroupList, GroupListViewModel>();
+            BindViewModelToView<PrivateChat, PrivateChatViewModel>();
+            BindViewModelToView<GeneralChat, GeneralChatViewModel>();
+            BindViewModelToView<Users, UsersViewModel>();
         }
 
         protected override Window CreateShell()
@@ -41,7 +48,7 @@
             return Container.Resolve<MainWindow>();
         }
 
-        private void BindViewModelToView<ViewModel, View>()
+        private void BindViewModelToView<View, ViewModel>()
         {
             ViewModelLocationProvider.Register(typeof(View).ToString(), () => Container.Resolve<ViewModel>());
         }

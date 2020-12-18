@@ -7,9 +7,11 @@ using System.Threading.Tasks;
 
 namespace Client.ViewModels
 {
-    public class TabItemViewModel : BindableBase
+    public class GroupListViewModel : BindableBase
     {
         public string PrivateGroupName { get; set; }
+
+        public List<string> PrivateChats { get; set; }
 
         private bool _isSelected;
 
@@ -22,6 +24,15 @@ namespace Client.ViewModels
                 ShowSelectedGroup();
                 RaisePropertyChanged(nameof(IsSelected));
             }
+        }
+
+        public GroupListViewModel()
+        {
+            //this code breaks the stack
+            //PrivateChats = new List<string>();
+            //PrivateChats.Add("1111");
+            //PrivateChats.Add("1111");
+            //PrivateChats.Add("1111");
         }
 
         private void ShowSelectedGroup()
