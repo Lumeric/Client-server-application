@@ -1,44 +1,78 @@
-﻿using Prism.Mvvm;
+﻿using Prism.Commands;
+using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace Client.ViewModels
 {
     public class GroupListViewModel : BindableBase
     {
+        private List<TabItem> _privateChats = new List<TabItem>();
+        private TabItem header;
+
         public string PrivateGroupName { get; set; }
+        private ObservableCollection<TabItem> _obCollection = new ObservableCollection<TabItem>();
 
-        public List<string> PrivateChats { get; set; }
-
-        private bool _isSelected;
-
-        public bool IsSelected
+        public List<TabItem> PrivateChats 
         {
-            get { return _isSelected; }
+            get => _privateChats;
             set
             {
-                _isSelected = value;
-                ShowSelectedGroup();
-                RaisePropertyChanged(nameof(IsSelected));
+                _privateChats = value;
+                RaisePropertyChanged(PrivateGroupName);
             }
         }
 
-        public GroupListViewModel()
+        public ObservableCollection<TabItem> ObCollection
         {
-            //this code breaks the stack
-            //PrivateChats = new List<string>();
-            //PrivateChats.Add("1111");
-            //PrivateChats.Add("1111");
-            //PrivateChats.Add("1111");
+            get => _obCollection;
+            set => SetProperty(ref _obCollection, value);
         }
 
-        private void ShowSelectedGroup()
+        //private bool _isSelected;
+
+        //public bool IsSelected
+        //{
+        //    get { return _isSelected; }
+        //    set
+        //    {
+        //        _isSelected = value;
+        //        ShowSelectedGroup();
+        //        RaisePropertyChanged(nameof(IsSelected));
+        //    }
+        //}
+
+        public DelegateCommand AddTab { get; set; }
+
+        public GroupListViewModel()
         {
-            if (IsSelected)
-                Console.WriteLine("Showed new group");
+            //_privateChatName = new Dictionary<string, string>();
+            //_privateChatName.Add("Header", "Message");
+            //_privateChatName.Add("Header2", "Message2");
+
+            
+
+            AddTab = new DelegateCommand(ExecuteAddTab).ObservesProperty(() => ObCollection);
+        }
+
+
+        //private void ShowSelectedGroup()
+        //{
+        //    if (IsSelected)
+        //        Console.WriteLine("Shown new group");
+        //}
+
+        public void ExecuteAddTab()
+        {
+            header = new TabItem();
+            header.Content = "123";
+            header.Header = "321";
+            ObCollection.Add(header);         
         }
     }
 }
