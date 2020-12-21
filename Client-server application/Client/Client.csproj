@@ -81,7 +81,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="BusinessLogic\ChatController.cs" />
+    <Compile Include="BusinessLogic\ConnectionController.cs" />
     <Compile Include="BusinessLogic\Interfaces\IChat.cs" />
+    <Compile Include="BusinessLogic\Interfaces\IConnectionController.cs" />
     <Compile Include="BusinessLogic\Interfaces\ILoginController.cs" />
     <Compile Include="BusinessLogic\UserValidatedEvent.cs" />
     <Compile Include="ViewModels\GeneralChatViewModel.cs" />

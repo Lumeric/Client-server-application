@@ -10,10 +10,13 @@ namespace Client.BusinessLogic
 {
     public class LoginController : ILoginController
     {
-
-        public void LoginUser()
+        private ITransport _currentTransport;
+        public void LoginUser(string socket)
         {
-
+            //try
+            //{
+            //    _currentTransport = TransportFactory.Create((TransportType)sockets)
+            //}
         }
 
         //public LoginController(UsersViewModel uvm)

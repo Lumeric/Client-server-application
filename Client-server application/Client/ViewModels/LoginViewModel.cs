@@ -11,6 +11,7 @@
     using Prism.Common;
     using System.ComponentModel;
     using System.Collections.Generic;
+    using Common.Network;
 
     public class LoginViewModel : BindableBase, IDataErrorInfo
     {
@@ -30,12 +31,12 @@
         #region Fields
 
         private IEventAggregator _eventAggregator;
-        private readonly ILoginController _loginController;
+        private readonly IConnectionController _connectionController;
         private static readonly string regexIP = @"^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$";
         private static readonly string regexUsername = @"^[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$";
+        private string _ip = "";
         private string _port;
         private string _username = "";
-        private string _ip = "";
         private bool _isValidated;
         private List<string> _sockets;
         private string _selectedSocket;
@@ -102,7 +103,20 @@
                             IsValidIP = true;
                         }
 
-                        break;           
+                        break;
+
+                    case "Port":
+                        if (string.IsNullOrWhiteSpace(Port) && int.TryParse(Port, out int output)) //bad code
+                         {
+                            error = "Port is required";
+                            IsValidPort = false;
+                        }
+                        else
+                        {
+                            IsValidPort = true;
+                        }
+
+                        break;
                 }
 
                 if (Errors.ContainsKey(parameter))
@@ -144,6 +158,8 @@
 
         public bool IsValidIP { get; private set; }
 
+        public bool IsValidPort { get; private set; }
+
         public Dictionary<string, string> Errors { get; set; }
 
         public List<string> Sockets
@@ -158,6 +174,7 @@
             set { _selectedSocket = value; }
         }
 
+        public DelegateCommand ConnectCommand { get; }
         public DelegateCommand LoginCommand { get; }
         public Visibility ViewVisibility 
         { 
@@ -169,44 +186,60 @@
 
         #region Constructors
 
-        public LoginViewModel(IEventAggregator eventAggregator, ILoginController loginController)
+        public LoginViewModel(IEventAggregator eventAggregator, IConnectionController connectionController)
         {
             _eventAggregator = eventAggregator;
-            _loginController = loginController ?? throw new ArgumentNullException(nameof(loginController));
-            Errors  = new Dictionary<string, string>();
+            _connectionController = connectionController ?? throw new ArgumentNullException(nameof(connectionController));
+            Errors = new Dictionary<string, string>();
             _viewVisibility = Visibility.Visible;
 
             _sockets = new List<string>();
-            _sockets.Add("WebSocket");
-            _sockets.Add("TcpSocket");
+            _sockets.Add(TransportType.WebSocket.ToString());
+            _sockets.Add(TransportType.TcpSocket.ToString());
             _selectedSocket = _sockets[0];
 
+            ConnectCommand = new DelegateCommand(ExecuteConnectCommand, CanExecuteConnectCommand);
             LoginCommand = new DelegateCommand(ExecuteLoginCommand, CanExecuteLoginCommand).ObservesProperty(() => Port).ObservesProperty(() => IsValidated);
         }
 
-        #endregion //Constructors
+        #endregion //Constructors 
 
         #region Methods
 
+        private bool CanExecuteConnectCommand()
+        {
+            //return IsValidIP && IsValidPort;
+            return true; // temporal code for faster testing
+        }
+
+        private void ExecuteConnectCommand()
+        {
+            try
+            {
+
+                _connectionController.Connect(IP, Port);
+            }
+        }
+
         private void ExecuteLoginCommand()
         {
-            //_loginController.LoginUser();
+            //_loginController.LoginUser(SelectedSocket);
             _eventAggregator.GetEvent<UserValidatedEvent>().Publish(ViewVisibility);
             ViewVisibility = Visibility.Collapsed;
         }
 
         private bool CanExecuteLoginCommand()
         {
-            //return !String.IsNullOrWhiteSpace(Port) && IsValidated;
+            //return IsValidUsername
             return true; // temporal code for faster testing
         }
 
+        //To_delete
         private void OnValidated()
         {
-            if (IsValidUsername && IsValidIP)
+            if (IsValidUsername && IsValidIP && IsValidPort)
                 IsValidated = true;
             else IsValidated = false;
-
         }
 
         #endregion //Methods         

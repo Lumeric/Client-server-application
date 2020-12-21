@@ -6,6 +6,8 @@ using Common.Network;
 using System.Text;
 using System.Threading.Tasks;
 using Client.BusinessLogic;
+using System.Collections.ObjectModel;
+using Prism.Commands;
 
 namespace Client.ViewModels
 {
@@ -14,19 +16,19 @@ namespace Client.ViewModels
         private LoginController _loginController;
         private string _username;
         private Guid _id;
-        private List<string> _activeUsers;
-        private List<string> _inactiveusers;
+        private ObservableCollection<string> _activeUsers;
+        private ObservableCollection<string> _inactiveusers;
 
         public event EventHandler<UserConnectedEventArgs> UserConnected;
 
-        public List<string> InactiveUsers
+        public ObservableCollection<string> InactiveUsers
         {
             get { return _inactiveusers; }
             set { SetProperty(ref _inactiveusers, value); }
         }
 
 
-        public List<string> ActiveUsers
+        public ObservableCollection<string> ActiveUsers
         {
             get { return _activeUsers; }
             set { SetProperty(ref _activeUsers, value); }
@@ -38,11 +40,13 @@ namespace Client.ViewModels
             set => SetProperty(ref _username, value);
         }
 
+        public DelegateCommand AddUser { get; private set; }
+
         public UsersViewModel()
         {
 
-            _activeUsers = new List<string>();
-            _inactiveusers = new List<string>();
+            _activeUsers = new ObservableCollection<string>();
+            _inactiveusers = new ObservableCollection<string>();
 
             //test input data
             ActiveUsers.Add("User1");

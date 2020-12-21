@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Client.BusinessLogic
 {
-    public interface ILoginController
+    public interface IConnectionController
     {
-        void LoginUser(string selectedSocket);
-
+        void Connect(string ip, int port);
     }
 }
