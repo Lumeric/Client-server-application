@@ -23,9 +23,9 @@
             <ColumnDefinition Width="150"/>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
         <TextBlock Grid.Row="0" Grid.Column="0" Margin="5" FontSize="18" Text="Server IP"/>
@@ -36,10 +36,11 @@
 
         <TextBox Grid.Row="0" Grid.Column="1" Margin="5" Text="{Binding IP, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" ToolTip="{Binding Errors[IP], UpdateSourceTrigger=PropertyChanged}"/>
         <TextBox Grid.Row="1" Grid.Column="1" Margin="5" Text="{Binding Port, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" ToolTip="{Binding Errors[Port], UpdateSourceTrigger=PropertyChanged}"/>
-        <ComboBox Grid.Row="2" Grid.Column="1" Margin="5" ItemsSource="{Binding Path=Sockets}" SelectedItem="{Binding Path=SelectedSocket, UpdateSourceTrigger=PropertyChanged}"/>
-        <TextBox Grid.Row="0" Grid.Column="3" Margin="5" Grid.ColumnSpan="3" Text="{Binding Username, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" ToolTip="{Binding Errors[Username], UpdateSourceTrigger=PropertyChanged}"/>
-    
-        <Button Command="{Binding LoginCommand}" Content="Connect" Grid.Row="2" Grid.Column="5" Margin="5" FontSize="14"/>
+        <ComboBox Grid.Row="2" Grid.Column="1" Margin="5" ItemsSource="{Binding Sockets}" SelectedItem="{Binding SelectedSocket, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Row="0" Grid.Column="4" Margin="5" Grid.ColumnSpan="3" Text="{Binding Username, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" ToolTip="{Binding Errors[Username], UpdateSourceTrigger=PropertyChanged}"/>
+
+        <Button Command="{Binding ConnectCommand}" Content="Connect" Width="55" Grid.Row="2" Grid.Column="4" Margin="5" FontSize="14"/>
+        <Button Command="{Binding LoginCommand}" Content="Login" Width="55" Grid.Row="2" Grid.Column="5" Margin="5" FontSize="14"/>
 
         <!-- <ListBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"/>
         <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding CurrentText}"/>

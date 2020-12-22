@@ -12,6 +12,7 @@
     using System.ComponentModel;
     using System.Collections.Generic;
     using Common.Network;
+    using System.Linq;
 
     public class LoginViewModel : BindableBase, IDataErrorInfo
     {
@@ -31,13 +32,13 @@
         #region Fields
 
         private IEventAggregator _eventAggregator;
-        private readonly IConnectionController _connectionController;
+        private IConnectionController _connectionController;
         private static readonly string regexIP = @"^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$";
         private static readonly string regexUsername = @"^[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$";
         private string _ip = "";
         private string _port;
         private string _username = "";
-        private bool _isValidated;
+        private bool _isConnected;
         private List<string> _sockets;
         private string _selectedSocket;
         private Visibility _viewVisibility;
@@ -106,9 +107,14 @@
                         break;
 
                     case "Port":
-                        if (string.IsNullOrWhiteSpace(Port) && int.TryParse(Port, out int output)) //bad code
+                        if (string.IsNullOrWhiteSpace(Port))
                          {
                             error = "Port is required";
+                            IsValidPort = false;
+                        }
+                        else if (!Port.All(char.IsDigit))
+                        {
+                            error = "Port must be valid";
                             IsValidPort = false;
                         }
                         else
@@ -125,7 +131,6 @@
                     Errors.Add(parameter, error);
 
                 RaisePropertyChanged(nameof(Errors));
-                OnValidated();
                 return error;
             }
         }
@@ -148,10 +153,10 @@
             set => SetProperty(ref _port, value);
         }
 
-        public bool IsValidated
+        public bool IsConnected
         {
-            get => _isValidated;
-            set => SetProperty(ref _isValidated, value);
+            get => _isConnected;
+            set => SetProperty(ref _isConnected, value);
         }
 
         public bool IsValidUsername { get; private set; }
@@ -189,7 +194,7 @@
         public LoginViewModel(IEventAggregator eventAggregator, IConnectionController connectionController)
         {
             _eventAggregator = eventAggregator;
-            _connectionController = connectionController ?? throw new ArgumentNullException(nameof(connectionController));
+            //_connectionController = connectionController ?? throw new ArgumentNullException(nameof(_connectionController)); exceptio with this ctor
             Errors = new Dictionary<string, string>();
             _viewVisibility = Visibility.Visible;
 
@@ -198,8 +203,10 @@
             _sockets.Add(TransportType.TcpSocket.ToString());
             _selectedSocket = _sockets[0];
 
-            ConnectCommand = new DelegateCommand(ExecuteConnectCommand, CanExecuteConnectCommand);
-            LoginCommand = new DelegateCommand(ExecuteLoginCommand, CanExecuteLoginCommand).ObservesProperty(() => Port).ObservesProperty(() => IsValidated);
+            ConnectCommand = new DelegateCommand(ExecuteConnectCommand, CanExecuteConnectCommand).ObservesProperty(() => IP)
+                .ObservesProperty(() => Port)
+                .ObservesProperty(() => Username);
+            LoginCommand = new DelegateCommand(ExecuteLoginCommand, CanExecuteLoginCommand).ObservesProperty(() => IsConnected);
         }
 
         #endregion //Constructors 
@@ -208,39 +215,33 @@
 
         private bool CanExecuteConnectCommand()
         {
-            //return IsValidIP && IsValidPort;
-            return true; // temporal code for faster testing
+            return IsValidIP && IsValidPort && IsValidUsername;
         }
 
         private void ExecuteConnectCommand()
         {
             try
             {
-
-                _connectionController.Connect(IP, Port);
+                //_connectionController.Connect(IP, Port);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
 
         private void ExecuteLoginCommand()
         {
-            //_loginController.LoginUser(SelectedSocket);
-            _eventAggregator.GetEvent<UserValidatedEvent>().Publish(ViewVisibility);
-            ViewVisibility = Visibility.Collapsed;
+        //_loginController.LoginUser(SelectedSocket);
+        _eventAggregator.GetEvent<UserValidatedEvent>().Publish(ViewVisibility);
+        ViewVisibility = Visibility.Collapsed;
         }
 
         private bool CanExecuteLoginCommand()
         {
-            //return IsValidUsername
-            return true; // temporal code for faster testing
+        return IsConnected;
         }
 
-        //To_delete
-        private void OnValidated()
-        {
-            if (IsValidUsername && IsValidIP && IsValidPort)
-                IsValidated = true;
-            else IsValidated = false;
-        }
 
         #endregion //Methods         
 

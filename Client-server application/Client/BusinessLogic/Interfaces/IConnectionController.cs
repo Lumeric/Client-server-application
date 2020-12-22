@@ -8,6 +8,6 @@ namespace Client.BusinessLogic
 {
     public interface IConnectionController
     {
-        void Connect(string ip, int port);
+        void Connect(string ip, string port);
     }
 }

@@ -12,67 +12,64 @@ namespace Client.ViewModels
 {
     public class GroupListViewModel : BindableBase
     {
-        private List<TabItem> _privateChats = new List<TabItem>();
-        private TabItem header;
+        private ObservableCollection<TabItem> _privateGroups = new ObservableCollection<TabItem>();
+        private TabItem _group;
 
         public string PrivateGroupName { get; set; }
-        private ObservableCollection<TabItem> _obCollection = new ObservableCollection<TabItem>();
 
-        public List<TabItem> PrivateChats 
+        public ObservableCollection<TabItem> PrivateGroups
         {
-            get => _privateChats;
+            get => _privateGroups;
+            set => SetProperty(ref _privateGroups, value);
+        }
+
+        private bool _isSelected = false;
+
+        public bool IsSelected
+        {
+            get { return _isSelected; }
             set
             {
-                _privateChats = value;
-                RaisePropertyChanged(PrivateGroupName);
+                _isSelected = value;
+                ShowSelectedGroup();
             }
         }
 
-        public ObservableCollection<TabItem> ObCollection
-        {
-            get => _obCollection;
-            set => SetProperty(ref _obCollection, value);
+        public TabItem Group 
+        { 
+            get => _group; 
+            set => SetProperty(ref _group, value);
         }
-
-        //private bool _isSelected;
-
-        //public bool IsSelected
-        //{
-        //    get { return _isSelected; }
-        //    set
-        //    {
-        //        _isSelected = value;
-        //        ShowSelectedGroup();
-        //        RaisePropertyChanged(nameof(IsSelected));
-        //    }
-        //}
 
         public DelegateCommand AddTab { get; set; }
 
         public GroupListViewModel()
         {
-            //_privateChatName = new Dictionary<string, string>();
-            //_privateChatName.Add("Header", "Message");
-            //_privateChatName.Add("Header2", "Message2");
+            _group = new TabItem();
+            _group.Header = "General";
+            _group.Content = "GeneralGroupMessages";
+            _privateGroups.Add(_group);
 
-            
-
-            AddTab = new DelegateCommand(ExecuteAddTab).ObservesProperty(() => ObCollection);
+            AddTab = new DelegateCommand(ExecuteAddTab).ObservesProperty(() => PrivateGroups);
         }
 
 
-        //private void ShowSelectedGroup()
-        //{
-        //    if (IsSelected)
-        //        Console.WriteLine("Shown new group");
-        //}
+        private void ShowSelectedGroup()
+        {
+            if (IsSelected)
+            {
+                _group.Content = "SelectedGroupMessages";
+            }
+        }
 
         public void ExecuteAddTab()
         {
-            header = new TabItem();
-            header.Content = "123";
-            header.Header = "321";
-            ObCollection.Add(header);         
+            _group = new TabItem();
+            string s = "1";
+            string p = "2";
+            _group.Header = s.ToString();
+            _group.Content = p.ToString();
+            _privateGroups.Add(_group);         
         }
     }
 }

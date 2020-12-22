@@ -21,6 +21,7 @@
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterSingleton<ILoginController, LoginController>();
+            containerRegistry.RegisterSingleton<IConnectionController, ConnectionController>();
             containerRegistry.Register<LoginViewModel>();
             containerRegistry.Register<ChatViewModel>();
             containerRegistry.Register<MainWindowViewModel>();
@@ -28,6 +29,7 @@
             containerRegistry.Register<GeneralChatViewModel>();
             containerRegistry.Register<PrivateChatViewModel>();
             containerRegistry.Register<UsersViewModel>();
+            containerRegistry.Register<MessagesViewModel>();
         }
 
         protected override void ConfigureViewModelLocator()
@@ -41,6 +43,7 @@
             BindViewModelToView<PrivateChat, PrivateChatViewModel>();
             BindViewModelToView<GeneralChat, GeneralChatViewModel>();
             BindViewModelToView<Users, UsersViewModel>();
+            BindViewModelToView<Messages, MessagesViewModel>();
         }
 
         protected override Window CreateShell()

@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="Network\Enums\ResultCode.cs" />
     <Compile Include="Network\Enums\TransportType.cs" />
+    <Compile Include="Network\EventArgs\ConnectionStateChangedEventArgs.cs" />
     <Compile Include="Network\EventArgs\GroupRemovedEventArgs.cs" />
     <Compile Include="Network\EventArgs\MessageRecievedEventArgs.cs" />
     <Compile Include="Network\Handlers\RequestHandler.cs" />

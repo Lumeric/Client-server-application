@@ -13,15 +13,15 @@
              d:DataContext="{d:DesignInstance viewModel:GroupListViewModel}">
     <Grid>
         <StackPanel>
-            <TabControl FontSize="18" ItemsSource="{Binding ObCollection, UpdateSourceTrigger=PropertyChanged}"></TabControl>
+            <TabControl FontSize="18" ItemsSource="{Binding PrivateGroups, UpdateSourceTrigger=PropertyChanged}">
+                <TabControl.Resources>
+                    <Style TargetType="TabItem">
+                        <Setter Property="IsSelected" Value="{Binding IsSelected}"/>
+                    </Style>
+                </TabControl.Resources>
+            </TabControl>
             <Button Content="AddTab" Command="{Binding AddTab}"/>
         </StackPanel>
-        
-        <!--<TabItem x:Name="GeneralChat" Header="General"/>-->
-            <!--<TabControl.Resources>
-                <Style TargetType="TabItem">
-                    <Setter Property="IsSelected" Value="{Binding IsSelected}"/>
-                </Style>
-            </TabControl.Resources>-->
+
     </Grid>
 </UserControl>
