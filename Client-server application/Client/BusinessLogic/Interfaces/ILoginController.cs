@@ -8,7 +8,8 @@ namespace Client.BusinessLogic
 {
     public interface ILoginController
     {
-        void LoginUser(string selectedSocket);
+        void ConnectUser(string ip, string port);
+        void LoginUser(string username);
 
     }
 }

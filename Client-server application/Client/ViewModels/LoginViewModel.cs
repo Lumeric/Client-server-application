@@ -35,9 +35,9 @@
         private IConnectionController _connectionController;
         private static readonly string regexIP = @"^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$";
         private static readonly string regexUsername = @"^[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$";
-        private string _ip = "";
-        private string _port;
-        private string _username = "";
+        private string _ip = "192.168.37.107";
+        private string _port = "65500";
+        private string _username = "ValeraVolodya";
         private bool _isConnected;
         private List<string> _sockets;
         private string _selectedSocket;
@@ -222,7 +222,7 @@
         {
             try
             {
-                //_connectionController.Connect(IP, Port);
+                _connectionController.Connect(IP, Port);
             }
             catch (Exception ex)
             {

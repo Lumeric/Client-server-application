@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,24 +11,78 @@ namespace Client.BusinessLogic
 {
     public class LoginController : ILoginController
     {
-        private ITransport _currentTransport;
-        public void LoginUser(string socket)
+        #region Constants
+
+
+
+        #endregion //Constants
+
+        #region Events
+
+        public event EventHandler<UserConnectedEventArgs> UserConnected;
+        public event EventHandler<ConnectionStateChangedEventArgs> ConnectionStateChanged;
+        public event EventHandler<ErrorReceivedEventArgs> ErrorReceived;
+
+        #endregion //Events
+
+        #region Fields
+
+        private ITransport _transport;
+        private List<TransportType> _sockets;
+        private TransportType _selectedSocket;
+        private ObservableCollection<string> _eventLog;
+
+        #endregion //Fields
+
+        #region Properties
+
+
+
+        #endregion //Properties
+
+        #region Constructors
+
+        public LoginController()
         {
-            //try
-            //{
-            //    _currentTransport = TransportFactory.Create((TransportType)sockets)
-            //}
+            _sockets = new List<TransportType>();
+            _selectedSocket = new TransportType();
+            _eventLog = new ObservableCollection<string>();
+            _sockets.Add(TransportType.WebSocket);
+            _sockets.Add(TransportType.TcpSocket);
+            _selectedSocket = TransportType.WebSocket;
         }
 
-        //public LoginController(UsersViewModel uvm)
-        //{
-        //    //uvm.UserConnected += SomeVoid;
+        #endregion //Constructors
 
-        //}
+        #region Methods
 
-        //public void SomeVoid(object sender, UserConnectedEventArgs args)
-        //{
-            
-        //}
+        public void ConnectUser(string address, string port)
+        {
+            try
+            {
+                _transport = TransportFactory.Create((TransportType)_selectedSocket);
+                //_transport.ConnectionStateChanged += OnConnectionStateChanged;
+                //_transport.MessageReceived += OnMessageReceived;
+                _transport.Connect(address, port);
+                LoginUser(Username); //viewModel or controller
+            }
+            catch (Exception ex)
+            {
+                _eventLog.Add(ex.Message);
+            }
+        }
+
+        public void LoginUser(string username) //event
+        {
+            _transport?Login
+        }
+
+        private void OnConnectionStateChanged(object sender, ConnectionStateChangedEventArgs e)
+        {
+            ConnectionStateChanged?.Invoke(this, e);
+        }
+
+
+        #endregion //Methods
     }
 }
