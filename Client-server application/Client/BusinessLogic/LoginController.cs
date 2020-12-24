@@ -31,6 +31,7 @@ namespace Client.BusinessLogic
         private List<TransportType> _sockets;
         private TransportType _selectedSocket;
         private ObservableCollection<string> _eventLog;
+        private string _username;
 
         #endregion //Fields
 
@@ -64,7 +65,7 @@ namespace Client.BusinessLogic
                 //_transport.ConnectionStateChanged += OnConnectionStateChanged;
                 //_transport.MessageReceived += OnMessageReceived;
                 _transport.Connect(address, port);
-                LoginUser(Username); //viewModel or controller
+                LoginUser(_username); //viewModel or controller
             }
             catch (Exception ex)
             {
@@ -74,7 +75,7 @@ namespace Client.BusinessLogic
 
         public void LoginUser(string username) //event
         {
-            _transport?Login
+            _transport?Login();
         }
 
         private void OnConnectionStateChanged(object sender, ConnectionStateChangedEventArgs e)

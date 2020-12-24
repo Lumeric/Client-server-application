@@ -32,7 +32,7 @@
         #region Fields
 
         private IEventAggregator _eventAggregator;
-        private IConnectionController _connectionController;
+        private ILoginController _loginController;
         private static readonly string regexIP = @"^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$";
         private static readonly string regexUsername = @"^[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$";
         private string _ip = "192.168.37.107";
@@ -70,7 +70,7 @@
                         else if (!match.Success)
                         {
                             error = "Username must be valid username format and contains only alphabetic symbols and numbers.\n" +
-                                       "For example 'Cyberpunk2020'";
+                                       "For example 'Cyberprank2020'";
                             IsValidUsername = false;
                         }
                         else if (Username.Length < MIN_USERNAME_LENGTH || Username.Length > MAX_USERNAME_LENGTH)
@@ -191,10 +191,10 @@
 
         #region Constructors
 
-        public LoginViewModel(IEventAggregator eventAggregator, IConnectionController connectionController)
+        public LoginViewModel(IEventAggregator eventAggregator, ILoginController loginController)
         {
             _eventAggregator = eventAggregator;
-            //_connectionController = connectionController ?? throw new ArgumentNullException(nameof(_connectionController)); exceptio with this ctor
+            _loginController = loginController;
             Errors = new Dictionary<string, string>();
             _viewVisibility = Visibility.Visible;
 
@@ -222,7 +222,9 @@
         {
             try
             {
-                _connectionController.Connect(IP, Port);
+                _loginController.ConnectUser(IP, Port);
+                _loginController.ConnectionStateChanged += OnConnectionStateChanged;
+                _loginController.ErrorReceived += OnErrorReceived;
             }
             catch (Exception ex)
             {
@@ -230,16 +232,30 @@
             }
         }
 
+        private void OnConnectionStateChanged(object sender, ConnectionStateChangedEventArgs e)
+        {
+            if (e.IsConnected)  
+                if (string.IsNullOrEmpty(e.ClientName))
+                {
+                    IsConnected = true;
+                }
+        }
+
+        private void OnErrorReceived(object sender, ErrorReceivedEventArgs e)
+        {
+            // errorFieldToShowForUserInEvetLogMb? = $"{e.Message} : {e.ErrorType};
+        }
+
         private void ExecuteLoginCommand()
         {
-        //_loginController.LoginUser(SelectedSocket);
-        _eventAggregator.GetEvent<UserValidatedEvent>().Publish(ViewVisibility);
-        ViewVisibility = Visibility.Collapsed;
+            //_loginController.LoginUser(SelectedSocket);
+            _eventAggregator.GetEvent<UserValidatedEvent>().Publish(ViewVisibility);
+            ViewVisibility = Visibility.Collapsed;
         }
 
         private bool CanExecuteLoginCommand()
         {
-        return IsConnected;
+            return IsConnected;
         }
 
 

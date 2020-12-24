@@ -12,13 +12,17 @@ namespace Server
         private const int WS_PORT = 65000;
         private const int TCP_PORT = 65001;
 
-        #endregion Constants
+        #endregion //Constants
 
         #region Fields
 
         private readonly WsServer _wsServer;
         private readonly TcpServer _tcpServer;
-        #endregion Fields
+        private IPAddress _ip;
+        private int _port;
+        private string _protocol;
+
+        #endregion //Fields
 
         #region Constructors
 
@@ -26,10 +30,10 @@ namespace Server
         {
             _wsServer = new WsServer(new IPEndPoint(IPAddress.Any, WS_PORT));
 
-            _tcpServer = new TcpServer(new IPEndPoint(IPAddress.Any, TCP_PORT));
+            //_tcpServer = new TcpServer(new IPEndPoint(IPAddress.Any, TCP_PORT));
         }
 
-        #endregion Constuctors
+        #endregion //Constuctors
 
         #region Methods
 
@@ -43,6 +47,6 @@ namespace Server
             Console.WriteLine("Stop");
         }
 
-        #endregion Methods
+        #endregion //Methods
     }
 }
