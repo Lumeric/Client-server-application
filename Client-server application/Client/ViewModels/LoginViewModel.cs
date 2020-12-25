@@ -243,7 +243,7 @@
 
         private void OnErrorReceived(object sender, ErrorReceivedEventArgs e)
         {
-            // errorFieldToShowForUserInEvetLogMb? = $"{e.Message} : {e.ErrorType};
+            MessageBox.Show($"{e.Message} : {e.ErrorType}");
         }
 
         private void ExecuteLoginCommand()

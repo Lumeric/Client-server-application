@@ -24,12 +24,14 @@
 
         #region Events
 
+        public event EventHandler<ConnectionStateChangedEventArgs> ConnectionStateChanged;
         public event EventHandler<GroupCreatedEventArgs> GroupCreated;
         public event EventHandler<GroupRemovedEventArgs> GroupRemoved;
         public event EventHandler<MessageReceivedEventArgs> MessageReceived;
         public event EventHandler<UserConnectedEventArgs> UserConnected;
         public event EventHandler<UserConnectedToGroupEventArgs> UserConnectedToGroup;
         public event EventHandler<UserDisconnectedEventArgs> UserDisconnected;
+        public event EventHandler<ErrorReceivedEventArgs> ErrorReceived;
 
         #endregion //Events
 
@@ -91,7 +93,25 @@
                 case nameof(ConnectRequest):
                     {
                         var connectRequest = ((JObject)container.Payload).ToObject(typeof(ConnectRequest)) as ConnectRequest;
-                        UserConnected?.Invoke(this, new UserConnectedEventArgs(connection.Username, clientId));
+                        var connectResponse = new ConnectResponse { Result = ResultCode.Ok, IsSuccess = true };
+
+                        if (_connections.Values.Any(item => item.Username == connectRequest.Username))
+                        {
+                            string reason = $"{connectRequest.Username} is already logged";
+                            connectResponse.IsSuccess = false;
+                            connectResponse.Reason = reason;
+                            connectResponse.Result = ResultCode.Failure;
+                            connection.Send(connectResponse.GetContainer());
+                            ErrorReceived?.Invoke(this, new ErrorReceivedEventArgs(ErrorType.UsernameError, reason, DateTime.Now));
+                        }
+                        else
+                        {
+                            connection.Username = connectRequest.Username;
+                            connectResponse.ActiveUsers = _connections.Select(item => item.Value.Username).ToList();
+                            connection.Send(connectResponse.GetContainer());
+                            ConnectionStateChanged?.Invoke(this, new ConnectionStateChangedEventArgs(connection.Username, true));
+                            UserConnected?.Invoke(this, new UserConnectedEventArgs(connection.Username, clientId));
+                        }
                         break;
                     }
                 case nameof(DisconnectRequest):

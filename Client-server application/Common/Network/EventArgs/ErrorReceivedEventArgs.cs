@@ -14,14 +14,17 @@ namespace Common.Network
 
         public string Message { get; }
 
+        public DateTime Date { get; }
+
         #endregion Properties
 
         #region Constructors
 
-        public ErrorReceivedEventArgs(ErrorType errorType, string message)
+        public ErrorReceivedEventArgs(ErrorType errorType, string message, DateTime date)
         {
             ErrorType = errorType;
             Message = message;
+            Date = date;
         }
 
         #endregion Constructors
