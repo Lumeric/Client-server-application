@@ -10,6 +10,7 @@
     using System.Threading.Tasks;
     using WebSocketSharp.Server;
     using Newtonsoft.Json.Linq;
+    using System.Timers;
 
     public class WsServer
     {
@@ -17,8 +18,8 @@
 
         private readonly IPEndPoint _listenAddress;
         private readonly ConcurrentDictionary<Guid, WsConnection> _connections;
-
         private WebSocketServer _server;
+        private Timer _timer;
 
         #endregion //Fields
 
@@ -41,6 +42,7 @@
         {
             _listenAddress = listenAddress;
             _connections = new ConcurrentDictionary<Guid, WsConnection>();
+            _timer = new Timer();
         }
 
         #endregion //Constructors
@@ -123,7 +125,7 @@
                 case nameof(MessageRequest):
                     {
                         var messageRequest = ((JObject)container.Payload).ToObject(typeof(MessageRequest)) as MessageRequest;
-                        MessageReceived?.Invoke(this, new MessageReceivedEventArgs(connection.Username, messageRequest.Message, messageRequest.Group));
+                        MessageReceived?.Invoke(this, new MessageReceivedEventArgs(connection.Username, messageRequest.Message, messageRequest.Group, DateTime.Now));
                         break;
                     }
                 case nameof(CreateNewGroupRequest):

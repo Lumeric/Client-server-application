@@ -75,12 +75,17 @@ namespace Client.BusinessLogic
 
         public void LoginUser(string username) //event
         {
-            _transport?Login();
+            //_transport?Login();
         }
 
         private void OnConnectionStateChanged(object sender, ConnectionStateChangedEventArgs e)
         {
             ConnectionStateChanged?.Invoke(this, e);
+        }
+
+        public void DisconnectUser()
+        {
+            throw new NotImplementedException();
         }
 
 

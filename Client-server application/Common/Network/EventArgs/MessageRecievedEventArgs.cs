@@ -16,15 +16,18 @@ namespace Common.Network
 
         public int Group { get; }
 
+        public DateTime Date { get; }
+
         #endregion Properties
 
         #region Constructors
 
-        public MessageReceivedEventArgs(string clientName, string message, int group)
+        public MessageReceivedEventArgs(string clientName, string message, int group, DateTime date)
         {
             ClientName = clientName;
             Message = message;
             Group = group;
+            Date = date;
         }
 
         #endregion Constructors
