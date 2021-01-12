@@ -18,9 +18,6 @@ namespace Server
         [JsonProperty]
         public int Port { get; set; }
 
-        [JsonProperty]
-        public string IP { get; set; }
-
         #endregion //Properties
 
     }

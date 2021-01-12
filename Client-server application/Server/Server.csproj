@@ -56,7 +56,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConfigurationType.cs" />
     <Compile Include="ConfigureServer.cs" />
     <Compile Include="DBModel\EventLog.cs" />
     <Compile Include="DBModel\EventType.cs" />
