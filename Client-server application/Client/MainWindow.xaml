@@ -13,7 +13,23 @@
         SizeToContent="WidthAndHeight"
         MaxHeight="800" MaxWidth="1200" WindowStartupLocation="CenterScreen"
         d:DataContext="{d:DesignInstance viewModel:MainWindowViewModel}">
-    <Grid>
+
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type viewModel:LoginViewModel}">
+            <view:LoginView></view:LoginView>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:ChatViewModel}">
+            <view:ChatView></view:ChatView>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:EventLogViewModel}">
+            <view:EventLogView></view:EventLogView>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:GroupViewModel}">
+            <view:GroupView></view:GroupView>
+        </DataTemplate>
+    </Window.Resources>
+    
+    <!--<Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="5"/>
             <RowDefinition Height="Auto"/>
@@ -27,9 +43,11 @@
             <ColumnDefinition Width="5"/>
         </Grid.ColumnDefinitions>
 
-        <view:LoginView Grid.Row="1" Grid.Column="1" Visibility="{Binding ViewVisibility}"></view:LoginView>
-        <view:ChatView Grid.Row="2" Grid.Column="1" Visibility="{Binding ViewVisibility}"></view:ChatView>
-    </Grid>
-    
-    
+        <view:LoginView Grid.Row="1" Grid.Column="1" Visibility="{Binding LoginVisibility}"></view:LoginView>
+        <view:ChatView Grid.Row="2" Grid.Column="1" Visibility="{Binding ChatVisibility}"></view:ChatView>
+        <view:GroupView Grid.Row="2" Grid.Column="1" Visibility="{Binding GroupMenuVisibility}"></view:GroupView>
+        <view:EventLogView Grid.Row="2" Grid.Column="1" Visibility="{Binding EventLogVisibility}"></view:EventLogView>
+    </Grid>-->
+
+    <ContentControl Content="{Binding SelectedView}"/>
 </Window>

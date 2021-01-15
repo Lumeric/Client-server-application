@@ -1,0 +1,54 @@
+﻿<UserControl x:Class="Client.Views.EventLogView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Client.Views"
+             xmlns:view="clr-namespace:Client.Views"
+             xmlns:viewModel="clr-namespace:Client.ViewModels"
+             xmlns:interactivity="http://prismlibrary.com/"
+             interactivity:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d" 
+             d:DesignHeight="200" d:DesignWidth="300"
+             d:DataContext="{d:DesignInstance viewModel:EventLogViewModel}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="0.1*"/>
+            <RowDefinition Height="0.1*"/>
+            <RowDefinition Height="0.15*"/>
+            <RowDefinition Height="0.15*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.Row="0" Grid.Column="0" FontSize="15" Text="From:" Margin="5"/>
+        <DatePicker Grid.Row="1" Grid.Column="0" SelectedDate="{Binding FirstDate, Mode=TwoWay}" Margin="5"/>
+        <TextBlock Grid.Row="0" Grid.Column="1" FontSize="15" Text="To:" Margin="5"/>
+        <DatePicker Grid.Row="1" Grid.Column="1" SelectedDate="{Binding SecondDate}" Margin="5"/>
+        
+        <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center">
+            <TextBox FontSize="16" Width="25" Text="{Binding FirstDateHours}" Margin="5"/>
+            <Label Content=":" FontSize="16"/>
+            <TextBox FontSize="16" Width="25" Text="{Binding FirstDateMinutes}" Margin="5"/>
+        </StackPanel>
+        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
+            <TextBox FontSize="16" Width="25" Text="{Binding SecondDateHours}" Margin="5"/>
+            <Label Content=":" FontSize="16"/>
+            <TextBox FontSize="16" Width="25" Text="{Binding SecondDateMinutes}" Margin="5"/>
+        </StackPanel>
+        
+        <TextBlock Grid.Row="3" Grid.Column="0" Text="Message types:" VerticalAlignment="Center" Margin="5"/>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Center" Margin="5" >
+            <CheckBox Content="Errors" IsChecked="{Binding IsError}" Margin="5"/>
+            <CheckBox Content="Events" IsChecked="{Binding IsEvent}" Margin="5"/>
+        </StackPanel>
+        
+        <Button Grid.Row="5" Grid.Column="0" FontSize="18" Content="Find" Command="{Binding FindCommand}" Margin="5"/>
+        <Button Grid.Row="5" Grid.Column="1" FontSize="18" Content="Close" Command="{Binding CloseCommand}" Margin="5"/>
+
+    </Grid>
+</UserControl>

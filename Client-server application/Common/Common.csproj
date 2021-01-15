@@ -61,6 +61,7 @@
     <Compile Include="Network\EventArgs\MessageRecievedEventArgs.cs" />
     <Compile Include="Network\Handlers\RequestHandler.cs" />
     <Compile Include="Network\ITransport.cs" />
+    <Compile Include="Network\Message.cs" />
     <Compile Include="Network\Messages\ConnectUserToGroupRequest.cs" />
     <Compile Include="Network\Messages\ConnectRequest.cs" />
     <Compile Include="Network\Messages\ConnectResponse.cs" />
@@ -84,6 +85,7 @@
     <Compile Include="Network\EventArgs\UserConnectedEventArgs.cs" />
     <Compile Include="Network\EventArgs\UserConnectedToGroupEventArgs.cs" />
     <Compile Include="Network\EventArgs\UserDisconnectedEventArgs.cs" />
+    <Compile Include="Network\User.cs" />
     <Compile Include="Network\WebSocket\WsClient.cs" />
     <Compile Include="Network\WebSocket\WsConnection.cs" />
     <Compile Include="Network\WebSocket\WsServer.cs" />

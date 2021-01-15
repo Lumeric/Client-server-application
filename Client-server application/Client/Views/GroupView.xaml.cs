@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Client.Views
 {
     /// <summary>
-    /// Interaction logic for Messages.xaml
+    /// Логика взаимодействия для GroupView.xaml
     /// </summary>
-    public partial class Messages : UserControl
+    public partial class GroupView : UserControl
     {
-        public Messages()
+        public GroupView()
         {
             InitializeComponent();
         }

@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Client.Views
 {
     /// <summary>
-    /// Interaction logic for GeneralChat.xaml
+    /// Interaction logic for EventLogView.xaml
     /// </summary>
-    public partial class GeneralChat : UserControl
+    public partial class EventLogView : UserControl
     {
-        public GeneralChat()
+        public EventLogView()
         {
             InitializeComponent();
         }

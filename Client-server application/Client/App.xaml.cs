@@ -25,11 +25,8 @@
             containerRegistry.Register<LoginViewModel>();
             containerRegistry.Register<ChatViewModel>();
             containerRegistry.Register<MainWindowViewModel>();
-            containerRegistry.Register<GroupListViewModel>();
-            containerRegistry.Register<GeneralChatViewModel>();
-            containerRegistry.Register<PrivateChatViewModel>();
-            containerRegistry.Register<UsersViewModel>();
-            containerRegistry.Register<MessagesViewModel>();
+            containerRegistry.Register<EventLogViewModel>();
+            containerRegistry.Register<GroupViewModel>();
         }
 
         protected override void ConfigureViewModelLocator()
@@ -39,11 +36,8 @@
             BindViewModelToView<LoginViewModel, LoginView>();
             BindViewModelToView<ChatView, ChatViewModel>();
             BindViewModelToView<MainWindow, MainWindowViewModel>();
-            BindViewModelToView<GroupList, GroupListViewModel>();
-            BindViewModelToView<PrivateChat, PrivateChatViewModel>();
-            BindViewModelToView<GeneralChat, GeneralChatViewModel>();
-            BindViewModelToView<Users, UsersViewModel>();
-            BindViewModelToView<Messages, MessagesViewModel>();
+            BindViewModelToView<EventLogView, EventLogViewModel>();
+            BindViewModelToView<GroupView, GroupViewModel>();
         }
 
         protected override Window CreateShell()

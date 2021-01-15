@@ -14,7 +14,7 @@
     using Common.Network;
     using System.Linq;
 
-    public class LoginViewModel : BindableBase, IDataErrorInfo
+    public class LoginViewModel : BindableBase, IDataErrorInfo, IViewModel
     {
         #region Constants
 
@@ -35,12 +35,13 @@
         private ILoginController _loginController;
         private static readonly string regexIP = @"^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$";
         private static readonly string regexUsername = @"^[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$";
-        private string _ip = "192.168.37.107";
-        private string _port = "65500";
+        private string _ip = "192.168.1.7";
+        private string _port = "65000";
         private string _username = "ValeraVolodya";
         private bool _isConnected;
         private List<string> _sockets;
         private string _selectedSocket;
+        private string _helpText;
         private Visibility _viewVisibility;
 
         #endregion //Fields
@@ -179,13 +180,21 @@
             set { _selectedSocket = value; }
         }
 
-        public DelegateCommand ConnectCommand { get; }
-        public DelegateCommand LoginCommand { get; }
-        public Visibility ViewVisibility 
-        { 
+        public Visibility ViewVisibility
+        {
             get => _viewVisibility;
-            set => SetProperty(ref _viewVisibility, value); 
+            set => SetProperty(ref _viewVisibility, value);
         }
+
+        public string HelpText
+        {
+            get => _helpText;
+            set => SetProperty(ref _helpText, value);
+        }
+
+        public DelegateCommand ConnectCommand { get; }
+
+        public DelegateCommand LoginCommand { get; }
 
         #endregion //Properties
 
@@ -197,16 +206,21 @@
             _loginController = loginController;
             Errors = new Dictionary<string, string>();
             _viewVisibility = Visibility.Visible;
+            _helpText = "Enter address and port";
+            _isConnected = true; //false
 
             _sockets = new List<string>();
             _sockets.Add(TransportType.WebSocket.ToString());
             _sockets.Add(TransportType.TcpSocket.ToString());
             _selectedSocket = _sockets[0];
 
-            ConnectCommand = new DelegateCommand(ExecuteConnectCommand, CanExecuteConnectCommand).ObservesProperty(() => IP)
-                .ObservesProperty(() => Port)
-                .ObservesProperty(() => Username);
+            //ConnectCommand = new DelegateCommand(ExecuteConnectCommand, CanExecuteConnectCommand).ObservesProperty(() => IP)
+            //    .ObservesProperty(() => Port)
+            //    .ObservesProperty(() => Username);
             LoginCommand = new DelegateCommand(ExecuteLoginCommand, CanExecuteLoginCommand).ObservesProperty(() => IsConnected);
+
+            _loginController.ConnectionStateChanged += OnConnectionStateChanged;
+            _loginController.ErrorReceived += OnErrorReceived;
         }
 
         #endregion //Constructors 
@@ -223,13 +237,23 @@
             try
             {
                 _loginController.ConnectUser(IP, Port);
-                _loginController.ConnectionStateChanged += OnConnectionStateChanged;
-                _loginController.ErrorReceived += OnErrorReceived;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private void ExecuteLoginCommand()
+        {
+            //_loginController.LoginUser(SelectedSocket);
+            _eventAggregator.GetEvent<OpenChatEvent>().Publish();
+            ViewVisibility = Visibility.Collapsed;
+        }
+
+        private bool CanExecuteLoginCommand()
+        {
+            return IsConnected;
         }
 
         private void OnConnectionStateChanged(object sender, ConnectionStateChangedEventArgs e)
@@ -245,19 +269,6 @@
         {
             MessageBox.Show($"{e.Message} : {e.ErrorType}");
         }
-
-        private void ExecuteLoginCommand()
-        {
-            //_loginController.LoginUser(SelectedSocket);
-            _eventAggregator.GetEvent<UserValidatedEvent>().Publish(ViewVisibility);
-            ViewVisibility = Visibility.Collapsed;
-        }
-
-        private bool CanExecuteLoginCommand()
-        {
-            return IsConnected;
-        }
-
 
         #endregion //Methods         
 

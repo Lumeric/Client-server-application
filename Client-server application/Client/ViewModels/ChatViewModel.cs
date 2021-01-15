@@ -1,4 +1,6 @@
 ﻿using Client.BusinessLogic;
+using Common.Network;
+using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using System;
@@ -11,16 +13,42 @@ using System.Windows;
 
 namespace Client.ViewModels
 {
-    public class ChatViewModel : BindableBase
+    public class ChatViewModel : BindableBase, IViewModel
     {
-        //Fields
+        #region Constants
+
+
+
+        #endregion //Constants
+
+        #region Events
+
+
+
+        #endregion //Events
+
+        #region Fields
+
+        private IEventAggregator _eventAggregator;
         private Visibility _viewVisibility;
         private string _username;
-        private string _serverIP;
-        private List<string> _activeUsers;
-        private List<string> _inactiveUsers;
+        private string _userIP;
 
-        //Properties
+        private User _selectedUser;
+
+        private ObservableCollection<User> _users;
+        private ObservableCollection<User> _activeUsers;
+        private ObservableCollection<User> _inactiveUsers;
+        private ObservableCollection<Message> _groupMessages;
+
+        private Dictionary<string, List<Message>> _groups;
+
+        private bool _isLightTheme;
+
+        #endregion //Fields
+
+        #region Properties
+
         public Visibility ViewVisibility
         {
             get => _viewVisibility;
@@ -33,37 +61,140 @@ namespace Client.ViewModels
             set => SetProperty(ref _username, value);
         }
 
-        public string ServerIP
+        public string UserIP
         {
-            get => _serverIP;
-            set => SetProperty(ref _serverIP, value);
+            get => _userIP;
+            set => SetProperty(ref _userIP, value);
         }
 
-        public List<string> ActiveUsers
+        public User SelectedUser
+        {
+            get => _selectedUser;
+            set => SetProperty(ref _selectedUser, value);
+        }
+
+        public ObservableCollection<User> ActiveUsers
         {
             get => _activeUsers;
             set => SetProperty(ref _activeUsers, value);
         }
-        public List<string> InactiveUsers
+        public ObservableCollection<User> InactiveUsers
         {
             get => _inactiveUsers;
             set => SetProperty(ref _inactiveUsers, value);
         }
 
-        public ObservableCollection<GroupListViewModel> PrivateGroups { get; set; }
-        //ctors
-        public ChatViewModel(IEventAggregator eventAggregator)
+        public ObservableCollection<Message> GroupMessages
         {
-            _viewVisibility = Visibility.Collapsed;
-            _username = $"Username: " + "Valera";
-            _serverIP = $"Server IP " + "192.168.1.2";
-            eventAggregator.GetEvent<UserValidatedEvent>().Subscribe(ChangeVisibility);
+            get => _groupMessages;
+            set => SetProperty(ref _groupMessages, value);
         }
 
-        //Methods
-        private void ChangeVisibility(Visibility obj)
+        public Dictionary<string, List<Message>> Groups
         {
-            ViewVisibility = obj;
+            get => _groups;
+            set => SetProperty(ref _groups, value);
         }
+
+        public bool IsLightTheme
+        {
+            get => _isLightTheme;
+            set => SetProperty(ref _isLightTheme, value);
+        }
+
+        public DelegateCommand OpenGroupCommand { get; set; }
+
+        public DelegateCommand LightThemeCommand { get; set; }
+
+        public DelegateCommand DarkThemeCommand { get; set; }
+
+        public DelegateCommand CloseChatCommand { get; set; }
+
+        public DelegateCommand OpenEventLogCommand { get; set; }
+
+        #endregion //Properties
+
+        #region Constructors
+
+        public ChatViewModel(IEventAggregator eventAggregator)
+        {
+            _eventAggregator = eventAggregator;
+            _viewVisibility = Visibility.Collapsed;
+            _username = "Valera";
+            _userIP = "123.123.123.0";
+
+            _users = new ObservableCollection<User>();
+            _activeUsers = new ObservableCollection<User>();
+            _inactiveUsers = new ObservableCollection<User>();
+            _groupMessages = new ObservableCollection<Message>();
+            _groups = new Dictionary<string, List<Message>>();
+
+            eventAggregator.GetEvent<OpenChatEvent>().Subscribe(ChangeVisibility);
+
+            LightThemeCommand = new DelegateCommand(ExecuteLightThemeCommand);
+            DarkThemeCommand = new DelegateCommand(ExecuteDarkThemeCommand);
+            CloseChatCommand = new DelegateCommand(ExecuteCloseChatCommand);
+            OpenEventLogCommand = new DelegateCommand(ExecuteOpenEventLogCommand);
+            OpenGroupCommand = new DelegateCommand(ExecuteOpenGroupCommand);
+        }
+
+        #endregion //Constructors
+
+        #region Methods
+
+        private void ChangeVisibility()
+        {
+            ViewVisibility = Visibility.Visible;
+
+            //test
+            _activeUsers.Add(new User("Valera", true));
+            _activeUsers.Add(new User("Sanya", true));
+            _activeUsers.Add(new User("Cepera", true));
+
+            _inactiveUsers.Add(new User("Maks", false));
+            _inactiveUsers.Add(new User("Oniq", false));
+        }
+
+        private void ExecuteOpenGroupCommand()
+        {
+            //ObservableCollection<User> users = new ObservableCollection<User>(ActiveUsers.Select(item => item).Where(item => item.Username != _username));
+            ObservableCollection<User> users = new ObservableCollection<User>();  
+            _eventAggregator.GetEvent<OpenGroupEvent>().Publish(users);
+            ViewVisibility = Visibility.Collapsed;
+        }
+
+        private void ExecuteLightThemeCommand()
+        {
+            IsLightTheme = true;
+            _eventAggregator.GetEvent<ChangeThemeEvent>().Publish(IsLightTheme);
+        }
+
+        private void ExecuteDarkThemeCommand()
+        {
+            IsLightTheme = false;
+            _eventAggregator.GetEvent<ChangeThemeEvent>().Publish(IsLightTheme);
+        }
+
+        private void ExecuteCloseChatCommand()
+        {
+            App.Current.Dispatcher.Invoke((Action)delegate
+            {
+                ActiveUsers.Clear();
+                InactiveUsers.Clear();
+                GroupMessages.Clear();
+                Groups.Clear();
+            });
+         
+            ViewVisibility = Visibility.Collapsed;
+
+            _eventAggregator.GetEvent<CloseWindowEvent>().Publish();
+        }
+
+        private void ExecuteOpenEventLogCommand()
+        {
+            _eventAggregator.GetEvent<OpenEventLogEvent>().Publish();
+            ViewVisibility = Visibility.Collapsed;
+        }
+        #endregion //Methods 
     }
 }

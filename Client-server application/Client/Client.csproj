@@ -80,46 +80,36 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BusinessLogic\ChangeThemeEvent.cs" />
     <Compile Include="BusinessLogic\ChatController.cs" />
+    <Compile Include="BusinessLogic\CloseWindowEvent.cs" />
     <Compile Include="BusinessLogic\ConnectionController.cs" />
     <Compile Include="BusinessLogic\Interfaces\IChat.cs" />
     <Compile Include="BusinessLogic\Interfaces\IConnectionController.cs" />
     <Compile Include="BusinessLogic\Interfaces\ILoginController.cs" />
-    <Compile Include="BusinessLogic\UserValidatedEvent.cs" />
-    <Compile Include="ViewModels\GeneralChatViewModel.cs" />
-    <Compile Include="ViewModels\GroupListViewModel.cs" />
+    <Compile Include="BusinessLogic\OpenEventLogEvent.cs" />
+    <Compile Include="BusinessLogic\OpenGroupEvent.cs" />
+    <Compile Include="BusinessLogic\OpenChatEvent.cs" />
+    <Compile Include="ViewModels\EventLogViewModel.cs" />
+    <Compile Include="ViewModels\GroupViewModel.cs" />
     <Compile Include="ViewModels\IViewModel.cs" />
     <Compile Include="BusinessLogic\LoginController.cs" />
     <Compile Include="TempHelperStructure.cs" />
     <Compile Include="ViewModels\ChatViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
-    <Compile Include="ViewModels\MessagesViewModel.cs" />
-    <Compile Include="ViewModels\PrivateChatViewModel.cs" />
     <Compile Include="ViewModels\UsersViewModel.cs" />
     <Compile Include="Views\ChatView.xaml.cs">
       <DependentUpon>ChatView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Messages.xaml.cs">
-      <DependentUpon>Messages.xaml</DependentUpon>
+    <Compile Include="Views\EventLogView.xaml.cs">
+      <DependentUpon>EventLogView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\UserControls\EventLog.xaml.cs">
-      <DependentUpon>EventLog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\UserControls\GroupList.xaml.cs">
-      <DependentUpon>GroupList.xaml</DependentUpon>
+    <Compile Include="Views\GroupView.xaml.cs">
+      <DependentUpon>GroupView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\UserControls\GeneralChat.xaml.cs">
-      <DependentUpon>GeneralChat.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\UserControls\PrivateChat.xaml.cs">
-      <DependentUpon>PrivateChat.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\UserControls\Users.xaml.cs">
-      <DependentUpon>Users.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -149,31 +139,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Messages.xaml">
+    <Page Include="Views\EventLogView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\UserControls\EventLog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\UserControls\GroupList.xaml">
+    <Page Include="Views\GroupView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\LoginView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\UserControls\GeneralChat.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\UserControls\PrivateChat.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\UserControls\Users.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
