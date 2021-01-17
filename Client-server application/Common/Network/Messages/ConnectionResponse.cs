@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Common.Network.Messages
 {
-    public class ConnectResponse
+    public class ConnectionResponse
     {
         #region Properties
 
@@ -25,7 +25,7 @@ namespace Common.Network.Messages
         {
             var container = new MessageContainer
             {
-                Identifier = nameof(ConnectResponse),
+                Identifier = nameof(ConnectionResponse),
                 Payload = this
             };
 

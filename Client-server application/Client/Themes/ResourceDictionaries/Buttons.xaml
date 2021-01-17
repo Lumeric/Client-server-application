@@ -3,45 +3,31 @@
                     xmlns:local="clr-namespace:Client.Themes.ResourceDictionaries">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="Brushes.xaml" />
+        <ResourceDictionary Source="Palette.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <Style x:Key="PrimaryButtonStyle" TargetType="{x:Type Button}">
-        <Setter Property="Foreground" Value="{StaticResource ButtonForegroundBrush}"/>
-        <Setter Property="FontSize" Value="14"/>
-        <Setter Property="Height" Value="32" />
-        <Setter Property="TextBlock.TextAlignment" Value="Center" />
-        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Foreground" Value="{StaticResource LightThemeText}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
-                    <Grid>
-
-
-                        <Border x:Name="Border" 
-                                Grid.ColumnSpan="4"
-                                Background="{StaticResource ButtonBackgroundBrush}" 
-                                CornerRadius="5"
-                                BorderThickness="1" 
-                                BorderBrush="Red"/>
-
-                        <ContentPresenter Grid.Column="1" Margin="10" x:Name="content_button" 
-                                          HorizontalAlignment="Center" 
-                                          RecognizesAccessKey="True" 
-                                          SnapsToDevicePixels="true" 
-                                          VerticalAlignment="Center"/>
-
-                    </Grid>
-                    <ControlTemplate.Triggers>
+                    <Border x:Name="Border" CornerRadius="10" BorderThickness="1.5" BorderBrush="Transparent">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Border.Background>
+                            <SolidColorBrush Color="{StaticResource LightThemeGrey}"/>
+                        </Border.Background>
+                    </Border>
+                        <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Border" Property="Background" Value="Gray" />
+                        </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" TargetName="Border" Value="{StaticResource ButtonMouseOverBackgroundBrush}"/>
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource LightThemeOver}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Border" Property="BorderBrush" Value="Black"/>
                         </Trigger>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Opacity" TargetName="Border" Value="0.7"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
+                        </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

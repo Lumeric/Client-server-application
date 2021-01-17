@@ -93,7 +93,7 @@
         public void Login(string login)
         {
             _login = login;
-            _sendQueue.Enqueue(new ConnectRequest(_login).GetContainer());
+            _sendQueue.Enqueue(new ConnectionRequest(_login).GetContainer());
 
             if (Interlocked.CompareExchange(ref _sending, 1, 0) == 0)
                 SendImpl();

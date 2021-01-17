@@ -1,7 +1,18 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:Client.Themes.ResourceDictionaries">
-    <Color x:Key="CoolGreyColor">#919398</Color>
-    <Color x:Key="WhiteColor">#f2f2f2</Color>
-    <Color x:Key="DarkColor">#1d2835</Color>
+
+    <SolidColorBrush x:Key="LightTheme">#e6d6c2</SolidColorBrush>
+    <Color x:Key="LightThemeButton">#b4854a</Color>
+    <SolidColorBrush x:Key="LightThemeOver">#997242</SolidColorBrush>
+    <Color x:Key="LightThemePressed">#5e4526</Color>
+    <Color x:Key="LightThemeGrey">#b59f81</Color>
+    <Color x:Key="LightThemeTextBox">#c9c1ac</Color>
+    <SolidColorBrush x:Key="LightThemeText">#2c2424</SolidColorBrush>
+    
+    <Color x:Key="DarkTheme">#2c2f33</Color>
+    <Color x:Key="DarkThemeButton">#23272a</Color>
+    <Color x:Key="DarkThemeListBox">#99aab5</Color>
+    <Color x:Key="DarkThemeTextBox">#3c4454</Color>
+    
 </ResourceDictionary>

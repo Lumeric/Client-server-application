@@ -10,7 +10,7 @@ namespace Common.Network
     {
         #region Properties
 
-        public string ClientName { get; }
+        public string Username { get; }
 
         public string Message { get; }
 
@@ -18,18 +18,18 @@ namespace Common.Network
 
         public DateTime Date { get; }
 
-        #endregion Properties
+        #endregion //Properties
 
         #region Constructors
 
-        public MessageReceivedEventArgs(string clientName, string message, int group, DateTime date)
+        public MessageReceivedEventArgs(string username, string message, int group, DateTime date)
         {
-            ClientName = clientName;
+            Username = username;
             Message = message;
             Group = group;
             Date = date;
         }
 
-        #endregion Constructors
+        #endregion //Constructors
     }
 }

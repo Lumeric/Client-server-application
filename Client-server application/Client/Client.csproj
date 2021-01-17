@@ -80,7 +80,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BusinessLogic\Controllers\ServerResponseController.cs" />
     <Compile Include="BusinessLogic\Interfaces\IChatController.cs" />
+    <Compile Include="BusinessLogic\Interfaces\IServerResponseController.cs" />
     <Compile Include="BusinessLogic\Interfaces\ILoginController.cs" />
     <Compile Include="BusinessLogic\Interfaces\IViewModel.cs" />
     <Compile Include="BusinessLogic\PubSubEvents\ChangeThemeEvent.cs" />
@@ -121,15 +123,31 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Themes\ResourceDictionaries\Brushes.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Themes\ResourceDictionaries\Buttons.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Themes\ResourceDictionaries\CheckBoxes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\ResourceDictionaries\ListBoxes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\ResourceDictionaries\Palette.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\ResourceDictionaries\TextBlocks.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\ResourceDictionaries\TextBoxes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\ResourceDictionaries\Themes.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -183,6 +201,8 @@
       <Name>Common</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Themes\ResourceDictionaries\Icons\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

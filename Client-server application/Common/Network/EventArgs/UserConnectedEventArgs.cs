@@ -6,18 +6,18 @@ namespace Common.Network
     {
         #region Properties
 
-        public string ClientName { get; }
+        public string Username { get; }
 
-        public Guid ClientId { get; }
+        public Guid UserId { get; }
 
         #endregion //Properties
 
         #region Constructors
 
-        public UserConnectedEventArgs(string clientName, Guid clientId)
+        public UserConnectedEventArgs(string username, Guid userId)
         {
-            ClientName = clientName;
-            ClientId = clientId;
+            Username = username;
+            UserId = userId;
         }
 
         #endregion //Constructors

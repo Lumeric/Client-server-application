@@ -21,7 +21,8 @@
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterSingleton<ILoginController, LoginController>();
-            //containerRegistry.RegisterSingleton<IConnectionController, ConnectionController>();
+            containerRegistry.RegisterSingleton<IChatController, ChatController>();
+            containerRegistry.RegisterSingleton<IServerResponseController, ServerResponseController>();
             containerRegistry.Register<LoginViewModel>();
             containerRegistry.Register<ChatViewModel>();
             containerRegistry.Register<MainWindowViewModel>();

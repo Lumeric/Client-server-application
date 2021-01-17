@@ -64,12 +64,12 @@
     <Compile Include="Network\EventArgs\MessageHistoryReceivedEventArgs.cs" />
     <Compile Include="Network\EventArgs\MessageRecievedEventArgs.cs" />
     <Compile Include="Network\EventArgs\UsersReceivedEventArgs.cs" />
-    <Compile Include="Network\Handlers\RequestHandler.cs" />
     <Compile Include="Network\ITransport.cs" />
     <Compile Include="Network\Message.cs" />
-    <Compile Include="Network\Messages\ConnectUserToGroupRequest.cs" />
-    <Compile Include="Network\Messages\ConnectRequest.cs" />
-    <Compile Include="Network\Messages\ConnectResponse.cs" />
+    <Compile Include="Network\Messages\UserConnectedToGroupRequest.cs" />
+    <Compile Include="Network\Messages\ConnectionRequest.cs" />
+    <Compile Include="Network\Messages\ConnectionResponse.cs" />
+    <Compile Include="Network\Messages\Container.cs" />
     <Compile Include="Network\Messages\CreateNewGroupRequest.cs" />
     <Compile Include="Network\Messages\DisconnectRequest.cs" />
     <Compile Include="Network\Messages\MessageContainer.cs" />
