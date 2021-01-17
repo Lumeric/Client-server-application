@@ -14,41 +14,43 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="0.1*"/>
-            <RowDefinition Height="0.1*"/>
             <RowDefinition Height="0.15*"/>
             <RowDefinition Height="0.15*"/>
+            <RowDefinition Height="0.15*"/>
+            <RowDefinition Height="0.2*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <TextBlock Grid.Row="0" Grid.Column="0" FontSize="15" Text="From:" Margin="5"/>
-        <DatePicker Grid.Row="1" Grid.Column="0" SelectedDate="{Binding FirstDate, Mode=TwoWay}" Margin="5"/>
-        <TextBlock Grid.Row="0" Grid.Column="1" FontSize="15" Text="To:" Margin="5"/>
+        <TextBlock Grid.Row="0" Grid.Column="0" FontSize="14" Text="From:" Margin="5"/>
+        <DatePicker Grid.Row="1" Grid.Column="0" SelectedDate="{Binding FirstDate}" Margin="5"/>
+        <TextBlock Grid.Row="0" Grid.Column="1" FontSize="14" Text="To:" Margin="5"/>
         <DatePicker Grid.Row="1" Grid.Column="1" SelectedDate="{Binding SecondDate}" Margin="5"/>
         
         <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center">
-            <TextBox FontSize="16" Width="25" Text="{Binding FirstDateHours}" Margin="5"/>
-            <Label Content=":" FontSize="16"/>
-            <TextBox FontSize="16" Width="25" Text="{Binding FirstDateMinutes}" Margin="5"/>
+            <ComboBox ItemsSource="{Binding Hours}" SelectedItem="{Binding FirstSetHours}" Margin="5"/>
+            <ComboBox ItemsSource="{Binding Minutes}" SelectedItem="{Binding FirstSetMinutes}" Margin="5"/>
         </StackPanel>
         <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
-            <TextBox FontSize="16" Width="25" Text="{Binding SecondDateHours}" Margin="5"/>
-            <Label Content=":" FontSize="16"/>
-            <TextBox FontSize="16" Width="25" Text="{Binding SecondDateMinutes}" Margin="5"/>
+            <ComboBox ItemsSource="{Binding Hours}" SelectedItem="{Binding SecondSetHours}" Margin="5"/>
+            <ComboBox ItemsSource="{Binding Minutes}" SelectedItem="{Binding SecondSetMinutes}" Margin="5"/>
         </StackPanel>
         
-        <TextBlock Grid.Row="3" Grid.Column="0" Text="Message types:" VerticalAlignment="Center" Margin="5"/>
+        <TextBlock Grid.Row="3" Grid.Column="0" Text="Choose message types:" VerticalAlignment="Center" Margin="5"/>
 
-        <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Center" Margin="5" >
-            <CheckBox Content="Errors" IsChecked="{Binding IsError}" Margin="5"/>
-            <CheckBox Content="Events" IsChecked="{Binding IsEvent}" Margin="5"/>
+        <StackPanel Orientation="Vertical" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="2">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="5">
+                <CheckBox Content="Errors" IsChecked="{Binding IsError}" Margin="5"/>
+                <CheckBox Content="Events" IsChecked="{Binding IsEvent}" Margin="5"/>
+            </StackPanel>
+            <CheckBox Content="Server messages" IsChecked="{Binding IsServerMessage}" Margin="10, 0"/>
+            <CheckBox Content="Notifications" IsChecked="{Binding IsNotification}" Margin="10, 10"/>
         </StackPanel>
-        
-        <Button Grid.Row="5" Grid.Column="0" FontSize="18" Content="Find" Command="{Binding FindCommand}" Margin="5"/>
-        <Button Grid.Row="5" Grid.Column="1" FontSize="18" Content="Close" Command="{Binding CloseCommand}" Margin="5"/>
+        <Button Grid.Row="5" Grid.Column="0" FontSize="14" Content="Find" Command="{Binding FindCommand}" Margin="5"/>
+        <Button Grid.Row="5" Grid.Column="1" FontSize="14" Content="Close" Command="{Binding CloseCommand}" Margin="5"/>
 
     </Grid>
 </UserControl>

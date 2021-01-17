@@ -6,22 +6,19 @@ using System.Threading.Tasks;
 
 namespace Common.Network
 {
-    public class ConnectionStateChangedEventArgs
+    public class UsersReceivedEventArgs
     {
         #region Properties
 
-        public string Username { get; }
-
-        public bool IsConnected { get; }
+        public List<string> Users { get; }
 
         #endregion //Properties
 
         #region Constructors
 
-        public ConnectionStateChangedEventArgs(string username, bool isConnected)
+        public UsersReceivedEventArgs(List<string> users)
         {
-            Username = username;
-            IsConnected = isConnected;
+            Users = users;
         }
 
         #endregion //Constructors

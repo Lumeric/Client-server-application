@@ -6,7 +6,7 @@ namespace Common.Network
     {
         #region Properties
 
-        public string Username { get; }
+        public string Groupname { get; }
 
         public List<string> Users { get; }
 
@@ -14,9 +14,9 @@ namespace Common.Network
 
         #region Constructors
 
-        public GroupCreatedEventArgs(string clientName, List<string> users)
+        public GroupCreatedEventArgs(string groupname, List<string> users)
         {
-            Username = clientName;
+            Groupname = groupname;
             Users = users;
         }
 

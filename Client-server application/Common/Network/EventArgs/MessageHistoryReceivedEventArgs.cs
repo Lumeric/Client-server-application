@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Client.BusinessLogic
+namespace Common.Network
 {
-    public interface IConnectionController
+    public class MessageHistoryReceivedEventArgs
     {
-        void Connect(string ip, string port);
+
     }
 }

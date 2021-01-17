@@ -30,6 +30,7 @@ namespace Client.ViewModels
         #region Fields
 
         private IEventAggregator _eventAggregator;
+        private IChatController _chatController;
         private Visibility _viewVisibility;
         private string _username;
         private string _userIP;

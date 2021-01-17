@@ -57,8 +57,13 @@
     <Compile Include="Network\Enums\TransportType.cs" />
     <Compile Include="Network\EventArgs\ConnectionStateChangedEventArgs.cs" />
     <Compile Include="Network\EventArgs\ErrorReceivedEventArgs.cs" />
+    <Compile Include="Network\EventArgs\FilteredLogsReceivedEventArgs.cs" />
     <Compile Include="Network\EventArgs\GroupRemovedEventArgs.cs" />
+    <Compile Include="Network\EventArgs\GroupsReceivedEventArgs.cs" />
+    <Compile Include="Network\EventArgs\LoginReceivedEventArgs.cs" />
+    <Compile Include="Network\EventArgs\MessageHistoryReceivedEventArgs.cs" />
     <Compile Include="Network\EventArgs\MessageRecievedEventArgs.cs" />
+    <Compile Include="Network\EventArgs\UsersReceivedEventArgs.cs" />
     <Compile Include="Network\Handlers\RequestHandler.cs" />
     <Compile Include="Network\ITransport.cs" />
     <Compile Include="Network\Message.cs" />
@@ -77,9 +82,6 @@
     <Compile Include="Network\Packets\MessageBroadcast.cs" />
     <Compile Include="Network\Packets\MessageRequest.cs" />
     <Compile Include="Network\Packets\PacketId.cs" />
-    <Compile Include="Network\TcpSocket\TcpClient.cs" />
-    <Compile Include="Network\TcpSocket\TcpConnection.cs" />
-    <Compile Include="Network\TcpSocket\TcpServer.cs" />
     <Compile Include="Network\TransportFactory.cs" />
     <Compile Include="Network\EventArgs\GroupCreatedEventArgs.cs" />
     <Compile Include="Network\EventArgs\UserConnectedEventArgs.cs" />

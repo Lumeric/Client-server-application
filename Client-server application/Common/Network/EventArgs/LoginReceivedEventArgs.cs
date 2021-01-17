@@ -6,24 +6,27 @@ using System.Threading.Tasks;
 
 namespace Common.Network
 {
-    public class ConnectionStateChangedEventArgs
+    public class LoginReceivedEventArgs
     {
         #region Properties
 
-        public string Username { get; }
+        public string Login { get; }
 
         public bool IsConnected { get; }
 
-        #endregion //Properties
+        public DateTime Date { get; }
+
+        #endregion Properties
 
         #region Constructors
 
-        public ConnectionStateChangedEventArgs(string username, bool isConnected)
+        public LoginReceivedEventArgs(string login, bool isConnected, DateTime date)
         {
-            Username = username;
+            Login = login;
             IsConnected = isConnected;
+            Date = date;
         }
 
-        #endregion //Constructors
+        #endregion Constructors
     }
 }

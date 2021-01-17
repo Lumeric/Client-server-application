@@ -13,10 +13,23 @@ namespace Client.ViewModels
 {
     public class EventLogViewModel : BindableBase, IViewModel
     {
+        #region Constants
+        #endregion //Constants
+
         #region Fields
 
         private IEventAggregator _eventAggregator;
         private Visibility _viewVisibility;
+
+        private readonly List<int> _hours = new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9,10, 11, 12, 
+                                                            13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 };
+
+        private readonly List<int> _minutes = new List<int>() { 0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55 };
+
+        private int _firstSetHours;
+        private int _firstSetMinutes;
+        private int _secondSetHours;
+        private int _secondSetMinutes;
 
         private bool _isLightTheme;
 
@@ -36,6 +49,38 @@ namespace Client.ViewModels
             set => SetProperty(ref _isLightTheme, value);
         }
 
+        public List<int> Hours
+        {
+            get => _hours;
+        }
+
+        public List<int> Minutes
+        {
+            get => _minutes;
+        }
+
+        public int FirstSetHours
+        {
+            get => _firstSetHours;
+            set => SetProperty(ref _firstSetHours, value);
+        }
+
+        public int FirstSetMinutes
+        {
+            get => _firstSetMinutes;
+            set => SetProperty(ref _firstSetMinutes, value);
+        }
+        public int SecondSetHours
+        {
+            get => _secondSetHours;
+            set => SetProperty(ref _secondSetHours, value);
+        }
+        public int SecondSetMinutes
+        {
+            get => _secondSetMinutes;
+            set => SetProperty(ref _secondSetMinutes, value);
+        }
+
         public DelegateCommand FindCommand { get; set; }
 
         public DelegateCommand CloseCommand { get; set; }
@@ -50,6 +95,11 @@ namespace Client.ViewModels
             _eventAggregator.GetEvent<CloseWindowEvent>().Subscribe(CloseEventLog);
             _eventAggregator.GetEvent<ChangeThemeEvent>().Subscribe(ChangeThemeEventLog);
 
+            _firstSetHours = _hours[0];
+            _firstSetMinutes = _minutes[0];
+            _secondSetHours = _hours[0];
+            _secondSetMinutes = _minutes[0];
+
             _viewVisibility = Visibility.Collapsed;
 
             FindCommand = new DelegateCommand(ExecuteFindCommand);
@@ -60,6 +110,8 @@ namespace Client.ViewModels
         {
             _eventAggregator.GetEvent<OpenChatEvent>().Publish();
             ViewVisibility = Visibility.Collapsed;
+            Console.WriteLine($"{FirstSetHours}:{FirstSetMinutes}");
+            Console.WriteLine($"{SecondSetHours}:{SecondSetMinutes}");
         }
 
         private void ExecuteCloseCommand()

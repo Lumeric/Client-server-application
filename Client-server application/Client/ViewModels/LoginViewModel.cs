@@ -259,7 +259,7 @@
         private void OnConnectionStateChanged(object sender, ConnectionStateChangedEventArgs e)
         {
             if (e.IsConnected)  
-                if (string.IsNullOrEmpty(e.ClientName))
+                if (string.IsNullOrEmpty(e.Username))
                 {
                     IsConnected = true;
                 }
