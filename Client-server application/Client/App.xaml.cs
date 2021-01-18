@@ -21,7 +21,8 @@
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterSingleton<ILoginController, LoginController>();
-            //containerRegistry.RegisterSingleton<IConnectionController, ConnectionController>();
+            containerRegistry.RegisterSingleton<IChatController, ChatController>();
+            containerRegistry.RegisterSingleton<IServerResponseController, ServerResponseController>();
             containerRegistry.Register<LoginViewModel>();
             containerRegistry.Register<ChatViewModel>();
             containerRegistry.Register<MainWindowViewModel>();
@@ -33,7 +34,7 @@
         {
             base.ConfigureViewModelLocator();
 
-            BindViewModelToView<LoginViewModel, LoginView>();
+            BindViewModelToView<LoginView, LoginViewModel>();
             BindViewModelToView<ChatView, ChatViewModel>();
             BindViewModelToView<MainWindow, MainWindowViewModel>();
             BindViewModelToView<EventLogView, EventLogViewModel>();

@@ -42,12 +42,9 @@
         public event EventHandler<UserDisconnectedEventArgs> UserDisconnected;
         public event EventHandler<ErrorReceivedEventArgs> ErrorReceived;
         public event EventHandler<LoginReceivedEventArgs> ConnectionReceived;
-        public event EventHandler<MessageHistoryReceivedEventArgs> ChatHistoryReceived;
-        public event EventHandler<FilteredLogsReceivedEventArgs> FilteredMessagesReceived;
-        public event EventHandler<UsersReceivedEventArgs> ClientsListReceived;
+        public event EventHandler<MessageHistoryReceivedEventArgs> MessageHistoryReceived;
         public event EventHandler<GroupsReceivedEventArgs> GroupsReceived;
         public event EventHandler<LoginReceivedEventArgs> LoginReceived;
-        public event EventHandler<MessageHistoryReceivedEventArgs> MessageHistoryReceived;
         public event EventHandler<FilteredLogsReceivedEventArgs> FilteredLogsReceived;
         public event EventHandler<UsersReceivedEventArgs> UsersReceived;
 
@@ -93,7 +90,7 @@
         public void Login(string login)
         {
             _login = login;
-            _sendQueue.Enqueue(new ConnectRequest(_login).GetContainer());
+            _sendQueue.Enqueue(new ConnectionRequest(_login).GetContainer());
 
             if (Interlocked.CompareExchange(ref _sending, 1, 0) == 0)
                 SendImpl();

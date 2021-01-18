@@ -10,7 +10,8 @@
              interactivity:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="200" d:DesignWidth="300"
-             d:DataContext="{d:DesignInstance viewModel:EventLogViewModel}">
+             d:DataContext="{d:DesignInstance viewModel:EventLogViewModel}"
+             Style="{StaticResource PrimaryControlStyle}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -25,9 +26,9 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <TextBlock Grid.Row="0" Grid.Column="0" FontSize="14" Text="From:" Margin="5"/>
+        <TextBlock Grid.Row="0" Grid.Column="0" FontSize="14" Text="From:" Margin="5" Style="{StaticResource PrimaryTextBlockStyle}"/>
+        <TextBlock Grid.Row="0" Grid.Column="1" FontSize="14" Text="To:" Margin="5" Style="{StaticResource PrimaryTextBlockStyle}"/>
         <DatePicker Grid.Row="1" Grid.Column="0" SelectedDate="{Binding FirstDate}" Margin="5"/>
-        <TextBlock Grid.Row="0" Grid.Column="1" FontSize="14" Text="To:" Margin="5"/>
         <DatePicker Grid.Row="1" Grid.Column="1" SelectedDate="{Binding SecondDate}" Margin="5"/>
         
         <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center">
@@ -38,8 +39,8 @@
             <ComboBox ItemsSource="{Binding Hours}" SelectedItem="{Binding SecondSetHours}" Margin="5"/>
             <ComboBox ItemsSource="{Binding Minutes}" SelectedItem="{Binding SecondSetMinutes}" Margin="5"/>
         </StackPanel>
-        
-        <TextBlock Grid.Row="3" Grid.Column="0" Text="Choose message types:" VerticalAlignment="Center" Margin="5"/>
+
+        <TextBlock Grid.Row="3" Grid.Column="0" FontSize="12" Text="Choose message types:" VerticalAlignment="Center" Margin="5" Style="{StaticResource PrimaryTextBlockStyle}"/>
 
         <StackPanel Orientation="Vertical" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="2">
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="5">
@@ -49,8 +50,8 @@
             <CheckBox Content="Server messages" IsChecked="{Binding IsServerMessage}" Margin="10, 0"/>
             <CheckBox Content="Notifications" IsChecked="{Binding IsNotification}" Margin="10, 10"/>
         </StackPanel>
-        <Button Grid.Row="5" Grid.Column="0" FontSize="14" Content="Find" Command="{Binding FindCommand}" Margin="5"/>
-        <Button Grid.Row="5" Grid.Column="1" FontSize="14" Content="Close" Command="{Binding CloseCommand}" Margin="5"/>
+        <Button Grid.Row="5" Grid.Column="0" FontSize="14" Content="Find" Command="{Binding FindCommand}" Margin="5" Style="{StaticResource PrimaryButtonStyle}"/>
+        <Button Grid.Row="5" Grid.Column="1" FontSize="14" Content="Close" Command="{Binding CloseCommand}" Margin="5" Style="{StaticResource PrimaryButtonStyle}"/>
 
     </Grid>
 </UserControl>

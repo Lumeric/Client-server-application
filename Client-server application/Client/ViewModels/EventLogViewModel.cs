@@ -31,7 +31,7 @@ namespace Client.ViewModels
         private int _secondSetHours;
         private int _secondSetMinutes;
 
-        private bool _isLightTheme;
+        private bool _isLightTheme = true;
 
         #endregion //Fields
 

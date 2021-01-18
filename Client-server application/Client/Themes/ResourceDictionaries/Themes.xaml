@@ -1,12 +1,18 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:Client.Themes.ResourceDictionaries">
+
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Palette.xaml" />
     </ResourceDictionary.MergedDictionaries>
+    
+    <Style x:Key="PrimaryControlStyle" TargetType="{x:Type UserControl}">
+        <Setter Property="Background" Value="{StaticResource LightTheme}"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsLightTheme}" Value="False">
+                <Setter Property="Background" Value="{StaticResource DarkTheme}"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
 
-    <SolidColorBrush x:Key="ButtonForegroundBrush" Color="{StaticResource DarkColor}"/>
-    <SolidColorBrush x:Key="ButtonBackgroundBrush" Color="{StaticResource WhiteColor}"/>
-    <SolidColorBrush x:Key="ButtonMouseOverBackgroundBrush" Color="{StaticResource CoolGreyColor}"/>
-    <SolidColorBrush x:Key="ButtonBorderBrush" Color="{StaticResource CoolGreyColor}"/>
 </ResourceDictionary>

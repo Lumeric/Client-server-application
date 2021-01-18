@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConfigureServer.cs" />
+    <Compile Include="Controllers\ClientRequestController.cs" />
     <Compile Include="DBModel\EventLog.cs" />
     <Compile Include="DBModel\EventType.cs" />
     <Compile Include="DBModel\GeneralChat.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="DBModel\Users.cs" />
     <Compile Include="DBRequests\CreateGroupInfo.cs" />
     <Compile Include="DBRequests\IHandleData.cs" />
+    <Compile Include="IClientRequestController.cs" />
     <Compile Include="NetworkManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
