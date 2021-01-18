@@ -34,7 +34,7 @@
         {
             base.ConfigureViewModelLocator();
 
-            BindViewModelToView<LoginViewModel, LoginView>();
+            BindViewModelToView<LoginView, LoginViewModel>();
             BindViewModelToView<ChatView, ChatViewModel>();
             BindViewModelToView<MainWindow, MainWindowViewModel>();
             BindViewModelToView<EventLogView, EventLogViewModel>();
