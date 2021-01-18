@@ -6,12 +6,20 @@
     using BusinessLogic;
     using System.Text.RegularExpressions;
     using System.Collections.ObjectModel;
+    using System.Windows;
+    using Prism.Events;
+    using Prism.Common;
+    using System.ComponentModel;
+    using System.Collections.Generic;
+    using Common.Network;
+    using System.Linq;
 
-    public class LoginViewModel : BindableBase, IViewModel
+    public class LoginViewModel : BindableBase, IDataErrorInfo, IViewModel
     {
         #region Constants
 
-
+        private const int MIN_USERNAME_LENGTH = 6;
+        private const int MAX_USERNAME_LENGTH = 20;
 
         #endregion //Constants
 
@@ -23,19 +31,110 @@
 
         #region Fields
 
-        private readonly ILoginController _loginController;
+        private IEventAggregator _eventAggregator;
+        private ILoginController _loginController;
         private static readonly string regexIP = @"^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$";
-        private static readonly string regexUsername = @"^(?!.*[0-9])[a-z](?:[\w]*|[a-z\d\.]*|[a-z\d-]*)[a-z0-9]$";
-        private string _port;
-        private string _username = "";
-        private string _ip = "";
-        private string _error = "";
-        private ObservableCollection<string> _sockets;
+        private static readonly string regexUsername = @"^[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$";
+        private string _ip = "192.168.1.7";
+        private string _port = "65000";
+        private string _username = "ValeraVolodya";
+        private bool _isConnected;
+        private List<string> _sockets;
         private string _selectedSocket;
+        private string _helpText;
+        private Visibility _viewVisibility;
 
         #endregion //Fields
 
         #region Properties
+
+        public string Error { get { return null; } }
+
+        //validation module
+        public string this[string parameter]
+        {
+            get
+            {
+                string error = null;
+
+                switch (parameter)
+                {
+                    case "Username":
+                        Regex regex = new Regex(regexUsername); 
+                        Match match = regex.Match(Username);
+
+                        if (string.IsNullOrWhiteSpace(Username))
+                        {
+                            error = "Username is required.";
+                            IsValidUsername = false;
+                        }
+                        else if (!match.Success)
+                        {
+                            error = "Username must be valid username format and contains only alphabetic symbols and numbers.\n" +
+                                       "For example 'Cyberprank2020'";
+                            IsValidUsername = false;
+                        }
+                        else if (Username.Length < MIN_USERNAME_LENGTH || Username.Length > MAX_USERNAME_LENGTH)
+                        {
+                            error = "Username length nust be no less than 6 symbols and no more than 20 symbols.";
+                            IsValidUsername = false;
+                        }
+                        else
+                        {
+                            IsValidUsername = true;
+                        }
+
+                        break;
+
+                    case "IP":
+                        regex = new Regex(regexIP);
+                        match = regex.Match(IP);
+
+                        if (string.IsNullOrWhiteSpace(IP))
+                        {
+                            error = "IP is required";
+                            IsValidIP = false;
+                        }
+                        else if (!match.Success)
+                        {
+                            error = "IP must be valid ip format. For example '192.168.1.0'";
+                            IsValidIP = false;
+                        }
+                        else
+                        {
+                            IsValidIP = true;
+                        }
+
+                        break;
+
+                    case "Port":
+                        if (string.IsNullOrWhiteSpace(Port))
+                         {
+                            error = "Port is required";
+                            IsValidPort = false;
+                        }
+                        else if (!Port.All(char.IsDigit))
+                        {
+                            error = "Port must be valid";
+                            IsValidPort = false;
+                        }
+                        else
+                        {
+                            IsValidPort = true;
+                        }
+
+                        break;
+                }
+
+                if (Errors.ContainsKey(parameter))
+                    Errors[parameter] = error;
+                else if (error != null)
+                    Errors.Add(parameter, error);
+
+                RaisePropertyChanged(nameof(Errors));
+                return error;
+            }
+        }
 
         public string Username
         {
@@ -55,13 +154,21 @@
             set => SetProperty(ref _port, value);
         }
 
-        public string Error 
+        public bool IsConnected
         {
-            get => _error;
-            set => SetProperty(ref _error, value);
+            get => _isConnected;
+            set => SetProperty(ref _isConnected, value);
         }
 
-        public ObservableCollection<string> Sockets
+        public bool IsValidUsername { get; private set; }
+
+        public bool IsValidIP { get; private set; }
+
+        public bool IsValidPort { get; private set; }
+
+        public Dictionary<string, string> Errors { get; set; }
+
+        public List<string> Sockets
         {
             get { return _sockets; }
             set { _sockets = value; }
@@ -73,106 +180,94 @@
             set { _selectedSocket = value; }
         }
 
-        public DelegateCommand Validation { get; }
+        public Visibility ViewVisibility
+        {
+            get => _viewVisibility;
+            set => SetProperty(ref _viewVisibility, value);
+        }
+
+        public string HelpText
+        {
+            get => _helpText;
+            set => SetProperty(ref _helpText, value);
+        }
+
+        public DelegateCommand ConnectCommand { get; }
+
+        public DelegateCommand LoginCommand { get; }
 
         #endregion //Properties
 
         #region Constructors
 
-        public LoginViewModel(ILoginController loginController)
+        public LoginViewModel(IEventAggregator eventAggregator, ILoginController loginController)
         {
-            _loginController = loginController ?? throw new ArgumentNullException(nameof(loginController));
+            _eventAggregator = eventAggregator;
+            _loginController = loginController;
+            Errors = new Dictionary<string, string>();
+            _viewVisibility = Visibility.Visible;
+            _helpText = "Enter address and port";
+            _isConnected = true; //false
 
-            Sockets = new ObservableCollection<string>();
-            Sockets.Add("WebSocket");
-            Sockets.Add("TcpSocket");
-            SelectedSocket = Sockets[0];
+            _sockets = new List<string>();
+            _sockets.Add(TransportType.WebSocket.ToString());
+            _sockets.Add(TransportType.TcpSocket.ToString());
+            _selectedSocket = _sockets[0];
 
-            //LoginCommand = new DelegateCommand(ExecuteLoginCommand);
+            //ConnectCommand = new DelegateCommand(ExecuteConnectCommand, CanExecuteConnectCommand).ObservesProperty(() => IP)
+            //    .ObservesProperty(() => Port)
+            //    .ObservesProperty(() => Username);
+            LoginCommand = new DelegateCommand(ExecuteLoginCommand, CanExecuteLoginCommand).ObservesProperty(() => IsConnected);
 
-            Validation = new DelegateCommand(ExecuteValidation, CanExecuteValidation).ObservesProperty(() => IP).ObservesProperty(() => Port).ObservesProperty(() => Username);
+            _loginController.ConnectionStateChanged += OnConnectionStateChanged;
+            _loginController.ErrorReceived += OnErrorReceived;
         }
 
-        public LoginViewModel()
-        {
-            //empty constructor
-            Sockets = new ObservableCollection<string>();
-            Sockets.Add("WebSocket");
-            Sockets.Add("TcpSocket");
-            SelectedSocket = Sockets[0];
-
-            //LoginCommand = new DelegateCommand(ExecuteLoginCommand);
-
-            Validation = new DelegateCommand(ExecuteValidation, CanExecuteValidation).ObservesProperty(() => IP).ObservesProperty(() => Port).ObservesProperty(() => Username);
-        }
-
-        #endregion //Constructors
+        #endregion //Constructors 
 
         #region Methods
 
-        //private void ExecuteLoginCommand()
-        //{
-        //    _loginController.LoginUser();
-        //}
-
-        private void ValidateUsername(string username)
+        private bool CanExecuteConnectCommand()
         {
-            string errorMessage;
-            Regex regex = new Regex(regexUsername);
-            Match match = regex.Match(username);
-
-            if (username.Length == 0)
-            {
-                errorMessage = "Username is required.";
-            }
-            else if (!match.Success)
-            {
-                errorMessage = "Username must be valid username format and contains only alphabetic symbols and numbers.\n" +
-                           "For example 'Cyberpunk2020'";
-            }
-            else if (username.Length < 6 || username.Length > 20)
-            {
-                errorMessage = "Username length nust be no less than 6 symbols and no more than 20 symbols.";
-            }
-            else
-            {
-                errorMessage = "OK";
-            }
-
-            Error = errorMessage;
+            return IsValidIP && IsValidPort && IsValidUsername;
         }
 
-        private void ValidateIP(string ip)
+        private void ExecuteConnectCommand()
         {
-            string errorMessage;
-            Regex regex = new Regex(regexIP);
-            Match match = regex.Match(ip);
-
-            if (ip.Length == 0)
+            try
             {
-                errorMessage = "IP is required.";
+                _loginController.ConnectUser(IP, Port);
             }
-            else if (!match.Success)
+            catch (Exception ex)
             {
-                errorMessage = "IP must be valid ip format. For example '192.168.1.0'";
+                MessageBox.Show(ex.Message);
             }
-            else
-            {
-                errorMessage = "OK";
-            }
-
-            IP = errorMessage;
-        }
-        private bool CanExecuteValidation()
-        {
-            return !String.IsNullOrWhiteSpace(IP) && !String.IsNullOrWhiteSpace(Port) && !String.IsNullOrWhiteSpace(Username);
         }
 
-        //общий метод вызова валидации
-        private void ExecuteValidation()
+        private void ExecuteLoginCommand()
         {
-                ValidateUsername(Username);
-                ValidateIP(IP);
+            //_loginController.LoginUser(SelectedSocket);
+            _eventAggregator.GetEvent<OpenChatEvent>().Publish();
+            ViewVisibility = Visibility.Collapsed;
+        }
+
+        private bool CanExecuteLoginCommand()
+        {
+            return IsConnected;
+        }
+
+        private void OnConnectionStateChanged(object sender, ConnectionStateChangedEventArgs e)
+        {
+            if (e.IsConnected)  
+                if (string.IsNullOrEmpty(e.Username))
+                {
+                    IsConnected = true;
+                }
+        }
+
+        private void OnErrorReceived(object sender, ErrorReceivedEventArgs e)
+        {
+            MessageBox.Show($"{e.Message} : {e.ErrorType}");
         }
 
         #endregion //Methods         

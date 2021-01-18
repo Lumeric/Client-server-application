@@ -6,15 +6,13 @@ using System.Threading.Tasks;
 
 namespace Common.Network
 {
-    public class MessageReceivedEventArgs
+    public class LoginReceivedEventArgs
     {
         #region Properties
 
-        public string ClientName { get; }
+        public string Login { get; }
 
-        public string Message { get; }
-
-        public int Group { get; }
+        public bool IsConnected { get; }
 
         public DateTime Date { get; }
 
@@ -22,11 +20,10 @@ namespace Common.Network
 
         #region Constructors
 
-        public MessageReceivedEventArgs(string clientName, string message, int group, DateTime date)
+        public LoginReceivedEventArgs(string login, bool isConnected, DateTime date)
         {
-            ClientName = clientName;
-            Message = message;
-            Group = group;
+            Login = login;
+            IsConnected = isConnected;
             Date = date;
         }
 

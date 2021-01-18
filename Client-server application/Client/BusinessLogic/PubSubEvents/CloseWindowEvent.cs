@@ -1,12 +1,13 @@
-﻿using System;
+﻿using Prism.Events;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Common.Network
+namespace Client.BusinessLogic
 {
-    public class TcpConnection
+    class CloseWindowEvent : PubSubEvent
     {
     }
 }

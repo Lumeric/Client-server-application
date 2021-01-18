@@ -5,23 +5,49 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Client" 
         xmlns:view="clr-namespace:Client.Views"
+        xmlns:viewModel="clr-namespace:Client.ViewModels"
+        xmlns:interactivity="http://prismlibrary.com/"
+        interactivity:ViewModelLocator.AutoWireViewModel="True"
         mc:Ignorable="d"
         Title="MainWindow" MinHeight="150" MinWidth="500"
         SizeToContent="WidthAndHeight"
-        MaxHeight="800" MaxWidth="1200" WindowStartupLocation="CenterScreen">
-    <Grid>
+        MaxHeight="800" MaxWidth="1200" WindowStartupLocation="CenterScreen"
+        d:DataContext="{d:DesignInstance viewModel:MainWindowViewModel}">
+
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type viewModel:LoginViewModel}">
+            <view:LoginView></view:LoginView>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:ChatViewModel}">
+            <view:ChatView></view:ChatView>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:EventLogViewModel}">
+            <view:EventLogView></view:EventLogView>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:GroupViewModel}">
+            <view:GroupView></view:GroupView>
+        </DataTemplate>
+    </Window.Resources>
+    
+    <!--<Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="5"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="5"/>
         </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-        <view:LoginView></view:LoginView>
-        <ContentControl Content="{Binding SelectedViewModel}"/>
-        <Button Grid.Column="1" Grid.Row="1" Content="GoToView" Command="{Binding UpdateView, UpdateSourceTrigger=PropertyChanged}" CommandParameter="ChatView"/>
-    </Grid>
-    
-    
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="5"/>
+        </Grid.ColumnDefinitions>
+
+        <view:LoginView Grid.Row="1" Grid.Column="1" Visibility="{Binding LoginVisibility}"></view:LoginView>
+        <view:ChatView Grid.Row="2" Grid.Column="1" Visibility="{Binding ChatVisibility}"></view:ChatView>
+        <view:GroupView Grid.Row="2" Grid.Column="1" Visibility="{Binding GroupMenuVisibility}"></view:GroupView>
+        <view:EventLogView Grid.Row="2" Grid.Column="1" Visibility="{Binding EventLogVisibility}"></view:EventLogView>
+    </Grid>-->
+
+    <ContentControl Content="{Binding SelectedView}"/>
 </Window>

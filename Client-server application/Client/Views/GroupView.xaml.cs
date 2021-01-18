@@ -12,16 +12,15 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Client.ViewModels;
 
-namespace Client
+namespace Client.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Логика взаимодействия для GroupView.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class GroupView : UserControl
     {
-        public MainWindow()
+        public GroupView()
         {
             InitializeComponent();
         }

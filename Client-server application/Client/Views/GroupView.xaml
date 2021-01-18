@@ -1,0 +1,31 @@
+﻿<UserControl x:Class="Client.Views.GroupView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Client.Views"
+             xmlns:viewModel="clr-namespace:Client.ViewModels"
+             xmlns:interactivity="http://prismlibrary.com/"
+             interactivity:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="500"
+             d:DataContext="{d:DesignInstance viewModel:LoginViewModel}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.1*"/>
+            <RowDefinition Height="0.1*"/>
+            <RowDefinition Height="0.1*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="0.5*"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Text="Type a groupname" Grid.Row="0" Grid.Column="0"/>
+        <TextBox Grid.Row="1" Grid.Column="0" Text="{Binding GroupName}"/>
+        <ListBox x:Name="usersList" Grid.Row="2" Grid.Column="0" Grid.RowSpan="2" ItemsSource="{Binding Users}"/>
+        <Button Grid.Row="1" Grid.Column="1" Content="Create" Command="{Binding CreateGroupCommand}"/>
+        <Button Grid.Row="2" Grid.Column="1" Content="Close" Command="{Binding CloseCommand}"/>
+    </Grid>
+</UserControl>

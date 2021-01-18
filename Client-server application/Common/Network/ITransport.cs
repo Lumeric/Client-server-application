@@ -8,9 +8,15 @@ namespace Common.Network
     {
         #region Events
 
-        //event EventHandler<ConnectionStateChangedEventArgs> ConnectionStateChanged;
-        event EventHandler<MessageReceivedEventArgs> MessageReceived;
-        #endregion Events
+       event EventHandler<ConnectionStateChangedEventArgs> ConnectionStateChanged;
+       event EventHandler<LoginReceivedEventArgs> LoginReceived;
+       event EventHandler<MessageReceivedEventArgs> MessageReceived;
+       event EventHandler<MessageHistoryReceivedEventArgs> MessageHistoryReceived;
+       event EventHandler<FilteredLogsReceivedEventArgs> FilteredLogsReceived;
+       event EventHandler<UsersReceivedEventArgs> UsersReceived;
+       event EventHandler<GroupsReceivedEventArgs> GroupsReceived;
+
+        #endregion //Events
 
         #region Methods
 
@@ -22,6 +28,6 @@ namespace Common.Network
 
         void Send(List<Guid> listClientId, MessageContainer message);
 
-        #endregion Methods
+        #endregion //Methods
     }
 }

@@ -14,8 +14,6 @@ namespace Common.Network
             {
                 case TransportType.WebSocket:
                     return new WsClient();
-                case TransportType.TcpSocket:
-                    return new TcpClient();
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }

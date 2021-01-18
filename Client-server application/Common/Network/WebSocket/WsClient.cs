@@ -33,12 +33,23 @@
 
         #region Events
 
+        public event EventHandler<ConnectionStateChangedEventArgs> ConnectionStateChanged;
         public event EventHandler<GroupCreatedEventArgs> GroupCreated;
         public event EventHandler<GroupRemovedEventArgs> GroupRemoved;
         public event EventHandler<MessageReceivedEventArgs> MessageReceived;
         public event EventHandler<UserConnectedEventArgs> UserConnected;
         public event EventHandler<UserConnectedToGroupEventArgs> UserConnectedToGroup;
         public event EventHandler<UserDisconnectedEventArgs> UserDisconnected;
+        public event EventHandler<ErrorReceivedEventArgs> ErrorReceived;
+        public event EventHandler<LoginReceivedEventArgs> ConnectionReceived;
+        public event EventHandler<MessageHistoryReceivedEventArgs> ChatHistoryReceived;
+        public event EventHandler<FilteredLogsReceivedEventArgs> FilteredMessagesReceived;
+        public event EventHandler<UsersReceivedEventArgs> ClientsListReceived;
+        public event EventHandler<GroupsReceivedEventArgs> GroupsReceived;
+        public event EventHandler<LoginReceivedEventArgs> LoginReceived;
+        public event EventHandler<MessageHistoryReceivedEventArgs> MessageHistoryReceived;
+        public event EventHandler<FilteredLogsReceivedEventArgs> FilteredLogsReceived;
+        public event EventHandler<UsersReceivedEventArgs> UsersReceived;
 
         #endregion //Events
 
@@ -56,17 +67,36 @@
 
         public void Connect(string address, string port)
         {
-            throw new NotImplementedException();
+            _socket = new WebSocket($"ws://{address}:{port}");
+            _socket.OnOpen += OnOpen;
+            _socket.OnClose += OnClose;
+            _socket.OnMessage += OnMessage;
+            _socket.ConnectAsync();
         }
 
         public void Disconnect()
         {
-            throw new NotImplementedException();
+            if (_socket == null)
+                return;
+
+            if (IsConnected)
+                _socket.CloseAsync();
+
+            _socket.OnOpen -= OnOpen;
+            _socket.OnClose -= OnClose;
+            _socket.OnMessage -= OnMessage;
+
+            _socket = null;
+            _login = null;
         }
 
         public void Login(string login)
         {
-            throw new NotImplementedException();
+            _login = login;
+            _sendQueue.Enqueue(new ConnectRequest(_login).GetContainer());
+
+            if (Interlocked.CompareExchange(ref _sending, 1, 0) == 0)
+                SendImpl();
         }
 
         public void Send(List<Guid> listClientId, MessageContainer message)
@@ -105,17 +135,25 @@
 
         private void OnMessage(object sender, MessageEventArgs e)
         {
+            if (!e.IsText)
+                return;
 
+            if (!_sendQueue.TryDequeue(out var message) && Interlocked.CompareExchange(ref _sending, 1, 0) == 1)
+                    return;
+
+            var settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
+            string serializedMessages = JsonConvert.SerializeObject(message, settings);
+            _socket.SendAsync(serializedMessages, SendCompleted);
         }
 
         private void OnOpen(object sender, System.EventArgs e)
         {
-
+            ConnectionStateChanged?.Invoke(this, new ConnectionStateChangedEventArgs(_login, true));
         }
 
         private void OnClose(Object sender, CloseEventArgs e)
         {
-
+            ConnectionStateChanged?.Invoke(this, new ConnectionStateChangedEventArgs(_login, false));
         }
 
         #endregion //Methods

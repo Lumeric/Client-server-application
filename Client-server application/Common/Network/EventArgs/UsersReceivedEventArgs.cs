@@ -1,12 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Common.Network
 {
-    public class GroupCreatedEventArgs
+    public class UsersReceivedEventArgs
     {
         #region Properties
-
-        public string Groupname { get; }
 
         public List<string> Users { get; }
 
@@ -14,9 +16,8 @@ namespace Common.Network
 
         #region Constructors
 
-        public GroupCreatedEventArgs(string groupname, List<string> users)
+        public UsersReceivedEventArgs(List<string> users)
         {
-            Groupname = groupname;
             Users = users;
         }
 
