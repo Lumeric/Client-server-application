@@ -18,7 +18,7 @@ namespace Client.ViewModels
         private IEventAggregator _eventAggregator;
         private Visibility _viewVisibility;
 
-        private bool _isLightTheme;
+        private bool _isLightTheme = true;
 
         public Visibility ViewVisibility
         {

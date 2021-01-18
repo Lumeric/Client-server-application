@@ -3,16 +3,20 @@
                     xmlns:local="clr-namespace:Client.Themes.ResourceDictionaries">
 
     <SolidColorBrush x:Key="LightTheme">#e6d6c2</SolidColorBrush>
-    <Color x:Key="LightThemeButton">#b4854a</Color>
-    <SolidColorBrush x:Key="LightThemeOver">#997242</SolidColorBrush>
-    <Color x:Key="LightThemePressed">#5e4526</Color>
-    <Color x:Key="LightThemeGrey">#b59f81</Color>
+    <SolidColorBrush x:Key="LightThemeGrey">#b4854a</SolidColorBrush>
+    <SolidColorBrush x:Key="LightThemePressed">#997242</SolidColorBrush>
+    <SolidColorBrush x:Key="LightThemeOwner">#755328</SolidColorBrush>
+    <SolidColorBrush x:Key="LightThemeDisabled">#c9c5bf</SolidColorBrush>
+    <SolidColorBrush x:Key="LightThemeDisabledText">#999691</SolidColorBrush>
+    <Color x:Key="LightThemeButton">#b59f81</Color>
     <Color x:Key="LightThemeTextBox">#c9c1ac</Color>
-    <SolidColorBrush x:Key="LightThemeText">#2c2424</SolidColorBrush>
-    
-    <Color x:Key="DarkTheme">#2c2f33</Color>
+    <SolidColorBrush x:Key="LightThemeText">Black</SolidColorBrush>
+    <Color x:Key="LightThemeLBText">Black</Color>
+
+    <SolidColorBrush x:Key="DarkTheme">#474542</SolidColorBrush>
     <Color x:Key="DarkThemeButton">#23272a</Color>
-    <Color x:Key="DarkThemeListBox">#99aab5</Color>
-    <Color x:Key="DarkThemeTextBox">#3c4454</Color>
+    <SolidColorBrush x:Key="DarkThemeListBox">#998662</SolidColorBrush>
+    <Color x:Key="DarkThemeTextBox">#54463c</Color>
+    <SolidColorBrush x:Key="DarkThemeText">#dedcce</SolidColorBrush>
     
 </ResourceDictionary>

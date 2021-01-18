@@ -20,7 +20,7 @@ namespace Common.Network
 
         public User(string username, bool isActive)
         {
-            Username = Username;
+            Username = username;
             IsActive = isActive;
         }
 

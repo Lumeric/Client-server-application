@@ -27,27 +27,19 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-
-        <TextBlock Grid.Row="0" Grid.Column="0" Margin="5" FontSize="18" Text="Server IP"/>
-        <TextBlock Grid.Row="1" Grid.Column="0" Margin="5" FontSize="18" Text="Port"/>
-        <TextBlock Grid.Row="0" Grid.Column="2" Margin="5" FontSize="18" Text="Interface"/>
-        <TextBlock Grid.Row="1" Grid.Column="2" Margin="5" FontSize="18" Text="Username"/>
-        <TextBlock Grid.Row="2" Grid.Column="0" Margin="5" FontSize="14" Grid.ColumnSpan="3" Text="{Binding HelpText}"/>
+                                                           
+        <TextBlock Grid.Row="0" Grid.Column="0" Margin="5" Style="{StaticResource PrimaryTextBlockStyle}" Text="Server IP"/>
+        <TextBlock Grid.Row="1" Grid.Column="0" Margin="5" Style="{StaticResource PrimaryTextBlockStyle}" Text="Port"/>
+        <TextBlock Grid.Row="0" Grid.Column="2" Margin="5" Style="{StaticResource PrimaryTextBlockStyle}" Text="Interface"/>
+        <TextBlock Grid.Row="1" Grid.Column="2" Margin="5" Style="{StaticResource PrimaryTextBlockStyle}" Text="Username"/>
+        <TextBlock Grid.Row="2" Grid.Column="0" Margin="5" Style="{StaticResource HelpTextBlockStyle}" Grid.ColumnSpan="3" VerticalAlignment="Center" Text="{Binding HelpText}"/>
 
         <TextBox Grid.Row="0" Grid.Column="1" Margin="5" Text="{Binding IP, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" ToolTip="{Binding Errors[IP], UpdateSourceTrigger=PropertyChanged}"/>
         <TextBox Grid.Row="1" Grid.Column="1" Margin="5" Text="{Binding Port, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" ToolTip="{Binding Errors[Port], UpdateSourceTrigger=PropertyChanged}"/>
         <ComboBox Grid.Row="0" Grid.Column="4" Margin="5" Grid.ColumnSpan="3" ItemsSource="{Binding Sockets}" SelectedItem="{Binding SelectedSocket, UpdateSourceTrigger=PropertyChanged}"/>
         <TextBox Grid.Row="1" Grid.Column="4" Margin="5" Grid.ColumnSpan="3" Text="{Binding Username, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsConnected}" ToolTip="{Binding Errors[Username], UpdateSourceTrigger=PropertyChanged}"/>
 
-        <Button x:Name="buttonConnect" Command="{Binding ConnectCommand}" Content="Connect" Width="60" Grid.Row="2" Grid.Column="4" Margin="5" FontSize="14" Style="{StaticResource PrimaryButtonStyle}"/>
-        <Button x:Name="buttonLogin" Command="{Binding LoginCommand}" Content="Login" Width="60" Grid.Row="2" Grid.Column="5" Margin="5" FontSize="14" Style="{StaticResource PrimaryButtonStyle}"/>
-
-        <!-- <ListBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"/>
-        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding CurrentText}"/>
-        <Button Grid.Row="2" Grid.Column="2" Content="Send" 
-                Command="{Binding SendCommand}"/>
-        <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal">
-            <CheckBox Content="Service Available" IsChecked="{Binding IsAvailableService}"/>
-        </StackPanel> -->
+        <Button x:Name="buttonConnect" Command="{Binding ConnectCommand}" Content="Connect" Width="60" Grid.Row="2" Grid.Column="4" Margin="5" Style="{StaticResource PrimaryButtonStyle}"/>
+        <Button x:Name="buttonLogin" Command="{Binding LoginCommand}" Content="Login" Width="60" Grid.Row="2" Grid.Column="5" Margin="5" Style="{StaticResource PrimaryButtonStyle}"/>
     </Grid>
 </UserControl>

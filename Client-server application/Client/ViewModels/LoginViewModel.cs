@@ -42,6 +42,7 @@
         private List<string> _sockets;
         private string _selectedSocket;
         private string _helpText;
+        private bool _isLightTheme = true;
         private Visibility _viewVisibility;
 
         #endregion //Fields
@@ -192,6 +193,11 @@
             set => SetProperty(ref _helpText, value);
         }
 
+        public bool IsLightTheme
+        {
+            get => _isLightTheme;
+            set => SetProperty(ref _isLightTheme, value);
+        }
         public DelegateCommand ConnectCommand { get; }
 
         public DelegateCommand LoginCommand { get; }
@@ -206,7 +212,7 @@
             _loginController = loginController;
             Errors = new Dictionary<string, string>();
             _viewVisibility = Visibility.Visible;
-            _helpText = "Enter address and port";
+            _helpText = "Enter address and port.";
             _isConnected = true; //false
 
             _sockets = new List<string>();
@@ -214,9 +220,11 @@
             _sockets.Add(TransportType.TcpSocket.ToString());
             _selectedSocket = _sockets[0];
 
-            //ConnectCommand = new DelegateCommand(ExecuteConnectCommand, CanExecuteConnectCommand).ObservesProperty(() => IP)
-            //    .ObservesProperty(() => Port)
-            //    .ObservesProperty(() => Username);
+            _eventAggregator.GetEvent<ChangeThemeEvent>().Subscribe(OnChangeTheme);
+
+            ConnectCommand = new DelegateCommand(ExecuteConnectCommand, CanExecuteConnectCommand).ObservesProperty(() => IP)
+                .ObservesProperty(() => Port)
+                .ObservesProperty(() => Username);
             LoginCommand = new DelegateCommand(ExecuteLoginCommand, CanExecuteLoginCommand).ObservesProperty(() => IsConnected);
 
             _loginController.ConnectionStateChanged += OnConnectionStateChanged;
@@ -262,12 +270,18 @@
                 if (string.IsNullOrEmpty(e.Username))
                 {
                     IsConnected = true;
+                    HelpText = "Enter username.";
                 }
         }
 
         private void OnErrorReceived(object sender, ErrorReceivedEventArgs e)
         {
-            MessageBox.Show($"{e.Message} : {e.ErrorType}");
+            HelpText = $"{e.Message}/{e.ErrorType}";
+        }
+
+        private void OnChangeTheme(bool isLightTheme)
+        {
+            IsLightTheme = isLightTheme;
         }
 
         #endregion //Methods         

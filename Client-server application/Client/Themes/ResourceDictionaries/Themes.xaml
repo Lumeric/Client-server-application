@@ -9,7 +9,7 @@
     <Style x:Key="PrimaryControlStyle" TargetType="{x:Type UserControl}">
         <Setter Property="Background" Value="{StaticResource LightTheme}"/>
         <Style.Triggers>
-            <DataTrigger Binding="{Binding IsLightTheme}" Value="true">
+            <DataTrigger Binding="{Binding IsLightTheme}" Value="False">
                 <Setter Property="Background" Value="{StaticResource DarkTheme}"/>
             </DataTrigger>
         </Style.Triggers>

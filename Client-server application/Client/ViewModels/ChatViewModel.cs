@@ -44,7 +44,7 @@ namespace Client.ViewModels
 
         private Dictionary<string, List<Message>> _groups;
 
-        private bool _isLightTheme;
+        private bool _isLightTheme = true;
 
         #endregion //Fields
 
@@ -137,6 +137,18 @@ namespace Client.ViewModels
             CloseChatCommand = new DelegateCommand(ExecuteCloseChatCommand);
             OpenEventLogCommand = new DelegateCommand(ExecuteOpenEventLogCommand);
             OpenGroupCommand = new DelegateCommand(ExecuteOpenGroupCommand);
+
+
+            //test
+            _activeUsers.Add(new User("Valera", true));
+            _activeUsers.Add(new User("Sanya", true));
+            _activeUsers.Add(new User("Cepera", true));
+
+            _inactiveUsers.Add(new User("Maks", false));
+            _inactiveUsers.Add(new User("Oniq", false));
+
+            _groupMessages.Add(new Message("Sanya", "Privet kotikam", true, DateTime.Now));
+            _groupMessages.Add(new Message("Cepera", "Privet chelovekam", false, DateTime.Now));
         }
 
         #endregion //Constructors
@@ -146,19 +158,10 @@ namespace Client.ViewModels
         private void ChangeVisibility()
         {
             ViewVisibility = Visibility.Visible;
-
-            //test
-            _activeUsers.Add(new User("Valera", true));
-            _activeUsers.Add(new User("Sanya", true));
-            _activeUsers.Add(new User("Cepera", true));
-
-            _inactiveUsers.Add(new User("Maks", false));
-            _inactiveUsers.Add(new User("Oniq", false));
         }
 
         private void ExecuteOpenGroupCommand()
         {
-            //ObservableCollection<User> users = new ObservableCollection<User>(ActiveUsers.Select(item => item).Where(item => item.Username != _username));
             ObservableCollection<User> users = new ObservableCollection<User>();  
             _eventAggregator.GetEvent<OpenGroupEvent>().Publish(users);
             ViewVisibility = Visibility.Collapsed;
@@ -173,7 +176,7 @@ namespace Client.ViewModels
         private void ExecuteDarkThemeCommand()
         {
             IsLightTheme = false;
-            _eventAggregator.GetEvent<ChangeThemeEvent>().Publish(IsLightTheme);
+            _eventAggregator.GetEvent<ChangeThemeEvent>().Publish(IsLightTheme);         
         }
 
         private void ExecuteCloseChatCommand()
