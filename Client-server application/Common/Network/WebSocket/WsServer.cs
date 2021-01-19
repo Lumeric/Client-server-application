@@ -104,7 +104,7 @@
                             connectResponse.Reason = reason;
                             connectResponse.Result = ResultCode.Failure;
                             connection.Send(connectResponse.GetContainer());
-                            ErrorReceived?.Invoke(this, new ErrorReceivedEventArgs(ErrorType.UsernameError, reason, DateTime.Now));
+                            ErrorReceived?.Invoke(this, new ErrorReceivedEventArgs(EventType.Error, reason, DateTime.Now));
                         }
                         else
                         {

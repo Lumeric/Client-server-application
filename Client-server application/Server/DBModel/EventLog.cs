@@ -1,18 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Common.Network;
+using System;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Server.DBModel
 {
     public class EventLog
     {
+        #region Properties
+
         [Key]
-        public int ID { get; set; } // counter
-        public string EventText { get; set; }
-        public int EventID { get; set; }
-        public DateTime Time { get; set; }
+        public int ID { get; set; }
+
+        public EventType EventLogType { get; set; }
+
+        public string Text { get; set; }
+
+        public DateTime Date { get; set; }
+
+        #endregion //Properties
     }
 }

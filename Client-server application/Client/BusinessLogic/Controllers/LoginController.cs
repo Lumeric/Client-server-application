@@ -28,8 +28,8 @@ namespace Client.BusinessLogic
         #region Fields
 
         private ITransport _transport;
-        private List<TransportType> _sockets;
-        private TransportType _selectedSocket;
+        private List<TransportTypes> _sockets;
+        private TransportTypes _selectedSocket;
         private ObservableCollection<string> _eventLog;
         private string _username;
 
@@ -45,12 +45,12 @@ namespace Client.BusinessLogic
 
         public LoginController()
         {
-            _sockets = new List<TransportType>();
-            _selectedSocket = new TransportType();
+            _sockets = new List<TransportTypes>();
+            _selectedSocket = new TransportTypes();
             _eventLog = new ObservableCollection<string>();
-            _sockets.Add(TransportType.WebSocket);
-            _sockets.Add(TransportType.TcpSocket);
-            _selectedSocket = TransportType.WebSocket;
+            _sockets.Add(TransportTypes.WebSocket);
+            _sockets.Add(TransportTypes.TcpSocket);
+            _selectedSocket = TransportTypes.WebSocket;
         }
 
         #endregion //Constructors
@@ -61,7 +61,7 @@ namespace Client.BusinessLogic
         {
             try
             {
-                _transport = TransportFactory.Create((TransportType)_selectedSocket);
+                _transport = TransportFactory.Create((TransportTypes)_selectedSocket);
                 //_transport.ConnectionStateChanged += OnConnectionStateChanged;
                 //_transport.MessageReceived += OnMessageReceived;
                 _transport.Connect(address, port);

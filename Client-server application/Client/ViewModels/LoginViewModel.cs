@@ -210,8 +210,8 @@
             _isConnected = true; //false
 
             _sockets = new List<string>();
-            _sockets.Add(TransportType.WebSocket.ToString());
-            _sockets.Add(TransportType.TcpSocket.ToString());
+            _sockets.Add(TransportTypes.WebSocket.ToString());
+            _sockets.Add(TransportTypes.TcpSocket.ToString());
             _selectedSocket = _sockets[0];
 
             //ConnectCommand = new DelegateCommand(ExecuteConnectCommand, CanExecuteConnectCommand).ObservesProperty(() => IP)

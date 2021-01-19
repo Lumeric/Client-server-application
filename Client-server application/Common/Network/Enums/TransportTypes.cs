@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace Common.Network
 {
-    public enum ErrorType
+    public enum TransportTypes
     {
-        UsernameError,
-        ConnectionError,
-        ServerError,
-        DatabaseError
+        WebSocket,
+        TcpSocket
     }
 }

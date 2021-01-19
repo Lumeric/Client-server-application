@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace Common.Network
 {
-    public enum TransportType
+    [Flags]
+    public enum EventType
     {
-        WebSocket,
-        TcpSocket
+        Event,
+        Error,
     }
 }

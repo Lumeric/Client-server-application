@@ -1,19 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Server.DBModel
 {
-    public class Messages
+    public class MessageList
     {
+        #region Properties
+
         [Key]
         public int MessageID { get; set; }
-        public int ChatID { get; set; }
+
         public string Username { get; set; }
+
+        public string Groupname { get; set; }
+
         public string Text { get; set; }
-        public DateTime Time { get; set; }
+
+        public DateTime Date { get; set; }
+
+        #endregion Properties
     }
 }
