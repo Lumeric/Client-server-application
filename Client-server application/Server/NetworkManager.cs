@@ -12,19 +12,12 @@ namespace Server
         #region Fields
 
         private readonly WsServer _wsServer;
-<<<<<<< Updated upstream
-        private readonly TcpServer _tcpServer;
-        private IPAddress _ip;
-        private int _port;
-        private string _protocol;
-=======
         private readonly IPAddress _ip;
         private readonly int _port;
         private readonly TransportTypes _transport;
         private readonly ConnectionStringSettings _connectionString;
 
         private MessageHandler _messageHandler;
->>>>>>> Stashed changes
 
         #endregion //Fields
 

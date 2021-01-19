@@ -92,10 +92,10 @@
 
             switch (container.Identifier)
             {
-                case nameof(ConnectRequest):
+                case nameof(ConnectionRequest):
                     {
-                        var connectRequest = ((JObject)container.Payload).ToObject(typeof(ConnectRequest)) as ConnectRequest;
-                        var connectResponse = new ConnectResponse { Result = ResultCode.Ok, IsSuccess = true };
+                        var connectRequest = ((JObject)container.Payload).ToObject(typeof(ConnectionRequest)) as ConnectionRequest;
+                        var connectResponse = new ConnectionResponse { Result = ResultCode.Ok, IsSuccess = true };
 
                         if (_connections.Values.Any(item => item.Username == connectRequest.Username))
                         {
@@ -118,7 +118,7 @@
                     }
                 case nameof(DisconnectRequest):
                     {
-                        var disconnectRequest = ((JObject)container.Payload).ToObject(typeof(ConnectRequest)) as ConnectRequest;
+                        var disconnectRequest = ((JObject)container.Payload).ToObject(typeof(ConnectionRequest)) as ConnectionRequest;
                         UserDisconnected?.Invoke(this, new UserDisconnectedEventArgs(connection.Username));
                         break;
                     }
@@ -134,9 +134,9 @@
                         GroupCreated?.Invoke(this, new GroupCreatedEventArgs(connection.Username, createNewGroupRequest.Users));
                         break;
                     }
-                case nameof(ConnectUserToGroupRequest):
+                case nameof(UserConnectedToGroupRequest):
                     {
-                        var connectUserToGroupRequest = ((JObject)container.Payload).ToObject(typeof(ConnectUserToGroupRequest)) as ConnectUserToGroupRequest;
+                        var connectUserToGroupRequest = ((JObject)container.Payload).ToObject(typeof(UserConnectedToGroupRequest)) as UserConnectedToGroupRequest;
                         UserConnectedToGroup?.Invoke(this, new UserConnectedToGroupEventArgs(connection.Username, connectUserToGroupRequest.GroupNumber));
                         break;
                     }

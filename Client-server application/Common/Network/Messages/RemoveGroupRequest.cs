@@ -32,7 +32,7 @@ namespace Common.Network.Messages
         {
             var container = new MessageContainer
             {
-                Identifier = nameof(ConnectRequest),
+                Identifier = nameof(ConnectionRequest),
                 Payload = this
             };
 

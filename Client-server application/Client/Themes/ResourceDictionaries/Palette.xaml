@@ -1,7 +1,22 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:Client.Themes.ResourceDictionaries">
-    <Color x:Key="CoolGreyColor">#919398</Color>
-    <Color x:Key="WhiteColor">#f2f2f2</Color>
-    <Color x:Key="DarkColor">#1d2835</Color>
+
+    <SolidColorBrush x:Key="LightTheme">#e6d6c2</SolidColorBrush>
+    <SolidColorBrush x:Key="LightThemeGrey">#b4854a</SolidColorBrush>
+    <SolidColorBrush x:Key="LightThemePressed">#997242</SolidColorBrush>
+    <SolidColorBrush x:Key="LightThemeOwner">#755328</SolidColorBrush>
+    <SolidColorBrush x:Key="LightThemeDisabled">#c9c5bf</SolidColorBrush>
+    <SolidColorBrush x:Key="LightThemeDisabledText">#999691</SolidColorBrush>
+    <Color x:Key="LightThemeButton">#b59f81</Color>
+    <Color x:Key="LightThemeTextBox">#c9c1ac</Color>
+    <SolidColorBrush x:Key="LightThemeText">Black</SolidColorBrush>
+    <Color x:Key="LightThemeLBText">Black</Color>
+
+    <SolidColorBrush x:Key="DarkTheme">#474542</SolidColorBrush>
+    <Color x:Key="DarkThemeButton">#23272a</Color>
+    <SolidColorBrush x:Key="DarkThemeListBox">#998662</SolidColorBrush>
+    <Color x:Key="DarkThemeTextBox">#54463c</Color>
+    <SolidColorBrush x:Key="DarkThemeText">#dedcce</SolidColorBrush>
+    
 </ResourceDictionary>

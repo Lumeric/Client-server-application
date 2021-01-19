@@ -72,6 +72,10 @@
         protected override void OnClose(CloseEventArgs e)
         {
             _wsServer.RemoveConnection(Id);
+            string serializedMessages = JsonConvert.SerializeObject(Container.GetContainer(nameof(DisconnectRequest), 
+                                                                                        new DisconnectRequest(Username)));
+            var message = JsonConvert.DeserializeObject<MessageContainer>(serializedMessages);
+
         }
 
         protected override void OnMessage(MessageEventArgs e)

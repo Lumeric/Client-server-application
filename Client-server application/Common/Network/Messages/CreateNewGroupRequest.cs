@@ -10,14 +10,16 @@ namespace Common.Network.Messages
     {
         #region Properties
 
+        public string Groupname { get; set; }
         public List<string> Users { get; }
 
         #endregion //Properties
 
         #region Constructors
 
-        public CreateNewGroupRequest(List<string> users)
+        public CreateNewGroupRequest(string groupname, List<string> users)
         {
+            Groupname = groupname;
             Users = users;
         }
 
@@ -29,7 +31,7 @@ namespace Common.Network.Messages
         {
             var container = new MessageContainer
             {
-                Identifier = nameof(ConnectResponse),
+                Identifier = nameof(ConnectionResponse),
                 Payload = this
             };
 

@@ -1,27 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Common.Network.Messages
+﻿namespace Common.Network.Messages
 {
-    public class ConnectUserToGroupRequest
+    public class ConnectionRequest
     {
         #region Properties
 
         public string Username { get; set; }
 
-        public int GroupNumber { get; set; }
-
         #endregion //Properties
 
         #region Constructors
 
-        public ConnectUserToGroupRequest(string username, int groupNumber)
+        public ConnectionRequest(string username)
         {
             Username = username;
-            GroupNumber = groupNumber;
         }
 
         #endregion //Constructors
@@ -32,7 +23,7 @@ namespace Common.Network.Messages
         {
             var container = new MessageContainer
             {
-                Identifier = nameof(ConnectRequest),
+                Identifier = nameof(ConnectionRequest),
                 Payload = this
             };
 

@@ -8,7 +8,12 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <!--<ResourceDictionary Source="Themes" /> -->
+                <ResourceDictionary Source="Themes/ResourceDictionaries/Buttons.xaml"/>
+                <ResourceDictionary Source="Themes/ResourceDictionaries/CheckBoxes.xaml"/>
+                <ResourceDictionary Source="Themes/ResourceDictionaries/ListBoxes.xaml"/>
+                <ResourceDictionary Source="Themes/ResourceDictionaries/TextBlocks.xaml"/>
+                <ResourceDictionary Source="Themes/ResourceDictionaries/TextBoxes.xaml"/>
+                <ResourceDictionary Source="Themes/ResourceDictionaries/Themes.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
