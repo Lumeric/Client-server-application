@@ -7,7 +7,7 @@ namespace Server
     {
         #region Properties
 
-        public DbSet<Users> Users { get; set; }
+        public DbSet<UserList> Users { get; set; }
 
         public DbSet<EventLog> EventLog { get; set; }
 

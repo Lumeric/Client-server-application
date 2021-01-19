@@ -3,7 +3,7 @@ using System.Configuration;
 using System.Net;
 
 using Common.Network;
-using Server.Controllers;
+using Server.Handlers;
 
 namespace Server
 {
@@ -17,7 +17,7 @@ namespace Server
         private readonly TransportTypes _transport;
         private readonly ConnectionStringSettings _connectionString;
 
-        private MessageHandler _messageHandler;
+        private RequestHandler _messageHandler;
 
         #endregion //Fields
 
@@ -32,7 +32,7 @@ namespace Server
             _port = configuration.Port;
             _connectionString = configuration.ConnectionSettings;
 
-            DatabaseController dbController = new DatabaseController(_connectionString);
+            DatabaseHandler dbController = new DatabaseHandler(_connectionString);
 
             switch(_transport)
             {
@@ -51,7 +51,7 @@ namespace Server
                     }
             }
 
-            _messageHandler = new MessageHandler(dbController);
+            _messageHandler = new RequestHandler(dbController);
         }
 
         #endregion //Constuctors
@@ -72,19 +72,19 @@ namespace Server
 
         private void HandleConnectionStateChanged(object sender, ConnectionStateChangedEventArgs e)
         {
-            throw new NotImplementedException();
-        }
-
-        private void HandleConnectionReceived(object sender, ConnectionStateChangedEventArgs e)
-        {
             string userState = e.IsConnected ? "подлючился." : "отключился.";
             string message = $"{e.Username} {userState}.";
 
             if (e.IsConnected)
             {
                 var messageHistory = _messageHandler.GetGroupMessages(e.Username);
-
+                var users = 
             }
+        }
+
+        private void HandleConnectionReceived(object sender, ConnectionStateChangedEventArgs e)
+        {
+            
         }
 
         private void HandleMessageReceived(object sender, MessageReceivedEventArgs e)

@@ -57,12 +57,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\DatabaseController.cs" />
+    <Compile Include="Controllers\DatabaseHandler.cs" />
     <Compile Include="DatabaseContext.cs" />
-    <Compile Include="DbHandler.cs" />
-    <Compile Include="DbHandlers\MessageHandler.cs" />
+    <Compile Include="DbHandlers\RequestHandler.cs" />
     <Compile Include="ServerConfiguration.cs" />
-    <Compile Include="Controllers\ClientRequestController.cs" />
     <Compile Include="Controllers\ClientRequestController.cs" />
     <Compile Include="DBModel\EventLog.cs" />
     <Compile Include="DBModel\GeneralChat.cs" />
@@ -70,7 +68,7 @@
     <Compile Include="DBModel\GroupMembers.cs" />
     <Compile Include="DBModel\GroupTypes.cs" />
     <Compile Include="DBModel\MessageList.cs" />
-    <Compile Include="DBModel\Users.cs" />
+    <Compile Include="DBModel\UserList.cs" />
     <Compile Include="DBRequests\CreateGroupInfo.cs" />
     <Compile Include="DBRequests\IHandleData.cs" />
     <Compile Include="IClientRequestController.cs" />
