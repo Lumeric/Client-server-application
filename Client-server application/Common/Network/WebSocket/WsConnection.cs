@@ -18,11 +18,11 @@
 
         private int _sending;
 
-        #endregion //Fields
+        #endregion // Fields
 
         #region Properties
 
-        public Guid Id { get; set; }
+        public Guid Id { get; }
 
         public string Username { get; set; }
 
@@ -72,10 +72,6 @@
         protected override void OnClose(CloseEventArgs e)
         {
             _wsServer.RemoveConnection(Id);
-            string serializedMessages = JsonConvert.SerializeObject(Container.GetContainer(nameof(DisconnectRequest), 
-                                                                                        new DisconnectRequest(Username)));
-            var message = JsonConvert.DeserializeObject<MessageContainer>(serializedMessages);
-
         }
 
         protected override void OnMessage(MessageEventArgs e)

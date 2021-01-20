@@ -6,19 +6,22 @@ using System.Threading.Tasks;
 
 namespace Common.Network
 {
-    public class MessageHistoryReceivedEventArgs
+    public class GroupLeavedEventArgs
     {
         #region Properties
 
-        public Dictionary<string, List<Message>> UserMessages { get; }
+        public string Username { get; }
+
+        public string Groupname { get; }
 
         #endregion // Properties
 
         #region Constructors
 
-        public MessageHistoryReceivedEventArgs(Dictionary<string, List<Message>> userMessages)
+        public GroupLeavedEventArgs(string clientName, string groupname)
         {
-            UserMessages = userMessages;
+            Username = clientName;
+            Groupname = groupname;
         }
 
         #endregion // Constructors

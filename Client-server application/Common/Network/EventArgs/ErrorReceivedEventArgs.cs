@@ -10,8 +10,6 @@ namespace Common.Network
     {
         #region Properties
 
-        public EventType ErrorType { get; }
-
         public string Message { get; }
 
         public DateTime Date { get; }
@@ -20,9 +18,8 @@ namespace Common.Network
 
         #region Constructors
 
-        public ErrorReceivedEventArgs(EventType errorType, string message, DateTime date)
+        public ErrorReceivedEventArgs(string message, DateTime date)
         {
-            ErrorType = errorType;
             Message = message;
             Date = date;
         }

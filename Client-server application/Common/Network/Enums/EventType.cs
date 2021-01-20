@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace Common.Network
 {
-    [Flags]
     public enum EventType
     {
         Event,

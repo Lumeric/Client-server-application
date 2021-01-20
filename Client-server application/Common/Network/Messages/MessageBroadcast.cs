@@ -1,26 +1,36 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Common.Network.Messages
 {
-    public class MessageRequest
+    public class MessageBroadcast
     {
         #region Properties
 
-        public string Message { get; set; }
+        public string Source { get; set; }
 
         public string Target { get; set; }
 
+        public string Message { get; set; }
+
         public string Groupname { get; set; }
+
+        public DateTime Date { get; set; }
 
         #endregion // Properties
 
         #region Constructors
 
-        public MessageRequest(string message, string target, string groupName)
+        public MessageBroadcast(string source, string target, string message, string groupname, DateTime date)
         {
-            Message = message;
+            Source = source;
             Target = target;
-            Groupname = groupName;
+            Message = message;
+            Groupname = groupname;
+            Date = date;
         }
 
         #endregion // Constructors
@@ -31,7 +41,7 @@ namespace Common.Network.Messages
         {
             var container = new MessageContainer
             {
-                Identifier = nameof(MessageRequest),
+                Identifier = nameof(MessageBroadcast),
                 Payload = this
             };
 

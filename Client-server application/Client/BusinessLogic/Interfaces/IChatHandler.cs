@@ -7,12 +7,11 @@ using System.Threading.Tasks;
 
 namespace Client.BusinessLogic
 {
-    public interface IChatController
+    public interface IChatHandler
     {
         #region Events
 
         event EventHandler<ConnectionStateChangedEventArgs> ConnectionStateChanged;
-        event EventHandler<LoginReceivedEventArgs> LoginReceived;
         event EventHandler<MessageReceivedEventArgs> MessageReceived;
         event EventHandler<MessageHistoryReceivedEventArgs> MessageHistoryReceived;
         event EventHandler<FilteredLogsReceivedEventArgs> FilteredLogsReceived;
@@ -20,6 +19,12 @@ namespace Client.BusinessLogic
         event EventHandler<GroupsReceivedEventArgs> GroupsReceived;
 
         #endregion //Events
+
+        #region Properties
+
+        string Username { get; set; }
+
+        #endregion Properties
 
         #region Methods
 

@@ -6,25 +6,22 @@ using System.Threading.Tasks;
 
 namespace Common.Network.Messages
 {
-    public class RemoveGroupRequest
+    public class GroupListResponse
     {
-        #region Properties
+        #region // Properties
 
-        public string Username { get; set; }
+        public Dictionary<string, List<string>> Groups { get; set; }
 
-        public int GroupNumber { get; set; }
-
-        #endregion //Properties
+        #endregion Properties
 
         #region Constructors
 
-        public RemoveGroupRequest(string username, int groupNumber)
+        public GroupListResponse(Dictionary<string, List<string>> groups)
         {
-            Username = username;
-            GroupNumber = groupNumber;
+            Groups = groups;
         }
 
-        #endregion //Constructors
+        #endregion // Constructors
 
         #region Methods
 
@@ -32,13 +29,13 @@ namespace Common.Network.Messages
         {
             var container = new MessageContainer
             {
-                Identifier = nameof(ConnectionRequest),
+                Identifier = nameof(GroupListResponse),
                 Payload = this
             };
 
             return container;
         }
 
-        #endregion //Methods
+        #endregion // Methods
     }
 }

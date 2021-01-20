@@ -12,7 +12,7 @@ namespace Server.Handlers
         #region Fields
 
         private readonly string _connectionString;
-        private DatabaseContext _dbContext;
+        private readonly DatabaseContext _dbContext;
 
         #endregion //Fields
 
@@ -34,15 +34,30 @@ namespace Server.Handlers
 
             try
             {
-                if (_dbContext.Users.Find(username) == null)
+                if (_dbContext.UserLists.Find(username) == null)
                 {
                     UserList user = new UserList { Username = username };
 
                     using (dbContext)
                     {
-                        dbContext.Users.Add(user);
+                        dbContext.UserLists.Add(user);
                         dbContext.SaveChangesAsync();
                     }
+                }
+            }
+            catch (InvalidOperationException ex)
+            {
+                string error = $"Unexpected error occurred: {ex}";
+                Console.WriteLine(error);
+
+                using(dbContext)
+                {
+                    dbContext.EventLogs.Add(new EventLog
+                    {
+                        EventLogType = EventType.Error,
+                        Text = error,
+                        Date = DateTime.Now
+                    });
                 }
             }
             catch (NullReferenceException ex)
@@ -50,9 +65,9 @@ namespace Server.Handlers
                 string error = $"Unexpected error occurred: {ex}";
                 Console.WriteLine(error);
 
-                using(dbContext)
+                using (dbContext)
                 {
-                    dbContext.EventLog.Add(new EventLog
+                    dbContext.EventLogs.Add(new EventLog
                     {
                         EventLogType = EventType.Error,
                         Text = error,
@@ -66,14 +81,14 @@ namespace Server.Handlers
             }
         }
 
-        public void AddMessage(string username, string groupname, string text, DateTime date)
+        public void AddMessage(string username, string target, string text, DateTime date)
         {
-            MessageList message = new MessageList { Username = username, Groupname = groupname, Text = text, Date = date };
+            MessageList message = new MessageList { Username = username, Target = target, Text = text, Date = date };
             var dbContext = new DatabaseContext(_connectionString);
 
             using (dbContext)
             {
-                dbContext.Messages.Add(message);
+                dbContext.MessageLists.Add(message);
                 dbContext.SaveChanges();
             }
         }
@@ -87,7 +102,7 @@ namespace Server.Handlers
             {
                 using (dbContext)
                 {
-                    dbContext.EventLog.Add(log);
+                    dbContext.EventLogs.Add(log);
                     dbContext.SaveChangesAsync();
                 }
             }
@@ -98,7 +113,7 @@ namespace Server.Handlers
 
                 using (dbContext)
                 {
-                    dbContext.EventLog.Add(new EventLog
+                    dbContext.EventLogs.Add(new EventLog
                     {
                         EventLogType = EventType.Error,
                         Text = error,
@@ -123,21 +138,21 @@ namespace Server.Handlers
                 {
                     foreach (var user in userList)
                     {
-                        dbContext.Users.Find(user).GroupList.Add(group);
+                        dbContext.UserLists.Find(user).GroupList.Add(group);
                     }
 
-                    dbContext.GroupList.Add(group);
+                    dbContext.GroupLists.Add(group);
                     dbContext.SaveChanges();
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                string error = "This group already exists";
+                string error = $"This group already exists: {ex}";
                 Console.WriteLine(error);
 
                 using (dbContext)
                 {
-                    dbContext.EventLog.Add(new EventLog
+                    dbContext.EventLogs.Add(new EventLog
                     {
                         EventLogType = EventType.Error,
                         Text = error,
@@ -149,40 +164,59 @@ namespace Server.Handlers
             }
         }
 
-        public void LeaveGroup()
+        public void LeaveGroup(string username, string groupname)
         {
+            var dbContext = new DatabaseContext(_connectionString);
 
+            using (dbContext)
+            {
+                var user = dbContext.UserLists.Find(username);
+                var group = dbContext.GroupLists.Find(groupname);
+
+                group.UserList.Remove(user);
+                dbContext.SaveChanges();
+            }
         }
 
-        public List<UserList> GetClients()
+        public List<UserList> GetUserList()
         {
-            List<UserList> userList = _dbContext.Users.ToList();
+            List<UserList> userList = _dbContext.UserLists.ToList();
 
             return userList;
         }
 
-        public List<Message> GetMessagesLog(string username)
+        public List<MessageList> GetMessageLogs(string username)
         {
-            List<Message> messagesLog = new List<Message>();
+            List<MessageList> messageLog = new List<MessageList>();
+            List<string> groups = GetGroups(username).Select(item => item.Groupname).ToList();
 
-            return messagesLog;
+            var messages = _dbContext.MessageLists.Where(m => m.Username == username || m.Target == username || String.IsNullOrEmpty(m.Target) ||
+                                                          groups.Contains(m.Target));
+
+            foreach (MessageList message in messages)
+            {
+                messageLog.Add(message);
+            }
+
+            return messageLog;
         }
 
         public List<EventLog> GetEventLog(DateTime firstDate, DateTime secondDate, EventType eventType)
         {
             List<EventLog> eventLog = new List<EventLog>();
 
-            var events = _dbContext.EventLog.Where(e => e.Date >= firstDate && e.Date <= secondDate && eventType.HasFlag(e.EventLogType));
+            var events = _dbContext.EventLogs.Where(e => e.Date >= firstDate && e.Date <= secondDate && eventType == e.EventLogType);
 
-            return (eventLog = events.ToList());
+            return eventLog = events.ToList();
         }
+
         public List<GroupList> GetGroups(string login)
         {
             List<GroupList> groupList = new List<GroupList>();
 
-            var groups = _dbContext.GroupList.Where(item => item.UserList.Where(client => client.Username == login).Count() != 0);
+            var groups = _dbContext.GroupLists.Where(g => g.UserList.Where(u => u.Username == login).Count() != 0);
 
-            return (groupList = groups.ToList());
+            return groupList = groups.ToList();
         }
 
         #endregion //Methods

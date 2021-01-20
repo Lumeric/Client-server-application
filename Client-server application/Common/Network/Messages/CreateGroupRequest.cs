@@ -6,23 +6,25 @@ using System.Threading.Tasks;
 
 namespace Common.Network.Messages
 {
-    public class DisconnectRequest
+    public class CreateGroupRequest
     {
         #region Properties
 
-        public string Username { get; }
+        public string Groupname { get; set; }
 
-        #endregion //Properties
+        public List<string> UserList { get; set; }
 
+        #endregion // Properties
 
         #region Constructors
 
-        public DisconnectRequest(string username)
+        public CreateGroupRequest(string groupname, List<string> userList)
         {
-            Username = username;
+            Groupname = groupname;
+            UserList = userList;
         }
 
-        #endregion //Constructors
+        #endregion // Constructors
 
         #region Methods
 
@@ -30,13 +32,13 @@ namespace Common.Network.Messages
         {
             var container = new MessageContainer
             {
-                Identifier = nameof(DisconnectRequest),
+                Identifier = nameof(ConnectionResponse),
                 Payload = this
             };
 
             return container;
         }
 
-        #endregion //Methods
+        #endregion // Methods
     }
 }

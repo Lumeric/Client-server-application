@@ -6,36 +6,42 @@ using System.Threading.Tasks;
 
 namespace Common.Network.Messages
 {
-    public class NotifyUsers
+    public class ConnectionBroadcast
     {
         #region Properties
 
         public string Username { get; set; }
 
-        #endregion //Properties
+        public bool IsConnected { get; set; }
+
+        public DateTime Date { get; set; }
+
+        #endregion Properties
 
         #region Constructors
 
-        public NotifyUsers(string username)
+        public ConnectionBroadcast(string username, bool isConnected, DateTime date)
         {
             Username = username;
+            IsConnected = isConnected;
+            Date = date;
         }
 
-        #endregion //Constructors
+        #endregion Constructors
 
         #region Methods
 
         public MessageContainer GetContainer()
         {
-            var container = new MessageContainer()
+            var container = new MessageContainer
             {
-                Identifier = nameof(NotifyUsers),
+                Identifier = nameof(ConnectionBroadcast),
                 Payload = this
             };
 
             return container;
         }
 
-        #endregion //Methods
+        #endregion Methods
     }
 }

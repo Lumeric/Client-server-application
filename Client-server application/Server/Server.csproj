@@ -57,21 +57,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\DatabaseHandler.cs" />
-    <Compile Include="DatabaseContext.cs" />
-    <Compile Include="DbHandlers\RequestHandler.cs" />
+    <Compile Include="Handlers\DatabaseHandler.cs" />
+    <Compile Include="DBModel\DatabaseContext.cs" />
+    <Compile Include="Handlers\RequestHandler.cs" />
     <Compile Include="ServerConfiguration.cs" />
-    <Compile Include="Controllers\ClientRequestController.cs" />
     <Compile Include="DBModel\EventLog.cs" />
-    <Compile Include="DBModel\GeneralChat.cs" />
     <Compile Include="DBModel\GroupList.cs" />
-    <Compile Include="DBModel\GroupMembers.cs" />
-    <Compile Include="DBModel\GroupTypes.cs" />
     <Compile Include="DBModel\MessageList.cs" />
     <Compile Include="DBModel\UserList.cs" />
     <Compile Include="DBRequests\CreateGroupInfo.cs" />
     <Compile Include="DBRequests\IHandleData.cs" />
-    <Compile Include="IClientRequestController.cs" />
     <Compile Include="NetworkManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

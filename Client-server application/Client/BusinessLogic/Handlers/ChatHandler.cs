@@ -4,28 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Common.Network;
+using Common.Network.Messages;
 
 namespace Client.BusinessLogic
 {
-    public class ChatController : IChatController
+    public class ChatHandler : IChatHandler
     {
-        #region Constants
-
-
-
-        #endregion //Constants
-
         #region Events
 
         public event EventHandler<ConnectionStateChangedEventArgs> ConnectionStateChanged;
-        public event EventHandler<LoginReceivedEventArgs> LoginReceived;
         public event EventHandler<MessageReceivedEventArgs> MessageReceived;
         public event EventHandler<MessageHistoryReceivedEventArgs> MessageHistoryReceived;
         public event EventHandler<FilteredLogsReceivedEventArgs> FilteredLogsReceived;
         public event EventHandler<UsersReceivedEventArgs> UsersReceived;
         public event EventHandler<GroupsReceivedEventArgs> GroupsReceived;
 
-        #endregion //Events
+        #endregion // Events
 
         #region Fields
 
@@ -41,11 +35,12 @@ namespace Client.BusinessLogic
 
         #region Constructors
 
-        public ChatController(ITransport transport)
+        public ChatHandler(ITransport transport)
         {
             _transport = transport;
+
             _transport.ConnectionStateChanged += OnConnectionStateChanged;
-            _transport.LoginReceived += OnLoginReceived;
+            _transport.ConnectionStateChanged += OnConnectionReceived;
             _transport.MessageReceived += OnMessageReceived;
             _transport.UsersReceived += OnUsersReceived;
             _transport.MessageHistoryReceived += OnMessageHistoryReceived;
@@ -59,17 +54,22 @@ namespace Client.BusinessLogic
 
         public void Send(string username, string message, string groupname)
         {
+            if (username == "General")
+            {
+                username = String.Empty;
+            }
 
+            _transport.Send(new MessageRequest(username, message, groupname).GetContainer());
         }
 
-        public void LeaveGroup(string groupName)
+        public void LeaveGroup(string groupname)
         {
-            //_transport.Send();
+            _transport.Send(new LeaveGroupRequest(groupname).GetContainer());
         }
 
         public void Disconnect()
         {
-            Username = string.Empty;
+            Username = String.Empty;
             _transport.Disconnect();
         }
 
@@ -81,47 +81,37 @@ namespace Client.BusinessLogic
             }
         }
 
-        private void OnLoginReceived(object sender, LoginReceivedEventArgs e)
+        private void OnConnectionReceived(object sender, ConnectionStateChangedEventArgs e)
         {
-            if (!String.IsNullOrEmpty(e.Login))
+            if (!String.IsNullOrEmpty(e.Username))
             {
-                LoginReceived?.Invoke(this, e);
+                ConnectionStateChanged?.Invoke(this, e);
             }
         }
 
         private void OnMessageReceived(object sender, MessageReceivedEventArgs e)
         {
-            throw new NotImplementedException();
+            MessageReceived?.Invoke(this, e);
         }
 
         private void OnUsersReceived(object sender, UsersReceivedEventArgs e)
         {
-            throw new NotImplementedException();
+            UsersReceived?.Invoke(this, e);
         }
 
         private void OnMessageHistoryReceived(object sender, MessageHistoryReceivedEventArgs e)
         {
-            throw new NotImplementedException();
+            MessageHistoryReceived?.Invoke(this, e);
         }
 
         private void OnFilteredLogsReceived(object sender, FilteredLogsReceivedEventArgs e)
         {
-            throw new NotImplementedException();
+            FilteredLogsReceived?.Invoke(this, e);
         }
 
         private void OnGroupsReceived(object sender, GroupsReceivedEventArgs e)
         {
-            throw new NotImplementedException();
-        }
-
-        public void Connect(string address, string port)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Login(string username)
-        {
-            throw new NotImplementedException();
+            GroupsReceived?.Invoke(this, e);
         }
 
         #endregion //Methods

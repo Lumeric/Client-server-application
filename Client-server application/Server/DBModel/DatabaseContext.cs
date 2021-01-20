@@ -7,13 +7,13 @@ namespace Server
     {
         #region Properties
 
-        public DbSet<UserList> Users { get; set; }
+        public DbSet<UserList> UserLists { get; set; }
 
-        public DbSet<EventLog> EventLog { get; set; }
+        public DbSet<EventLog> EventLogs { get; set; }
 
-        public DbSet<MessageList> Messages { get; set; }
+        public DbSet<MessageList> MessageLists { get; set; }
 
-        public DbSet<GroupList> GroupList { get; set; }
+        public DbSet<GroupList> GroupLists { get; set; }
 
         #endregion //Properties
 

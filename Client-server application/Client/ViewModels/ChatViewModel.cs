@@ -13,27 +13,23 @@ using System.Windows;
 
 namespace Client.ViewModels
 {
-    public class ChatViewModel : BindableBase, IViewModel
+    public class ChatViewModel : BindableBase
     {
         #region Constants
 
-
+        private const string GeneralChat = "General";
+        private const string EventLog = "Event Log";
 
         #endregion //Constants
-
-        #region Events
-
-
-
-        #endregion //Events
 
         #region Fields
 
         private IEventAggregator _eventAggregator;
-        private IChatController _chatController;
+        private IChatHandler _chatController;
         private Visibility _viewVisibility;
         private string _username;
         private string _userIP;
+        private string _typingText;
 
         private User _selectedUser;
 
@@ -66,6 +62,12 @@ namespace Client.ViewModels
         {
             get => _userIP;
             set => SetProperty(ref _userIP, value);
+        }
+
+        public string TypingText
+        {
+            get => _typingText;
+            set => SetProperty(ref _typingText, value);
         }
 
         public User SelectedUser

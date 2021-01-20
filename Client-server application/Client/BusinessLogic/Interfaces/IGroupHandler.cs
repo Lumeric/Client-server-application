@@ -6,8 +6,12 @@ using System.Threading.Tasks;
 
 namespace Client.BusinessLogic
 {
-    public interface IServerResponseController
+    public interface IGroupHandler
     {
+        #region Methods
 
+        void CreateGroupRequest(string groupname, List<string> users);
+
+        #endregion // Methods
     }
 }

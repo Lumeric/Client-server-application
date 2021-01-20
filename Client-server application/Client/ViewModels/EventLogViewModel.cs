@@ -11,7 +11,7 @@ using System.Windows;
 
 namespace Client.ViewModels
 {
-    public class EventLogViewModel : BindableBase, IViewModel
+    public class EventLogViewModel : BindableBase
     {
         #region Constants
         #endregion //Constants

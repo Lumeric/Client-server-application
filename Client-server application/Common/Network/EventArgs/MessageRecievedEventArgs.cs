@@ -12,9 +12,11 @@ namespace Common.Network
 
         public string Username { get; }
 
+        public string Target { get; }
+
         public string Message { get; }
 
-        public int Group { get; }
+        public string Groupname { get; }
 
         public DateTime Date { get; }
 
@@ -22,11 +24,12 @@ namespace Common.Network
 
         #region Constructors
 
-        public MessageReceivedEventArgs(string username, string message, int group, DateTime date)
+        public MessageReceivedEventArgs(string username, string target, string message, string groupname, DateTime date)
         {
             Username = username;
+            Target = target;
             Message = message;
-            Group = group;
+            Groupname = groupname;
             Date = date;
         }
 

@@ -12,7 +12,7 @@ namespace Server.DBModel
 
         public string Username { get; set; }
 
-        public string Groupname { get; set; }
+        public string Target { get; set; }
 
         public string Text { get; set; }
 

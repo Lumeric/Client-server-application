@@ -7,12 +7,15 @@ using System.Threading.Tasks;
 
 namespace Client.BusinessLogic
 {
-    public interface ILoginController
+    public interface ILoginHandler
     {
         event EventHandler<ConnectionStateChangedEventArgs> ConnectionStateChanged;
         event EventHandler<ErrorReceivedEventArgs> ErrorReceived;
-        void ConnectUser(string ip, string port);
+
+        void ConnectUser(string address, string port);
+
         void DisconnectUser();
+
         void LoginUser(string username);
 
     }

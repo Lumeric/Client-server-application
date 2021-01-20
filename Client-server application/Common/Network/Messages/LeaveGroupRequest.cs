@@ -1,14 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Common.Network.Messages
 {
-    public class MessageRequest
+    public class LeaveGroupRequest
     {
         #region Properties
-
-        public string Message { get; set; }
-
-        public string Target { get; set; }
 
         public string Groupname { get; set; }
 
@@ -16,11 +16,9 @@ namespace Common.Network.Messages
 
         #region Constructors
 
-        public MessageRequest(string message, string target, string groupName)
+        public LeaveGroupRequest(string groupname)
         {
-            Message = message;
-            Target = target;
-            Groupname = groupName;
+            Groupname = groupname;
         }
 
         #endregion // Constructors
@@ -31,7 +29,7 @@ namespace Common.Network.Messages
         {
             var container = new MessageContainer
             {
-                Identifier = nameof(MessageRequest),
+                Identifier = nameof(ConnectionRequest),
                 Payload = this
             };
 

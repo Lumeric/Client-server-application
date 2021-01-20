@@ -83,8 +83,7 @@
     <Compile Include="BusinessLogic\Controllers\ServerResponseController.cs" />
     <Compile Include="BusinessLogic\Interfaces\IChatController.cs" />
     <Compile Include="BusinessLogic\Interfaces\IServerResponseController.cs" />
-    <Compile Include="BusinessLogic\Interfaces\ILoginController.cs" />
-    <Compile Include="BusinessLogic\Interfaces\IViewModel.cs" />
+    <Compile Include="BusinessLogic\Interfaces\ILoginHandler.cs" />
     <Compile Include="BusinessLogic\PubSubEvents\ChangeThemeEvent.cs" />
     <Compile Include="BusinessLogic\Controllers\ChatController.cs" />
     <Compile Include="BusinessLogic\PubSubEvents\CloseWindowEvent.cs" />
@@ -93,12 +92,11 @@
     <Compile Include="BusinessLogic\PubSubEvents\OpenChatEvent.cs" />
     <Compile Include="ViewModels\EventLogViewModel.cs" />
     <Compile Include="ViewModels\GroupViewModel.cs" />
-    <Compile Include="BusinessLogic\Controllers\LoginController.cs" />
+    <Compile Include="BusinessLogic\Controllers\LoginHandler.cs" />
     <Compile Include="TempHelperStructure.cs" />
     <Compile Include="ViewModels\ChatViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
-    <Compile Include="ViewModels\UsersViewModel.cs" />
     <Compile Include="Views\ChatView.xaml.cs">
       <DependentUpon>ChatView.xaml</DependentUpon>
     </Compile>
@@ -108,6 +106,7 @@
     <Compile Include="Views\GroupView.xaml.cs">
       <DependentUpon>GroupView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\IView.cs" />
     <Compile Include="Views\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
     </Compile>

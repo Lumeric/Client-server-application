@@ -6,25 +6,22 @@ using System.Threading.Tasks;
 
 namespace Common.Network.Messages
 {
-    public class UserConnectedToGroupRequest
+    public class GroupBroadcast
     {
         #region Properties
 
-        public string Username { get; set; }
+        public Dictionary<string, List<string>> Groupname { get; set; }
 
-        public int GroupNumber { get; set; }
-
-        #endregion //Properties
+        #endregion // Properties
 
         #region Constructors
 
-        public UserConnectedToGroupRequest(string username, int groupNumber)
+        public GroupBroadcast(Dictionary<string, List<string>> groupname)
         {
-            Username = username;
-            GroupNumber = groupNumber;
+            Groupname = groupname;
         }
 
-        #endregion //Constructors
+        #endregion // Constructors
 
         #region Methods
 
@@ -32,13 +29,13 @@ namespace Common.Network.Messages
         {
             var container = new MessageContainer
             {
-                Identifier = nameof(ConnectionRequest),
+                Identifier = nameof(GroupBroadcast),
                 Payload = this
             };
 
             return container;
         }
 
-        #endregion //Methods
+        #endregion // Methods
     }
 }

@@ -13,7 +13,7 @@ namespace Common.Network.Messages
 
         public bool IsSuccess { get; set; }
 
-        public DateTime TIme { get; set; }
+        public DateTime Date { get; set; }
 
         public List<string> ActiveUsers { get; set; }
 

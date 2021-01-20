@@ -6,24 +6,22 @@ using System.Threading.Tasks;
 
 namespace Common.Network.Messages
 {
-    public class CreateNewGroupRequest
+    public class FiltrationResponse
     {
         #region Properties
 
-        public string Groupname { get; set; }
-        public List<string> Users { get; }
+        public List<Message> FilteredLogs{ get; set; }
 
-        #endregion //Properties
+        #endregion // Properties
 
         #region Constructors
 
-        public CreateNewGroupRequest(string groupname, List<string> users)
+        public FiltrationResponse(List<Message> filteredLogs)
         {
-            Groupname = groupname;
-            Users = users;
+            FilteredLogs = filteredLogs;
         }
 
-        #endregion //Constructors
+        #endregion // Constructors
 
         #region Methods
 
@@ -31,13 +29,13 @@ namespace Common.Network.Messages
         {
             var container = new MessageContainer
             {
-                Identifier = nameof(ConnectionResponse),
+                Identifier = nameof(FiltrationResponse),
                 Payload = this
             };
 
             return container;
         }
 
-        #endregion //Methods
+        #endregion // Methods
     }
 }
