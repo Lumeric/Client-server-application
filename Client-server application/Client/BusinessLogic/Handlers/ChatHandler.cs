@@ -73,6 +73,7 @@ namespace Client.BusinessLogic
             _transport.Disconnect();
         }
 
+        //little bugs
         private void OnConnectionStateChanged(object sender, ConnectionStateChangedEventArgs e)
         {
             if (!String.IsNullOrEmpty(e.Username))
