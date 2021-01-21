@@ -53,31 +53,60 @@
     </Style>
 
     <Style x:Key="ListBoxUsersStyle" TargetType="{x:Type ListBoxItem}">
-        <Setter Property="FontSize" Value="14"/>
-        <Setter Property="Foreground" Value="{StaticResource LightThemeText}"/>
+        <Setter Property="FontSize" Value="16"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
                     <Border x:Name="Border">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition/>
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="{Binding Username}" TextAlignment="Left"/>
-                            <TextBlock Grid.Column="1" Text="{Binding IsActive}" TextAlignment="Right"/>
-                        </Grid>
+                        <TextBlock Text="{Binding Username}" TextAlignment="Left"/>
                     </Border>
                     <ControlTemplate.Triggers>
                         <DataTrigger Binding="{Binding IsActive}" Value="False">
-                            <Setter TargetName="Border" Property="Opacity" Value="0.5"/>
+                            <Setter TargetName="Border" Property="Opacity" Value="0.4"/>
                         </DataTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsFocused" Value="False"/>
+                                <Condition Property="IsMouseOver" Value="True"/>
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter Property="Background" Value="{StaticResource LightThemePressed}" TargetName="Border"/>
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="{StaticResource LightThemeOwner}" TargetName="Border"/>
+                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style x:Key="GroupListBoxItemStyle" TargetType="{x:Type ListBoxItem}">
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBoxItem">
+                    <Border x:Name="border">
+                        <TextBlock Text="{Binding Username}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsFocused" Value="False"/>
+                                <Condition Property="IsMouseOver" Value="True"/>
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter Property="Background" Value="{StaticResource LightThemeOwner}"/>
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="{StaticResource LightThemePressed}" TargetName="border"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 </ResourceDictionary>

@@ -10,7 +10,8 @@
              interactivity:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="120" d:DesignWidth="500"
-             Width="500" Height="120"
+             MinWidth="500" MinHeight="120"
+             MaxHeight="120" MaxWidth="500"
              d:DataContext="{d:DesignInstance viewModel:LoginViewModel}"
              Style="{StaticResource PrimaryControlStyle}">
     <Grid>
@@ -39,7 +40,7 @@
         <ComboBox Grid.Row="0" Grid.Column="4" Margin="5" Grid.ColumnSpan="3" ItemsSource="{Binding Sockets}" SelectedItem="{Binding SelectedSocket, UpdateSourceTrigger=PropertyChanged}"/>
         <TextBox Grid.Row="1" Grid.Column="4" Margin="5" Grid.ColumnSpan="3" Text="{Binding Username, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" ToolTip="{Binding Errors[Username], UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsConnected}"/>
 
-        <Button x:Name="buttonConnect" Command="{Binding ConnectCommand}" Content="Connect" Width="60" Grid.Row="2" Grid.Column="4" Margin="5" Style="{StaticResource PrimaryButtonStyle}"/>
-        <Button x:Name="buttonLogin" Command="{Binding LoginCommand}" Content="Login" Width="60" Grid.Row="2" Grid.Column="5" Margin="5" Style="{StaticResource PrimaryButtonStyle}"/>
+        <Button x:Name="buttonConnect" Command="{Binding ConnectCommand}" Content="Connect" Grid.Row="2" Grid.Column="4" Margin="5" Style="{StaticResource PrimaryButtonStyle}"/>
+        <Button x:Name="buttonLogin" Command="{Binding LoginCommand}" Content="Login" Grid.Row="2" Grid.Column="5" Margin="5" Style="{StaticResource PrimaryButtonStyle}"/>
     </Grid>
 </UserControl>

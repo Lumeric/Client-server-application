@@ -9,9 +9,9 @@
         xmlns:interactivity="http://prismlibrary.com/"
         interactivity:ViewModelLocator.AutoWireViewModel="True"
         mc:Ignorable="d"
-        Title="MainWindow" MinHeight="150" MinWidth="500"
-        SizeToContent="WidthAndHeight"
-        MaxHeight="800" MaxWidth="1200" WindowStartupLocation="CenterScreen"
+        Title="MainWindow" MinHeight="150" MinWidth="300"
+        SizeToContent="WidthAndHeight" 
+        MaxHeight="500" MaxWidth="900" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize"
         d:DataContext="{d:DesignInstance viewModel:MainWindowViewModel}">
 
     <Window.Resources>
@@ -29,25 +29,5 @@
         </DataTemplate>
     </Window.Resources>
     
-    <!--<Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="5"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="5"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="5"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="5"/>
-        </Grid.ColumnDefinitions>
-
-        <view:LoginView Grid.Row="1" Grid.Column="1" Visibility="{Binding LoginVisibility}"></view:LoginView>
-        <view:ChatView Grid.Row="2" Grid.Column="1" Visibility="{Binding ChatVisibility}"></view:ChatView>
-        <view:GroupView Grid.Row="2" Grid.Column="1" Visibility="{Binding GroupMenuVisibility}"></view:GroupView>
-        <view:EventLogView Grid.Row="2" Grid.Column="1" Visibility="{Binding EventLogVisibility}"></view:EventLogView>
-    </Grid>-->
-
     <ContentControl Content="{Binding SelectedView}"/>
 </Window>

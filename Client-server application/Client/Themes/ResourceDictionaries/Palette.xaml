@@ -3,7 +3,7 @@
                     xmlns:local="clr-namespace:Client.Themes.ResourceDictionaries">
 
     <SolidColorBrush x:Key="LightTheme">#e6d6c2</SolidColorBrush>
-    <SolidColorBrush x:Key="LightThemeGrey">#b4854a</SolidColorBrush>
+    <SolidColorBrush x:Key="LightThemeGrey">#c99d65</SolidColorBrush>
     <SolidColorBrush x:Key="LightThemePressed">#997242</SolidColorBrush>
     <SolidColorBrush x:Key="LightThemeOwner">#755328</SolidColorBrush>
     <SolidColorBrush x:Key="LightThemeDisabled">#c9c5bf</SolidColorBrush>

@@ -1,4 +1,5 @@
 ﻿using Client.BusinessLogic;
+using Common.Network;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
@@ -19,6 +20,7 @@ namespace Client.ViewModels
         #region Fields
 
         private IEventAggregator _eventAggregator;
+        private IEventLogHandler _eventLogHandler;
         private Visibility _viewVisibility;
 
         private readonly List<int> _hours = new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9,10, 11, 12, 
@@ -26,16 +28,33 @@ namespace Client.ViewModels
 
         private readonly List<int> _minutes = new List<int>() { 0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55 };
 
+        private DateTime _firstDate;
+        private DateTime _secondDate;
         private int _firstSetHours;
         private int _firstSetMinutes;
         private int _secondSetHours;
         private int _secondSetMinutes;
 
+        private bool _isMessages;
+        private bool _isEvent;
+        private bool _isError;
         private bool _isLightTheme = true;
 
         #endregion //Fields
 
         #region Properties
+
+        public DateTime FirstDate
+        {
+            get => _firstDate;
+            set => SetProperty(ref _firstDate, value);
+        }
+
+        public DateTime SecondDate
+        {
+            get => _secondDate;
+            set => SetProperty(ref _secondDate, value);
+        }
 
         public Visibility ViewVisibility
         {
@@ -81,19 +100,57 @@ namespace Client.ViewModels
             set => SetProperty(ref _secondSetMinutes, value);
         }
 
+        public bool IsEvent
+        {
+            get => _isEvent;
+            set
+            {
+                if (_isError)
+                {
+                    SetProperty(ref _isEvent, false);
+                    return;
+                }
+                else
+                {
+                    SetProperty(ref _isEvent, value);
+                }
+            }
+        }
+
+        public bool IsError
+        {
+            get => _isError;
+            set
+            {
+                if (_isEvent)
+                {
+                    SetProperty(ref _isError, false);
+                    return;
+                }
+                else
+                {
+                    SetProperty(ref _isError, value);
+                }
+            }
+        }
+
         public DelegateCommand FindCommand { get; set; }
 
         public DelegateCommand CloseCommand { get; set; }
 
         #endregion //Properties
 
-        public EventLogViewModel(IEventAggregator eventAggregator)
+        public EventLogViewModel(IEventAggregator eventAggregator, IEventLogHandler eventLogHandler)
         {
             _eventAggregator = eventAggregator;
+            _eventLogHandler = eventLogHandler;
 
-            _eventAggregator.GetEvent<OpenEventLogEvent>().Subscribe(OpenEventLog);
-            _eventAggregator.GetEvent<CloseWindowEvent>().Subscribe(CloseEventLog);
-            _eventAggregator.GetEvent<ChangeThemeEvent>().Subscribe(ChangeThemeEventLog);
+            _eventAggregator.GetEvent<OpenEventLogEvent>().Subscribe(OnOpenEventLog);
+            _eventAggregator.GetEvent<CloseWindowEvent>().Subscribe(OnCloseEventLog);
+            _eventAggregator.GetEvent<ChangeThemeEvent>().Subscribe(OnChangeThemeEventLog);
+
+            _firstDate = DateTime.Today;
+            _secondDate = DateTime.Now;
 
             _firstSetHours = _hours[0];
             _firstSetMinutes = _minutes[0];
@@ -108,10 +165,21 @@ namespace Client.ViewModels
 
         private void ExecuteFindCommand()
         {
-            _eventAggregator.GetEvent<OpenChatEvent>().Publish();
-            ViewVisibility = Visibility.Collapsed;
-            Console.WriteLine($"{FirstSetHours}:{FirstSetMinutes}");
-            Console.WriteLine($"{SecondSetHours}:{SecondSetMinutes}");
+            FirstDate = new DateTime(FirstDate.Year, FirstDate.Month, FirstDate.Day);
+            SecondDate = new DateTime(SecondDate.Year, SecondDate.Month, SecondDate.Day);
+
+            if (FirstDate <= SecondDate)
+            {
+                var selectedEvents = IsEvent ? EventType.Event : EventType.Error;
+
+                _eventLogHandler.SendFiltrationRequest(FirstDate, SecondDate, selectedEvents);
+                _eventAggregator.GetEvent<OpenChatEvent>().Publish();
+                ViewVisibility = Visibility.Collapsed;
+            }
+            else
+            {
+                MessageBox.Show("Incorrect date range!");
+            }
         }
 
         private void ExecuteCloseCommand()
@@ -120,20 +188,21 @@ namespace Client.ViewModels
             ViewVisibility = Visibility.Collapsed;
         }
 
-        private void OpenEventLog()
+        private void OnOpenEventLog()
         {
             ViewVisibility = Visibility.Visible;
         }
 
-        private void CloseEventLog()
+        private void OnCloseEventLog()
         {
-            //more logic
+            IsEvent = false;
+            IsError = false;
             ViewVisibility = Visibility.Collapsed;
         }
 
-        private void ChangeThemeEventLog(bool obj)
+        private void OnChangeThemeEventLog(bool isLightTheme)
         {
-            IsLightTheme = obj;
+            IsLightTheme = isLightTheme;
         }
     }
 }
