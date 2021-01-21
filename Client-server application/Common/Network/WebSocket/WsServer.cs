@@ -19,22 +19,20 @@
         private readonly IPEndPoint _listenAddress;
         private readonly ConcurrentDictionary<Guid, WsConnection> _connections;
         private WebSocketServer _server;
-        private Timer _timer;
 
-        #endregion //Fields
+        #endregion // Fields
 
         #region Events
 
         public event EventHandler<ConnectionStateChangedEventArgs> ConnectionStateChanged;
-        public event EventHandler<GroupCreatedEventArgs> GroupCreated;
-        public event EventHandler<GroupRemovedEventArgs> GroupRemoved;
+        public event EventHandler<ConnectionReceivedEventArgs> ConnectionReceived;
         public event EventHandler<MessageReceivedEventArgs> MessageReceived;
-        public event EventHandler<UserConnectedEventArgs> UserConnected;
-        public event EventHandler<UserConnectedToGroupEventArgs> UserConnectedToGroup;
-        public event EventHandler<UserDisconnectedEventArgs> UserDisconnected;
+        public event EventHandler<GroupCreatedEventArgs> GroupCreated;
+        public event EventHandler<GroupLeavedEventArgs> GroupLeaved;      
         public event EventHandler<ErrorReceivedEventArgs> ErrorReceived;
+        public event EventHandler<FiltrationReceivedEventArgs> FiltrationReceived;
 
-        #endregion //Events
+        #endregion // vents
 
         #region Constructors
 
@@ -42,16 +40,16 @@
         {
             _listenAddress = listenAddress;
             _connections = new ConcurrentDictionary<Guid, WsConnection>();
-            _timer = new Timer();
         }
 
-        #endregion //Constructors
+        #endregion // Constructors
 
         #region Methods
 
         public void Start()
         {
             _server = new WebSocketServer(_listenAddress.Address, _listenAddress.Port, false);
+
             _server.AddWebSocketService<WsConnection>("/",
                 client =>
                 {
@@ -66,6 +64,7 @@
             _server = null;
 
             var connections = _connections.Select(item => item.Value).ToArray();
+
             foreach (var connection in connections)
             {
                 connection.Close();
@@ -74,18 +73,28 @@
             _connections.Clear();
         }
 
-        public void Send(List<Guid> listClientId, MessageContainer message)
+        public void Send(string source, string target, MessageContainer message)
         {
-            foreach (var id in listClientId)
+            if (String.IsNullOrEmpty(target))
             {
-                if (!_connections.TryGetValue(id, out WsConnection connection))
-                    continue;
-
-                connection.Send(message);
+                foreach (var connection in _connections)
+                {
+                    connection.Value?.Send(message);
+                }
+            }
+            else
+            {
+                foreach (var connection in _connections)
+                {
+                    if (connection.Value.Username == target || connection.Value.Username == source)
+                    {
+                        connection.Value?.Send(message);
+                    }
+                }
             }
         }
 
-        internal void HandleMessage(Guid clientId, MessageContainer container)
+        internal void OnMessage(Guid clientId, MessageContainer container)
         {
             if (!_connections.TryGetValue(clientId, out WsConnection connection))
                 return;
@@ -93,59 +102,47 @@
             switch (container.Identifier)
             {
                 case nameof(ConnectionRequest):
+                    var connectionRequest = ((JObject)container.Payload).ToObject(typeof(ConnectionRequest)) as ConnectionRequest;
+                    var connectionResponse = new ConnectionResponse
                     {
-                        var connectRequest = ((JObject)container.Payload).ToObject(typeof(ConnectionRequest)) as ConnectionRequest;
-                        var connectResponse = new ConnectionResponse { Result = ResultCode.Ok, IsSuccess = true };
-
-                        if (_connections.Values.Any(item => item.Username == connectRequest.Username))
-                        {
-                            string reason = $"{connectRequest.Username} is already logged";
-                            connectResponse.IsSuccess = false;
-                            connectResponse.Reason = reason;
-                            connectResponse.Result = ResultCode.Failure;
-                            connection.Send(connectResponse.GetContainer());
-                            ErrorReceived?.Invoke(this, new ErrorReceivedEventArgs(ErrorType.UsernameError, reason, DateTime.Now));
-                        }
-                        else
-                        {
-                            connection.Username = connectRequest.Username;
-                            connectResponse.ActiveUsers = _connections.Select(item => item.Value.Username).ToList();
-                            connection.Send(connectResponse.GetContainer());
-                            ConnectionStateChanged?.Invoke(this, new ConnectionStateChangedEventArgs(connection.Username, true));
-                            UserConnected?.Invoke(this, new UserConnectedEventArgs(connection.Username, clientId));
-                        }
-                        break;
-                    }
-                case nameof(DisconnectRequest):
+                        Result = ResultCode.Ok,
+                        IsSuccess = true,
+                    };
+                    if (_connections.Values.Any(c => c.Username == connectionRequest.Username))
                     {
-                        var disconnectRequest = ((JObject)container.Payload).ToObject(typeof(ConnectionRequest)) as ConnectionRequest;
-                        UserDisconnected?.Invoke(this, new UserDisconnectedEventArgs(connection.Username));
-                        break;
+                        string reason = $"User '{connectionRequest.Username}' is already logged in.";
+                        connectionResponse.Result = ResultCode.Failure;
+                        connectionResponse.IsSuccess = false;
+                        connectionResponse.Reason = reason;
+                        connection.Send(connectionResponse.GetContainer());
+                        ErrorReceived?.Invoke(this, new ErrorReceivedEventArgs(reason, DateTime.Now));
                     }
+                    else
+                    {
+                        connection.Username = connectionRequest.Username;
+                        connectionResponse.ActiveUsers = _connections.Where(c => c.Value.Username != null).Select(u => u.Value.Username).ToList();
+                        connection.Send(connectionResponse.GetContainer());
+                        ConnectionStateChanged?.Invoke(this, new ConnectionStateChangedEventArgs(connection.Username, true, DateTime.Now));
+                        ConnectionReceived?.Invoke(this, new ConnectionReceivedEventArgs(connection.Username, true, DateTime.Now));
+                    }
+                    break;
                 case nameof(MessageRequest):
-                    {
-                        var messageRequest = ((JObject)container.Payload).ToObject(typeof(MessageRequest)) as MessageRequest;
-                        MessageReceived?.Invoke(this, new MessageReceivedEventArgs(connection.Username, messageRequest.Message, messageRequest.Group, DateTime.Now));
-                        break;
-                    }
-                case nameof(CreateNewGroupRequest):
-                    {
-                        var createNewGroupRequest = ((JObject)container.Payload).ToObject(typeof(CreateNewGroupRequest)) as CreateNewGroupRequest;
-                        GroupCreated?.Invoke(this, new GroupCreatedEventArgs(connection.Username, createNewGroupRequest.Users));
-                        break;
-                    }
-                case nameof(UserConnectedToGroupRequest):
-                    {
-                        var connectUserToGroupRequest = ((JObject)container.Payload).ToObject(typeof(UserConnectedToGroupRequest)) as UserConnectedToGroupRequest;
-                        UserConnectedToGroup?.Invoke(this, new UserConnectedToGroupEventArgs(connection.Username, connectUserToGroupRequest.GroupNumber));
-                        break;
-                    }
-                case nameof(RemoveGroupRequest):
-                    {
-                        var removeGroupRequest = ((JObject)container.Payload).ToObject(typeof(RemoveGroupRequest)) as RemoveGroupRequest;
-                        GroupRemoved?.Invoke(this, new GroupRemovedEventArgs(connection.Username, removeGroupRequest.GroupNumber));
-                        break;
-                    }               
+                    var messageRequest = ((JObject)container.Payload).ToObject(typeof(MessageRequest)) as MessageRequest;
+                    MessageReceived?.Invoke(this, new MessageReceivedEventArgs(connection.Username, messageRequest.Target, messageRequest.Message, messageRequest.Groupname, DateTime.Now));
+                    break;
+                case nameof(FiltrationRequest):
+                    var filtrationRequest = ((JObject)container.Payload).ToObject(typeof(FiltrationRequest)) as FiltrationRequest;
+                    FiltrationReceived?.Invoke(this, new FiltrationReceivedEventArgs(connection.Username, filtrationRequest.FirstDate, filtrationRequest.SecondDate, filtrationRequest.EventType));
+                    break;
+                case nameof(CreateGroupRequest):
+                    var createGroupRequest = ((JObject)container.Payload).ToObject(typeof(CreateGroupRequest)) as CreateGroupRequest;
+                    createGroupRequest.UserList.Add(connection.Username);
+                    GroupCreated?.Invoke(this, new GroupCreatedEventArgs(createGroupRequest.Groupname, createGroupRequest.UserList));
+                    break;
+                case nameof(LeaveGroupRequest):
+                    var leaveGroupRequest = ((JObject)container.Payload).ToObject(typeof(LeaveGroupRequest)) as LeaveGroupRequest;
+                    GroupLeaved?.Invoke(this, new GroupLeavedEventArgs(connection.Username, leaveGroupRequest.Groupname));
+                    break;
             }
         }
 
@@ -156,11 +153,14 @@
 
         internal void RemoveConnection(Guid connectionId)
         {
-            _connections.TryRemove(connectionId, out WsConnection connection);
+            if (_connections.TryRemove(connectionId, out WsConnection connection) && !string.IsNullOrEmpty(connection.Username))
+            {
+                ConnectionStateChanged?.Invoke(this, new ConnectionStateChangedEventArgs(connection.Username, false, DateTime.Now));
+                ConnectionReceived?.Invoke(this, new ConnectionReceivedEventArgs(connection.Username, false, DateTime.Now));
+            }
+
         }
 
-        #endregion Methods
-
-
+        #endregion // Methods
     }
 }

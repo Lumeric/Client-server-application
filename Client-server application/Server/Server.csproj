@@ -47,6 +47,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -56,25 +57,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConfigureServer.cs" />
-    <Compile Include="Controllers\ClientRequestController.cs" />
+    <Compile Include="Handlers\DatabaseHandler.cs" />
+    <Compile Include="DBModel\DatabaseContext.cs" />
+    <Compile Include="Handlers\RequestHandler.cs" />
+    <Compile Include="ServerConfiguration.cs" />
     <Compile Include="DBModel\EventLog.cs" />
-    <Compile Include="DBModel\EventType.cs" />
-    <Compile Include="DBModel\GeneralChat.cs" />
     <Compile Include="DBModel\GroupList.cs" />
-    <Compile Include="DBModel\GroupMembers.cs" />
-    <Compile Include="DBModel\GroupTypes.cs" />
-    <Compile Include="DBModel\Messages.cs" />
-    <Compile Include="DBModel\Users.cs" />
-    <Compile Include="DBRequests\CreateGroupInfo.cs" />
-    <Compile Include="DBRequests\IHandleData.cs" />
-    <Compile Include="IClientRequestController.cs" />
+    <Compile Include="DBModel\MessageList.cs" />
+    <Compile Include="DBModel\UserList.cs" />
     <Compile Include="NetworkManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="DBRequests\MessageInfo.cs" />
-    <Compile Include="DBRequests\UserInfo.cs" />
-    <Compile Include="ServerConfiguration.cs" />
+    <Compile Include="ServerSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

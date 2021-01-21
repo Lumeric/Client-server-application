@@ -1,22 +1,23 @@
-﻿using Common.Network;
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Server.DBModel
 {
-    public class EventLog
+    public class MessageList
     {
         #region Properties
 
         [Key]
-        public int ID { get; set; }
+        public int MessageID { get; set; }
 
-        public EventType EventLogType { get; set; }
+        public string Username { get; set; }
+
+        public string Target { get; set; }
 
         public string Text { get; set; }
 
         public DateTime Date { get; set; }
 
-        #endregion //Properties
+        #endregion Properties
     }
 }

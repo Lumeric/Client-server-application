@@ -1,10 +1,8 @@
 ﻿using Common.Network;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Configuration;
+using System.IO;
+using System.Net;
+using System.Xml.Serialization;
 
 namespace Server
 {
@@ -12,13 +10,32 @@ namespace Server
     {
         #region Properties
 
-        [JsonProperty]
-        public TransportType Protocol { get; set; }
+        public TransportTypes Transport { get; set; }
 
-        [JsonProperty]
         public int Port { get; set; }
+
+        public IPAddress Ip { get; set; }
+
+        public ConnectionStringSettings ConnectionSettings { get; set; }
 
         #endregion //Properties
 
+        #region Methods
+
+        public ServerConfiguration(string filePath)
+        {
+            XmlSerializer serializer = new XmlSerializer(typeof(ServerSettings));
+            using (FileStream fileStream = new FileStream(filePath, FileMode.Open))
+            {
+                ServerSettings configuration = (ServerSettings)serializer.Deserialize(fileStream);
+
+                Transport = configuration.Transport;
+                Ip = IPAddress.Parse(configuration.Ip);
+                Port = configuration.Port;
+                ConnectionSettings = new ConnectionStringSettings(configuration.DbName, configuration.ConnectionString, configuration.ProviderName);
+            }
+        }
+
+        #endregion //Methods
     }
 }

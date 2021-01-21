@@ -7,24 +7,24 @@ using System.Threading.Tasks;
 
 namespace Server.DBModel
 {
-    public class GroupList
+    public class UserList
     {
         #region Properties
 
         [Key]
-        public string Groupname { get; set; }
+        public string Username { get; set; }
 
-        public virtual List<UserList> UserList { get; set; }
+        public List<GroupList> GroupList { get; set; }
 
         #endregion Properties
 
         #region Constructors
 
-        public GroupList()
+        public UserList()
         {
-            UserList = new List<UserList>();
+            GroupList = new List<GroupList>();
         }
 
-        #endregion Constructors      
+        #endregion Constructors
     }
 }

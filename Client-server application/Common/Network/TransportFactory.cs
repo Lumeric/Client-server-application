@@ -8,11 +8,11 @@ namespace Common.Network
 {
     public static class TransportFactory 
     {
-        public static ITransport Create(TransportType type)
+        public static ITransport Create(TransportTypes type)
         {
             switch (type)
             {
-                case TransportType.WebSocket:
+                case TransportTypes.WebSocket:
                     return new WsClient();
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);

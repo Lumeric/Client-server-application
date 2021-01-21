@@ -8,16 +8,16 @@ namespace Common.Network
 
         public string Groupname { get; }
 
-        public List<string> Users { get; }
+        public List<string> UserList { get; }
 
         #endregion //Properties
 
         #region Constructors
 
-        public GroupCreatedEventArgs(string groupname, List<string> users)
+        public GroupCreatedEventArgs(string groupname, List<string> userList)
         {
             Groupname = groupname;
-            Users = users;
+            UserList = userList;
         }
 
         #endregion //Constructors

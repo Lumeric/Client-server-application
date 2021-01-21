@@ -13,6 +13,8 @@
     using Views;
 
     using ViewModels;
+    using Common.Network;
+
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
@@ -20,9 +22,11 @@
     {
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterSingleton<ILoginController, LoginController>();
-            containerRegistry.RegisterSingleton<IChatController, ChatController>();
-            containerRegistry.RegisterSingleton<IServerResponseController, ServerResponseController>();
+            containerRegistry.RegisterSingleton<ILoginHandler, LoginHandler>();
+            containerRegistry.RegisterSingleton<IChatHandler, ChatHandler>();
+            containerRegistry.RegisterSingleton<IEventLogHandler, EventHandler>();
+            containerRegistry.RegisterSingleton<IGroupHandler, GroupHandler>();
+            containerRegistry.RegisterSingleton<ITransport, WsClient>();
             containerRegistry.Register<LoginViewModel>();
             containerRegistry.Register<ChatViewModel>();
             containerRegistry.Register<MainWindowViewModel>();

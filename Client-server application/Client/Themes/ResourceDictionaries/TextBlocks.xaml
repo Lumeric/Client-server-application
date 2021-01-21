@@ -22,7 +22,7 @@
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="FontWeight" Value="Light"/>
         <Style.Triggers>
-            <DataTrigger Binding="{Binding IsLightTheme}" Value="true">
+            <DataTrigger Binding="{Binding IsLightTheme}" Value="False">
                 <Setter Property="Foreground" Value="{StaticResource DarkThemeText}"/>
             </DataTrigger>
         </Style.Triggers>

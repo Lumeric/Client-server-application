@@ -14,7 +14,7 @@
     using Common.Network;
     using System.Linq;
 
-    public class LoginViewModel : BindableBase, IDataErrorInfo, IViewModel
+    public class LoginViewModel : BindableBase, IDataErrorInfo
     {
         #region Constants
 
@@ -23,29 +23,28 @@
 
         #endregion //Constants
 
-        #region Events
-
-
-
-        #endregion //Events
-
         #region Fields
 
         private IEventAggregator _eventAggregator;
-        private ILoginController _loginController;
+        private ILoginHandler _loginController;
+
         private static readonly string regexIP = @"^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$";
         private static readonly string regexUsername = @"^[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$";
-        private string _ip = "192.168.1.7";
-        private string _port = "65000";
-        private string _username = "ValeraVolodya";
-        private bool _isConnected;
+
+        private string _ip;
+        private string _port;
+        private string _username;
+
         private List<string> _sockets;
         private string _selectedSocket;
-        private string _helpText;
+        private string _helpText = "Enter address and port.";
+
+        private bool _isConnected;
         private bool _isLightTheme = true;
+
         private Visibility _viewVisibility;
 
-        #endregion //Fields
+        #endregion // Fields
 
         #region Properties
 
@@ -206,26 +205,36 @@
 
         #region Constructors
 
-        public LoginViewModel(IEventAggregator eventAggregator, ILoginController loginController)
+        public LoginViewModel(IEventAggregator eventAggregator, ILoginHandler loginController)
         {
             _eventAggregator = eventAggregator;
             _loginController = loginController;
-            Errors = new Dictionary<string, string>();
+
             _viewVisibility = Visibility.Visible;
-            _helpText = "Enter address and port.";
-            _isConnected = true; //false
+            //_ip = String.Empty;
+            //_port = String.Empty;
+            //_username = String.Empty;
+
+            //test
+            _ip = "192.168.37.107";
+            _port = "65000";
+            _username = "ValeraVolodya";
+            _isConnected = false;
+            Errors = new Dictionary<string, string>();
 
             _sockets = new List<string>();
-            _sockets.Add(TransportType.WebSocket.ToString());
-            _sockets.Add(TransportType.TcpSocket.ToString());
+            _sockets.Add(TransportTypes.WebSocket.ToString());
+            _sockets.Add(TransportTypes.TcpSocket.ToString());
             _selectedSocket = _sockets[0];
 
-            _eventAggregator.GetEvent<ChangeThemeEvent>().Subscribe(OnChangeTheme);
+            _eventAggregator.GetEvent<ChangeThemeEvent>().Subscribe(OnChangedTheme);
+            _eventAggregator.GetEvent<CloseWindowEvent>().Subscribe(OnDisconnected);
 
             ConnectCommand = new DelegateCommand(ExecuteConnectCommand, CanExecuteConnectCommand).ObservesProperty(() => IP)
-                .ObservesProperty(() => Port)
+                .ObservesProperty(() => Port);
+
+            LoginCommand = new DelegateCommand(ExecuteLoginCommand, CanExecuteLoginCommand).ObservesProperty(() => IsConnected)
                 .ObservesProperty(() => Username);
-            LoginCommand = new DelegateCommand(ExecuteLoginCommand, CanExecuteLoginCommand).ObservesProperty(() => IsConnected);
 
             _loginController.ConnectionStateChanged += OnConnectionStateChanged;
             _loginController.ErrorReceived += OnErrorReceived;
@@ -237,7 +246,7 @@
 
         private bool CanExecuteConnectCommand()
         {
-            return IsValidIP && IsValidPort && IsValidUsername;
+            return IsValidIP && IsValidPort;
         }
 
         private void ExecuteConnectCommand()
@@ -254,34 +263,48 @@
 
         private void ExecuteLoginCommand()
         {
-            //_loginController.LoginUser(SelectedSocket);
-            _eventAggregator.GetEvent<OpenChatEvent>().Publish();
+            _loginController.LoginUser(Username);
             ViewVisibility = Visibility.Collapsed;
         }
 
         private bool CanExecuteLoginCommand()
         {
-            return IsConnected;
+
+            return IsConnected && IsValidUsername;
         }
 
         private void OnConnectionStateChanged(object sender, ConnectionStateChangedEventArgs e)
         {
-            if (e.IsConnected)  
+            if (e.IsConnected)
+            {
                 if (string.IsNullOrEmpty(e.Username))
                 {
                     IsConnected = true;
                     HelpText = "Enter username.";
                 }
+                else
+                {
+                    _eventAggregator.GetEvent<OpenChatEvent>().Publish();
+                }
+            }
         }
 
         private void OnErrorReceived(object sender, ErrorReceivedEventArgs e)
         {
-            HelpText = $"{e.Message}/{e.ErrorType}";
+            HelpText = e.Message;
         }
 
-        private void OnChangeTheme(bool isLightTheme)
+        private void OnChangedTheme(bool isLightTheme)
         {
             IsLightTheme = isLightTheme;
+        }
+
+        private void OnDisconnected()
+        {
+            Username = String.Empty;
+            IsConnected = false;
+
+            ViewVisibility = Visibility.Visible;
         }
 
         #endregion //Methods         

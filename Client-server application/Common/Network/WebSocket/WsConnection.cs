@@ -18,11 +18,11 @@
 
         private int _sending;
 
-        #endregion //Fields
+        #endregion // Fields
 
         #region Properties
 
-        public Guid Id { get; set; }
+        public Guid Id { get; }
 
         public string Username { get; set; }
 
@@ -72,10 +72,6 @@
         protected override void OnClose(CloseEventArgs e)
         {
             _wsServer.RemoveConnection(Id);
-            string serializedMessages = JsonConvert.SerializeObject(Container.GetContainer(nameof(DisconnectRequest), 
-                                                                                        new DisconnectRequest(Username)));
-            var message = JsonConvert.DeserializeObject<MessageContainer>(serializedMessages);
-
         }
 
         protected override void OnMessage(MessageEventArgs e)
@@ -83,7 +79,7 @@
             if (e.IsText)
             {
                 var message = JsonConvert.DeserializeObject<MessageContainer>(e.Data);
-                _wsServer.HandleMessage(Id, message);
+                _wsServer.OnMessage(Id, message);
             }
         }
 
@@ -105,7 +101,7 @@
             if (!IsConnected)
                 return;
 
-            if (!_sendQueue.TryDequeue(out var message) && Interlocked.CompareExchange(ref _sending, 1, 0) == 1)
+            if (!_sendQueue.TryDequeue(out var message) && Interlocked.CompareExchange(ref _sending, 0, 1) == 1)
                 return;
 
             var settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };

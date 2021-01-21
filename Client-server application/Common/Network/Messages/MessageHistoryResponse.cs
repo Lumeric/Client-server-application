@@ -1,26 +1,24 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Common.Network.Messages
 {
-    public class MessageRequest
+    public class MessageHistoryResponse
     {
         #region Properties
 
-        public string Target { get; set; }
-
-        public string Message { get; set; }  
-
-        public string Groupname { get; set; }
+        public Dictionary<string, List<Message>> GroupMessages { get; set; }
 
         #endregion // Properties
 
         #region Constructors
 
-        public MessageRequest(string target, string message, string groupname)
+        public MessageHistoryResponse(Dictionary<string, List<Message>> groupMessages)
         {
-            Target = target;
-            Message = message;
-            Groupname = groupname;
+            GroupMessages = groupMessages;
         }
 
         #endregion // Constructors
@@ -31,7 +29,7 @@ namespace Common.Network.Messages
         {
             var container = new MessageContainer
             {
-                Identifier = nameof(MessageRequest),
+                Identifier = nameof(MessageHistoryResponse),
                 Payload = this
             };
 

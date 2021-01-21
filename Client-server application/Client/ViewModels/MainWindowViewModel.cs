@@ -17,49 +17,24 @@ namespace Client.ViewModels
 {
     public class MainWindowViewModel : BindableBase
     {
-        private Visibility _loginVisibility;
-        private Visibility _chatVisibility;
-        private Visibility _groupMenuVisibility;
-        private Visibility _eventLogVisibility;
+        //Fields
+        private readonly IEventAggregator _eventAggregator;
 
-        private IEventAggregator _eventAggregator;
-
-        private UserControl _loginView;
-        private UserControl _chatView;
-        private UserControl _eventLogView;
-        private UserControl _groupView;
+        private readonly UserControl _loginView;
+        private readonly UserControl _chatView;
+        private readonly UserControl _eventLogView;
+        private readonly UserControl _groupView;
 
         private UserControl _selectedView;
 
-        public Visibility LoginVisibility
-        {
-            get => _loginVisibility;
-            set => SetProperty(ref _loginVisibility, value);
-        }
-
-        public Visibility ChatVisibility
-        {
-            get => _chatVisibility;
-            set => SetProperty(ref _chatVisibility, value);
-        }
-
-        public Visibility GroupMenuVisibility
-        {
-            get => _groupMenuVisibility;
-            set => SetProperty(ref _groupMenuVisibility, value);
-        }
-
-        public Visibility EventLogVisibility
-        {
-            get => _eventLogVisibility;
-            set => SetProperty(ref _eventLogVisibility, value);
-        }
-
+        //Properties
         public UserControl SelectedView
         {
             get => _selectedView;
             set => SetProperty(ref _selectedView, value);
         }
+
+        #region Constructors
 
         public MainWindowViewModel(IEventAggregator eventAggregator)
         {
@@ -76,12 +51,9 @@ namespace Client.ViewModels
             _eventAggregator.GetEvent<OpenGroupEvent>().Subscribe(OpenGroupView);
             _eventAggregator.GetEvent<OpenEventLogEvent>().Subscribe(OpenEventLogView);
             _eventAggregator.GetEvent<CloseWindowEvent>().Subscribe(OpenLoginView);
-
-            //LoginVisibility = Visibility.Visible;
-            //ChatVisibility = Visibility.Collapsed;
-            //GroupMenuVisibility = Visibility.Collapsed;
-            //EventLogVisibility = Visibility.Collapsed;
         }
+
+        #endregion // Constructors
 
         #region Methods
 
@@ -105,7 +77,7 @@ namespace Client.ViewModels
             SelectedView = _loginView;
         }
 
-        #endregion //Methods
+        #endregion // Methods
 
     }
 }

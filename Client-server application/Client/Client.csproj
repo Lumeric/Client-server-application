@@ -80,25 +80,25 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="BusinessLogic\Controllers\ServerResponseController.cs" />
-    <Compile Include="BusinessLogic\Interfaces\IChatController.cs" />
-    <Compile Include="BusinessLogic\Interfaces\IServerResponseController.cs" />
-    <Compile Include="BusinessLogic\Interfaces\ILoginController.cs" />
-    <Compile Include="BusinessLogic\Interfaces\IViewModel.cs" />
+    <Compile Include="BusinessLogic\Handlers\EventHandler.cs" />
+    <Compile Include="BusinessLogic\Handlers\GroupHandler.cs" />
+    <Compile Include="BusinessLogic\Interfaces\IChatHandler.cs" />
+    <Compile Include="BusinessLogic\Interfaces\IEventLogHandler.cs" />
+    <Compile Include="BusinessLogic\Interfaces\IGroupHandler.cs" />
+    <Compile Include="BusinessLogic\Interfaces\ILoginHandler.cs" />
     <Compile Include="BusinessLogic\PubSubEvents\ChangeThemeEvent.cs" />
-    <Compile Include="BusinessLogic\Controllers\ChatController.cs" />
+    <Compile Include="BusinessLogic\Handlers\ChatHandler.cs" />
     <Compile Include="BusinessLogic\PubSubEvents\CloseWindowEvent.cs" />
     <Compile Include="BusinessLogic\PubSubEvents\OpenEventLogEvent.cs" />
     <Compile Include="BusinessLogic\PubSubEvents\OpenGroupEvent.cs" />
     <Compile Include="BusinessLogic\PubSubEvents\OpenChatEvent.cs" />
     <Compile Include="ViewModels\EventLogViewModel.cs" />
     <Compile Include="ViewModels\GroupViewModel.cs" />
-    <Compile Include="BusinessLogic\Controllers\LoginController.cs" />
+    <Compile Include="BusinessLogic\Handlers\LoginHandler.cs" />
     <Compile Include="TempHelperStructure.cs" />
     <Compile Include="ViewModels\ChatViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
-    <Compile Include="ViewModels\UsersViewModel.cs" />
     <Compile Include="Views\ChatView.xaml.cs">
       <DependentUpon>ChatView.xaml</DependentUpon>
     </Compile>

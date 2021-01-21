@@ -52,41 +52,38 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Network\Enums\ErrorType.cs" />
+    <Compile Include="Network\Enums\EventType.cs" />
     <Compile Include="Network\Enums\ResultCode.cs" />
-    <Compile Include="Network\Enums\TransportType.cs" />
+    <Compile Include="Network\Enums\TransportTypes.cs" />
+    <Compile Include="Network\EventArgs\ConnectionReceivedEventArgs.cs" />
     <Compile Include="Network\EventArgs\ConnectionStateChangedEventArgs.cs" />
     <Compile Include="Network\EventArgs\ErrorReceivedEventArgs.cs" />
     <Compile Include="Network\EventArgs\FilteredLogsReceivedEventArgs.cs" />
-    <Compile Include="Network\EventArgs\GroupRemovedEventArgs.cs" />
+    <Compile Include="Network\EventArgs\FiltrationReceivedEventArgs.cs" />
+    <Compile Include="Network\EventArgs\GroupLeavedEventArgs.cs" />
     <Compile Include="Network\EventArgs\GroupsReceivedEventArgs.cs" />
-    <Compile Include="Network\EventArgs\LoginReceivedEventArgs.cs" />
     <Compile Include="Network\EventArgs\MessageHistoryReceivedEventArgs.cs" />
     <Compile Include="Network\EventArgs\MessageRecievedEventArgs.cs" />
     <Compile Include="Network\EventArgs\UsersReceivedEventArgs.cs" />
     <Compile Include="Network\ITransport.cs" />
     <Compile Include="Network\Message.cs" />
-    <Compile Include="Network\Messages\UserConnectedToGroupRequest.cs" />
+    <Compile Include="Network\Messages\ConnectionBroadcast.cs" />
+    <Compile Include="Network\Messages\FiltrationRequest.cs" />
+    <Compile Include="Network\Messages\FiltrationResponse.cs" />
+    <Compile Include="Network\Messages\GroupBroadcast.cs" />
+    <Compile Include="Network\Messages\GroupListResponse.cs" />
+    <Compile Include="Network\Messages\MessageBroadcast.cs" />
+    <Compile Include="Network\Messages\MessageHistoryResponse.cs" />
     <Compile Include="Network\Messages\ConnectionRequest.cs" />
     <Compile Include="Network\Messages\ConnectionResponse.cs" />
     <Compile Include="Network\Messages\Container.cs" />
-    <Compile Include="Network\Messages\CreateNewGroupRequest.cs" />
-    <Compile Include="Network\Messages\DisconnectRequest.cs" />
+    <Compile Include="Network\Messages\CreateGroupRequest.cs" />
     <Compile Include="Network\Messages\MessageContainer.cs" />
     <Compile Include="Network\Messages\MessageRequest.cs" />
-    <Compile Include="Network\Messages\NotifyUsers.cs" />
-    <Compile Include="Network\Messages\RemoveGroupRequest.cs" />
-    <Compile Include="Network\Packets\BufferPrimitives.cs" />
-    <Compile Include="Network\Packets\ConnectionRequest.cs" />
-    <Compile Include="Network\Packets\ConnectionResponse.cs" />
-    <Compile Include="Network\Packets\MessageBroadcast.cs" />
-    <Compile Include="Network\Packets\MessageRequest.cs" />
-    <Compile Include="Network\Packets\PacketId.cs" />
+    <Compile Include="Network\Messages\LeaveGroupRequest.cs" />
+    <Compile Include="Network\Messages\UserListResponse.cs" />
     <Compile Include="Network\TransportFactory.cs" />
     <Compile Include="Network\EventArgs\GroupCreatedEventArgs.cs" />
-    <Compile Include="Network\EventArgs\UserConnectedEventArgs.cs" />
-    <Compile Include="Network\EventArgs\UserConnectedToGroupEventArgs.cs" />
-    <Compile Include="Network\EventArgs\UserDisconnectedEventArgs.cs" />
     <Compile Include="Network\User.cs" />
     <Compile Include="Network\WebSocket\WsClient.cs" />
     <Compile Include="Network\WebSocket\WsConnection.cs" />
@@ -97,6 +94,8 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Network\Handlers\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
