@@ -13,6 +13,7 @@ namespace Client.BusinessLogic
         #region Events
 
         public event EventHandler<ConnectionStateChangedEventArgs> ConnectionStateChanged;
+        //public event EventHandler<ConnectionStateChangedEventArgs> ConnectionReceived; // rebuild with this  name the second ones
         public event EventHandler<MessageReceivedEventArgs> MessageReceived;
         public event EventHandler<MessageHistoryReceivedEventArgs> MessageHistoryReceived;
         public event EventHandler<FilteredLogsReceivedEventArgs> FilteredLogsReceived;
