@@ -30,6 +30,7 @@ namespace Client.ViewModels
         private string _username;
         private string _address;
         private string _typingText;
+        private string _dayMotd;
 
         private User _selectedUser;
 
@@ -125,6 +126,12 @@ namespace Client.ViewModels
             set => SetProperty(ref _isGroupMessage, value);
         }
 
+        public string DayMotd
+        {
+            get => _dayMotd;
+            set => SetProperty(ref _dayMotd, value);
+        }
+
         public DelegateCommand SendMessageCommand { get; }
 
         public DelegateCommand CloseChatCommand { get; set; }
@@ -173,6 +180,8 @@ namespace Client.ViewModels
             OpenGroupCommand = new DelegateCommand(ExecuteOpenGroupCommand);
             LeaveGroupCommand = new DelegateCommand(ExecuteLeaveGroupCommand);
 
+            _dayMotd = "Welcome to the league of chats, ";
+
             //test
         }
 
@@ -218,6 +227,8 @@ namespace Client.ViewModels
 
             Groups.Clear();
 
+            DayMotd = "Welcome to the league of chats, ";
+
             ViewVisibility = Visibility.Collapsed;
 
             _eventAggregator.GetEvent<CloseWindowEvent>().Publish();
@@ -262,6 +273,8 @@ namespace Client.ViewModels
             if (e.IsConnected)
             {
                 _username = e.Username;
+                DayMotd += _username;
+
                 ViewVisibility = Visibility.Visible;                
 
                 App.Current.Dispatcher.Invoke((Action)delegate

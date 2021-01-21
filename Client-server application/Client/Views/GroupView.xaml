@@ -9,7 +9,8 @@
              interactivity:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="500"
-             d:DataContext="{d:DesignInstance viewModel:LoginViewModel}"
+             MinWidth="500" MinHeight="300" MaxHeight="400" MaxWidth="600"
+             d:DataContext="{d:DesignInstance viewModel:GroupViewModel}"
              Style="{StaticResource PrimaryControlStyle}">
     <Grid>
         <Grid.RowDefinitions>
@@ -24,9 +25,9 @@
         </Grid.ColumnDefinitions>
 
         <TextBlock Text="Type a groupname" Grid.Row="0" Grid.Column="0" FontSize="14" Margin="5" Style="{StaticResource PrimaryTextBlockStyle}"/>
-        <TextBox Grid.Row="1" Grid.Column="0"  Text="{Binding GroupName}"/>
-        <ListBox x:Name="usersList" Grid.Row="2" Grid.Column="0" Grid.RowSpan="2" ItemsSource="{Binding Users}"/>
-        <Button Grid.Row="1" Grid.Column="1" Content="Create" Margin="5,0,0,0" Command="{Binding CreateGroupCommand}" Style="{StaticResource GroupButtonStyle}"/>
-        <Button Grid.Row="2" Grid.Column="1" Content="Close" Margin="5,0,0,0" Command="{Binding CloseCommand}" Style="{StaticResource GroupButtonStyle}"/>
+        <TextBox Grid.Row="1" Grid.Column="0" Text="{Binding Groupname}" Margin="5,0,5,0"  Style="{StaticResource PrimaryTextBoxStyle}"/>
+        <ListBox Grid.Row="2" Grid.Column="0" Grid.RowSpan="2" Margin="5" ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedItem}" Style="{StaticResource PrimaryListBoxStyle}" ItemContainerStyle="{StaticResource ListBoxUsersStyle}"/>
+        <Button Grid.Row="1" Grid.Column="1" Content="Create" Margin="5,0,0,0" Command="{Binding CreateGroupCommand}" Style="{StaticResource PrimaryButtonStyle}"/>
+        <Button Grid.Row="2" Grid.Column="1" Content="Close" Margin="5,0,0,0" Command="{Binding CloseCommand}" Style="{StaticResource PrimaryButtonStyle}"/>
     </Grid>
 </UserControl>

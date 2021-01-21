@@ -10,6 +10,7 @@
              interactivity:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="200" d:DesignWidth="300"
+             MinWidth="300" MinHeight="210" MaxHeight="250" MaxWidth="350"
              d:DataContext="{d:DesignInstance viewModel:EventLogViewModel}"
              Style="{StaticResource PrimaryControlStyle}">
     <Grid>
@@ -19,7 +20,7 @@
             <RowDefinition Height="0.15*"/>
             <RowDefinition Height="0.15*"/>
             <RowDefinition Height="0.2*"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="0.2*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -50,8 +51,8 @@
             <CheckBox Content="Server messages" IsChecked="{Binding IsServerMessage}" Margin="10, 0"/>
             <CheckBox Content="Notifications" IsChecked="{Binding IsNotification}" Margin="10, 10"/>
         </StackPanel>
-        <Button Grid.Row="5" Grid.Column="0" FontSize="14" Content="Find" Command="{Binding FindCommand}" Margin="5" Style="{StaticResource PrimaryButtonStyle}"/>
-        <Button Grid.Row="5" Grid.Column="1" FontSize="14" Content="Close" Command="{Binding CloseCommand}" Margin="5" Style="{StaticResource PrimaryButtonStyle}"/>
+        <Button Grid.Row="5" Grid.Column="0" FontSize="14" Content="Close" Command="{Binding CloseCommand}" Margin="5" Style="{StaticResource PrimaryButtonStyle}"/>
+        <Button Grid.Row="5" Grid.Column="1" FontSize="14" Content="Find" Command="{Binding FindCommand}" Margin="5" Style="{StaticResource PrimaryButtonStyle}"/>
 
     </Grid>
 </UserControl>

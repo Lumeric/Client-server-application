@@ -202,7 +202,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Themes\ResourceDictionaries\Icons\" />
+    <Resource Include="Themes\ResourceDictionaries\Icons\black_sun.png" />
+    <Resource Include="Themes\ResourceDictionaries\Icons\sun.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\ResourceDictionaries\Icons\send.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
