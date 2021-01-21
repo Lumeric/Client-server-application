@@ -18,7 +18,24 @@ namespace Client.ViewModels
         private IEventAggregator _eventAggregator;
         private Visibility _viewVisibility;
 
+        private readonly string groupRegex = "^[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+){1,12}$";
+        private string _groupName;
+
+        private IGroupHandler _groupHandler;
+
+        private ObservableCollection<User> _users;
+        private ObservableCollection<User> _groupList;
+
+        private User _seletedUser;
+        private User _deleteUser;
+
         private bool _isLightTheme = true;
+
+        public ObservableCollection<User> Users
+        {
+            get => _users;
+            set => SetProperty(ref _users, value);
+        }
 
         public Visibility ViewVisibility
         {
