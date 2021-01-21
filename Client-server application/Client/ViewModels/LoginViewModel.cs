@@ -214,6 +214,7 @@
             //_ip = String.Empty;
             //_port = String.Empty;
             //_username = String.Empty;
+
             //test
             _ip = "192.168.37.107";
             _port = "65000";
@@ -230,10 +231,10 @@
             _eventAggregator.GetEvent<CloseWindowEvent>().Subscribe(OnDisconnected);
 
             ConnectCommand = new DelegateCommand(ExecuteConnectCommand, CanExecuteConnectCommand).ObservesProperty(() => IP)
-                .ObservesProperty(() => Port)
-                .ObservesProperty(() => Username)
-                .ObservesProperty(() => HelpText);
-            LoginCommand = new DelegateCommand(ExecuteLoginCommand, CanExecuteLoginCommand).ObservesProperty(() => IsConnected);
+                .ObservesProperty(() => Port);
+
+            LoginCommand = new DelegateCommand(ExecuteLoginCommand, CanExecuteLoginCommand).ObservesProperty(() => IsConnected)
+                .ObservesProperty(() => Username);
 
             _loginController.ConnectionStateChanged += OnConnectionStateChanged;
             _loginController.ErrorReceived += OnErrorReceived;
@@ -245,7 +246,7 @@
 
         private bool CanExecuteConnectCommand()
         {
-            return IsValidIP && IsValidPort && IsValidUsername;
+            return IsValidIP && IsValidPort;
         }
 
         private void ExecuteConnectCommand()
@@ -263,23 +264,29 @@
         private void ExecuteLoginCommand()
         {
             _loginController.LoginUser(Username);
-            _eventAggregator.GetEvent<OpenChatEvent>().Publish();
             ViewVisibility = Visibility.Collapsed;
         }
 
         private bool CanExecuteLoginCommand()
         {
-            return IsConnected;
+
+            return IsConnected && IsValidUsername;
         }
 
         private void OnConnectionStateChanged(object sender, ConnectionStateChangedEventArgs e)
         {
-            if (e.IsConnected)  
+            if (e.IsConnected)
+            {
                 if (string.IsNullOrEmpty(e.Username))
                 {
                     IsConnected = true;
                     HelpText = "Enter username.";
                 }
+                else
+                {
+                    _eventAggregator.GetEvent<OpenChatEvent>().Publish();
+                }
+            }
         }
 
         private void OnErrorReceived(object sender, ErrorReceivedEventArgs e)
@@ -296,7 +303,6 @@
         {
             Username = String.Empty;
             IsConnected = false;
-            HelpText = _helpText;
 
             ViewVisibility = Visibility.Visible;
         }

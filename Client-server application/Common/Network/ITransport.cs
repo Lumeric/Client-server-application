@@ -14,7 +14,7 @@ namespace Common.Network
         #region Events
 
         event EventHandler<ConnectionStateChangedEventArgs> ConnectionStateChanged;
-        event EventHandler<ConnectionStateChangedEventArgs> ConnectionReceived;
+        event EventHandler<ConnectionReceivedEventArgs> ConnectionReceived;
        event EventHandler<MessageReceivedEventArgs> MessageReceived;
        event EventHandler<MessageHistoryReceivedEventArgs> MessageHistoryReceived;
        event EventHandler<ErrorReceivedEventArgs> ErrorReceived;

@@ -25,7 +25,7 @@
         #region Events
 
         public event EventHandler<ConnectionStateChangedEventArgs> ConnectionStateChanged;
-        public event EventHandler<ConnectionStateChangedEventArgs> ConnectionReceived;
+        public event EventHandler<ConnectionReceivedEventArgs> ConnectionReceived;
         public event EventHandler<MessageReceivedEventArgs> MessageReceived;
         public event EventHandler<GroupCreatedEventArgs> GroupCreated;
         public event EventHandler<GroupLeavedEventArgs> GroupLeaved;      
@@ -123,7 +123,7 @@
                         connectionResponse.ActiveUsers = _connections.Where(c => c.Value.Username != null).Select(u => u.Value.Username).ToList();
                         connection.Send(connectionResponse.GetContainer());
                         ConnectionStateChanged?.Invoke(this, new ConnectionStateChangedEventArgs(connection.Username, true, DateTime.Now));
-                        ConnectionReceived?.Invoke(this, new ConnectionStateChangedEventArgs(connection.Username, true, DateTime.Now));
+                        ConnectionReceived?.Invoke(this, new ConnectionReceivedEventArgs(connection.Username, true, DateTime.Now));
                     }
                     break;
                 case nameof(MessageRequest):
@@ -156,7 +156,7 @@
             if (_connections.TryRemove(connectionId, out WsConnection connection) && !string.IsNullOrEmpty(connection.Username))
             {
                 ConnectionStateChanged?.Invoke(this, new ConnectionStateChangedEventArgs(connection.Username, false, DateTime.Now));
-                ConnectionReceived?.Invoke(this, new ConnectionStateChangedEventArgs(connection.Username, false, DateTime.Now));
+                ConnectionReceived?.Invoke(this, new ConnectionReceivedEventArgs(connection.Username, false, DateTime.Now));
             }
 
         }

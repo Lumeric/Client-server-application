@@ -34,8 +34,6 @@ namespace Client.ViewModels
         private User _selectedUser;
 
         private ObservableCollection<User> _users;
-        private ObservableCollection<User> _activeUsers;
-        private ObservableCollection<User> _inactiveUsers;
 
         private ObservableCollection<User> _groupList;
         private ObservableCollection<Message> _groupMessages;
@@ -287,7 +285,7 @@ namespace Client.ViewModels
             }
         }
 
-        private void OnConnectionReceived(object sender, ConnectionStateChangedEventArgs e)
+        private void OnConnectionReceived(object sender, ConnectionReceivedEventArgs e)
         {
             User focusedUser = SelectedUser;
 

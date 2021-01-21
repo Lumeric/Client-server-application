@@ -36,7 +36,7 @@
         #region Events
 
         public event EventHandler<ConnectionStateChangedEventArgs> ConnectionStateChanged;
-        public event EventHandler<ConnectionStateChangedEventArgs> ConnectionReceived;
+        public event EventHandler<ConnectionReceivedEventArgs> ConnectionReceived;
         public event EventHandler<MessageReceivedEventArgs> MessageReceived;
         public event EventHandler<MessageHistoryReceivedEventArgs> MessageHistoryReceived;
         public event EventHandler<ErrorReceivedEventArgs> ErrorReceived;
@@ -142,7 +142,7 @@
                     var connectionBroadcast = ((JObject)container.Payload).ToObject(typeof(ConnectionBroadcast)) as ConnectionBroadcast;
                     if (connectionBroadcast.Username != Username)
                     {
-                        ConnectionReceived?.Invoke(this, new ConnectionStateChangedEventArgs(connectionBroadcast.Username, connectionBroadcast.IsConnected, connectionBroadcast.Date));
+                        ConnectionReceived?.Invoke(this, new ConnectionReceivedEventArgs(connectionBroadcast.Username, connectionBroadcast.IsConnected, connectionBroadcast.Date));
                     }
                     break;
                 case nameof(MessageBroadcast):

@@ -100,7 +100,7 @@ namespace Server
             _wsServer.Send(e.Username, String.Empty, new MessageBroadcast(e.Username, String.Empty, userState, String.Empty, DateTime.Now).GetContainer());
         }
 
-        private void OnConnectionReceived(object sender, ConnectionStateChangedEventArgs e)
+        private void OnConnectionReceived(object sender, ConnectionReceivedEventArgs e)
         {
             _requestHander.AddUser(e.Username);
 

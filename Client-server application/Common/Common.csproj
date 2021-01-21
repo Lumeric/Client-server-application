@@ -55,6 +55,7 @@
     <Compile Include="Network\Enums\EventType.cs" />
     <Compile Include="Network\Enums\ResultCode.cs" />
     <Compile Include="Network\Enums\TransportTypes.cs" />
+    <Compile Include="Network\EventArgs\ConnectionReceivedEventArgs.cs" />
     <Compile Include="Network\EventArgs\ConnectionStateChangedEventArgs.cs" />
     <Compile Include="Network\EventArgs\ErrorReceivedEventArgs.cs" />
     <Compile Include="Network\EventArgs\FilteredLogsReceivedEventArgs.cs" />

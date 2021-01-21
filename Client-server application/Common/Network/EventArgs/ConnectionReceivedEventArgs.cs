@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Common.Network
 {
-    public class ConnectionStateChangedEventArgs
+    public class ConnectionReceivedEventArgs
     {
         #region Properties
 
@@ -16,20 +16,17 @@ namespace Common.Network
 
         public DateTime Date { get; }
 
-        public List<string> ActiveUsers { get; }
-
-        #endregion //Properties
+        #endregion // Properties
 
         #region Constructors
 
-        public ConnectionStateChangedEventArgs(string username, bool isConnected, DateTime date, List<string> activeUsers = null)
+        public ConnectionReceivedEventArgs(string username, bool isConnected, DateTime date)
         {
             Username = username;
             IsConnected = isConnected;
             Date = date;
-            ActiveUsers = activeUsers;
         }
 
-        #endregion //Constructors
+        #endregion // Constructors
     }
 }

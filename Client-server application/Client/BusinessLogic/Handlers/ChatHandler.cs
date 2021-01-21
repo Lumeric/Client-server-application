@@ -17,7 +17,7 @@ namespace Client.BusinessLogic
         #region Events
 
         public event EventHandler<ConnectionStateChangedEventArgs> ConnectionStateChanged;
-        public event EventHandler<ConnectionStateChangedEventArgs> ConnectionReceived; // rebuild with this  name the second ones
+        public event EventHandler<ConnectionReceivedEventArgs> ConnectionReceived; // rebuild with this  name the second ones
         public event EventHandler<MessageReceivedEventArgs> MessageReceived;
         public event EventHandler<MessageHistoryReceivedEventArgs> MessageHistoryReceived;
         public event EventHandler<FilteredLogsReceivedEventArgs> FilteredLogsReceived;
@@ -87,7 +87,7 @@ namespace Client.BusinessLogic
             }
         }
 
-        private void OnConnectionReceived(object sender, ConnectionStateChangedEventArgs e)
+        private void OnConnectionReceived(object sender, ConnectionReceivedEventArgs e)
         {
             if (!String.IsNullOrEmpty(e.Username))
             {
