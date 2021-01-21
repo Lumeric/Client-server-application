@@ -218,7 +218,7 @@
 
             _viewVisibility = Visibility.Visible;
             _helpText = "Enter address and port.";
-            _ip = "192.168.1.7";
+            _ip = "192.168.37.107";
             _port = "65000";
             _username = "ValeraVolodya";
             _isConnected = false;

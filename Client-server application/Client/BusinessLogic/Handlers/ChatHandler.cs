@@ -10,10 +10,14 @@ namespace Client.BusinessLogic
 {
     public class ChatHandler : IChatHandler
     {
+        //Constants
+        private const string GENERAL_CHAT = "General";
+        // Constants
+
         #region Events
 
         public event EventHandler<ConnectionStateChangedEventArgs> ConnectionStateChanged;
-        //public event EventHandler<ConnectionStateChangedEventArgs> ConnectionReceived; // rebuild with this  name the second ones
+        public event EventHandler<ConnectionStateChangedEventArgs> ConnectionReceived; // rebuild with this  name the second ones
         public event EventHandler<MessageReceivedEventArgs> MessageReceived;
         public event EventHandler<MessageHistoryReceivedEventArgs> MessageHistoryReceived;
         public event EventHandler<FilteredLogsReceivedEventArgs> FilteredLogsReceived;
@@ -41,7 +45,7 @@ namespace Client.BusinessLogic
             _transport = transport;
 
             _transport.ConnectionStateChanged += OnConnectionStateChanged;
-            _transport.ConnectionStateChanged += OnConnectionReceived;
+            _transport.ConnectionReceived += OnConnectionReceived;
             _transport.MessageReceived += OnMessageReceived;
             _transport.UsersReceived += OnUsersReceived;
             _transport.MessageHistoryReceived += OnMessageHistoryReceived;
@@ -55,7 +59,7 @@ namespace Client.BusinessLogic
 
         public void Send(string username, string message, string groupname)
         {
-            if (username == "General")
+            if (username == GENERAL_CHAT)
             {
                 username = String.Empty;
             }
@@ -87,7 +91,7 @@ namespace Client.BusinessLogic
         {
             if (!String.IsNullOrEmpty(e.Username))
             {
-                ConnectionStateChanged?.Invoke(this, e);
+                ConnectionReceived?.Invoke(this, e);
             }
         }
 

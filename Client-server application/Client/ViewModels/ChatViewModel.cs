@@ -17,8 +17,8 @@ namespace Client.ViewModels
     {
         #region Constants
 
-        private const string GeneralChat = "General";
-        private const string EventLog = "Event Log";
+        private const string GENERAL_CHAT = "General";
+        private const string EVENT_LOG = "Event Log";
 
         #endregion //Constants
 
@@ -80,7 +80,7 @@ namespace Client.ViewModels
             {
                 if (value == null)
                 {
-                    SetProperty(ref _selectedUser, _users.FirstOrDefault(u => u.Username == GeneralChat));
+                    SetProperty(ref _selectedUser, _users.FirstOrDefault(u => u.Username == GENERAL_CHAT));
                     return;
                 }
                 else
@@ -138,7 +138,7 @@ namespace Client.ViewModels
             set => SetProperty(ref _isGroupMessage, value);
         }
 
-        public DelegateCommand SendCommand { get; }
+        public DelegateCommand SendMessageCommand { get; }
 
         public DelegateCommand CloseChatCommand { get; set; }
 
@@ -156,9 +156,10 @@ namespace Client.ViewModels
 
         #region Constructors
 
-        public ChatViewModel(IEventAggregator eventAggregator)
+        public ChatViewModel(IEventAggregator eventAggregator, IChatHandler chatHandler)
         {
             _eventAggregator = eventAggregator;
+            _chatHandler = chatHandler;
             _viewVisibility = Visibility.Collapsed;
             _username = "Valera";
             _userIP = "123.123.123.0";
@@ -166,20 +167,22 @@ namespace Client.ViewModels
             _users = new ObservableCollection<User>();
             _activeUsers = new ObservableCollection<User>();
             _inactiveUsers = new ObservableCollection<User>();
+
+            _groupList = new ObservableCollection<User>();
             _groupMessages = new ObservableCollection<Message>();
             _groups = new Dictionary<string, List<Message>>();
 
             eventAggregator.GetEvent<OpenChatEvent>().Subscribe(ChangeVisibility);
 
             _chatHandler.ConnectionStateChanged += OnConnectionStateChanged;
-            //_chatHandler.ConnectionStateChanged += OnConnectionReceived;
+            _chatHandler.ConnectionReceived += OnConnectionReceived;
             _chatHandler.MessageReceived += OnMessageReceived;
             _chatHandler.UsersReceived += OnUsersReceived;
             _chatHandler.MessageHistoryReceived += OnMessageHistoryReceived;
             _chatHandler.FilteredLogsReceived += OnFilteredLogsReceived;
             _chatHandler.GroupsReceived += OnGroupsReceived;
 
-            SendCommand = new DelegateCommand(ExecuteSendCommand);
+            SendMessageCommand = new DelegateCommand(ExecuteSendCommand);
             CloseChatCommand = new DelegateCommand(ExecuteCloseChatCommand);
             LightThemeCommand = new DelegateCommand(ExecuteLightThemeCommand);
             DarkThemeCommand = new DelegateCommand(ExecuteDarkThemeCommand);
@@ -210,7 +213,7 @@ namespace Client.ViewModels
 
         private void ExecuteSendCommand()
         {
-            if (String.IsNullOrEmpty(TypingText) || SelectedUser.Username == EventLog)
+            if (String.IsNullOrEmpty(TypingText) || SelectedUser.Username == EVENT_LOG)
             {
                 string error = "Invalid operation";
                 GroupMessages.Add(new Message(String.Empty, error, true, DateTime.Now));
@@ -250,7 +253,7 @@ namespace Client.ViewModels
         private void ExecuteOpenGroupCommand()
         {
             ObservableCollection<User> users = new ObservableCollection<User>(Users.Select(u => u)
-                .Where(u => u.Username != GeneralChat && u.Username != EventLog && u.Username != _username));
+                .Where(u => u.Username != GENERAL_CHAT && u.Username != EVENT_LOG && u.Username != _username));
 
             _eventAggregator.GetEvent<OpenGroupEvent>().Publish(users);
             ViewVisibility = Visibility.Collapsed;
@@ -292,8 +295,8 @@ namespace Client.ViewModels
 
                 App.Current.Dispatcher.Invoke((Action)delegate
                 {
-                    Users.Add(new User(GeneralChat, true));
-                    Users.Add(new User(EventLog, true));
+                    Users.Add(new User(GENERAL_CHAT, true));
+                    Users.Add(new User(EVENT_LOG, true));
                     if (e.ActiveUsers != null)
                     {
                         foreach (var user in e.ActiveUsers)
@@ -303,7 +306,7 @@ namespace Client.ViewModels
                     }
                 });
 
-                SelectedUser = Users.FirstOrDefault(u => u.Username == GeneralChat);
+                SelectedUser = Users.FirstOrDefault(u => u.Username == GENERAL_CHAT);
             }
             else
             {
@@ -347,14 +350,14 @@ namespace Client.ViewModels
         {
             if (String.IsNullOrEmpty(e.Groupname))
             {
-                if (String.IsNullOrEmpty(e.Target) || e.Target == GeneralChat)
+                if (String.IsNullOrEmpty(e.Target) || e.Target == GENERAL_CHAT)
                 {
-                    Groups[GeneralChat].Add(new Message(e.Username, e.Message, e.Username == _username, e.Date));
-                    if (SelectedUser?.Username == GeneralChat)
+                    Groups[GENERAL_CHAT].Add(new Message(e.Username, e.Message, e.Username == _username, e.Date));
+                    if (SelectedUser?.Username == GENERAL_CHAT)
                     {
                         App.Current.Dispatcher.Invoke((Action)delegate
                         {
-                            GroupMessages = new ObservableCollection<Message>(Groups[GeneralChat]);
+                            GroupMessages = new ObservableCollection<Message>(Groups[GENERAL_CHAT]);
                         });
                     }
                 }
@@ -422,14 +425,14 @@ namespace Client.ViewModels
         private void OnMessageHistoryReceived(object sender, MessageHistoryReceivedEventArgs e)
         {
             Groups = e.UserMessages;
-            GroupMessages = new ObservableCollection<Message>(Groups[GeneralChat]);
+            GroupMessages = new ObservableCollection<Message>(Groups[GENERAL_CHAT]);
         }
 
         private void OnFilteredLogsReceived(object sender, FilteredLogsReceivedEventArgs e)
         {
-            Groups[EventLog] = e.FilteredLogs;
-            GroupMessages = new ObservableCollection<Message>(Groups[EventLog]);
-            SelectedUser = Users.FirstOrDefault(u => u.Username == EventLog);
+            Groups[EVENT_LOG] = e.FilteredLogs;
+            GroupMessages = new ObservableCollection<Message>(Groups[EVENT_LOG]);
+            SelectedUser = Users.FirstOrDefault(u => u.Username == EVENT_LOG);
         }
 
         private void OnGroupsReceived(object sender, GroupsReceivedEventArgs e)
