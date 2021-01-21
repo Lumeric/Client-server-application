@@ -32,12 +32,12 @@
         <TextBlock Grid.Row="1" Grid.Column="0" Margin="5" Style="{StaticResource PrimaryTextBlockStyle}" Text="Port"/>
         <TextBlock Grid.Row="0" Grid.Column="2" Margin="5" Style="{StaticResource PrimaryTextBlockStyle}" Text="Interface"/>
         <TextBlock Grid.Row="1" Grid.Column="2" Margin="5" Style="{StaticResource PrimaryTextBlockStyle}" Text="Username"/>
-        <TextBlock Grid.Row="2" Grid.Column="0" Margin="5" Style="{StaticResource HelpTextBlockStyle}" Grid.ColumnSpan="3" VerticalAlignment="Center" Text="{Binding HelpText}"/>
+        <TextBlock Grid.Row="2" Grid.Column="0" Margin="5" Style="{StaticResource HelpTextBlockStyle}" Grid.ColumnSpan="3" VerticalAlignment="Center" Text="{Binding HelpText, UpdateSourceTrigger=PropertyChanged}"/>
 
         <TextBox Grid.Row="0" Grid.Column="1" Margin="5" Text="{Binding IP, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" ToolTip="{Binding Errors[IP], UpdateSourceTrigger=PropertyChanged}"/>
         <TextBox Grid.Row="1" Grid.Column="1" Margin="5" Text="{Binding Port, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" ToolTip="{Binding Errors[Port], UpdateSourceTrigger=PropertyChanged}"/>
         <ComboBox Grid.Row="0" Grid.Column="4" Margin="5" Grid.ColumnSpan="3" ItemsSource="{Binding Sockets}" SelectedItem="{Binding SelectedSocket, UpdateSourceTrigger=PropertyChanged}"/>
-        <TextBox Grid.Row="1" Grid.Column="4" Margin="5" Grid.ColumnSpan="3" Text="{Binding Username, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsConnected}" ToolTip="{Binding Errors[Username], UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Row="1" Grid.Column="4" Margin="5" Grid.ColumnSpan="3" Text="{Binding Username, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" ToolTip="{Binding Errors[Username], UpdateSourceTrigger=PropertyChanged}"/>
 
         <Button x:Name="buttonConnect" Command="{Binding ConnectCommand}" Content="Connect" Width="60" Grid.Row="2" Grid.Column="4" Margin="5" Style="{StaticResource PrimaryButtonStyle}"/>
         <Button x:Name="buttonLogin" Command="{Binding LoginCommand}" Content="Login" Width="60" Grid.Row="2" Grid.Column="5" Margin="5" Style="{StaticResource PrimaryButtonStyle}"/>

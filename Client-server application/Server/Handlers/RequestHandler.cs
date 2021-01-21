@@ -77,7 +77,7 @@ namespace Server
 
                 if(String.IsNullOrEmpty(m.Target))
                 {
-                    groupMessageList[GENERAL_GROUP].Add(new Message(m.Username, m.Text, username == m.Target, m.Date));
+                    groupMessageList[GENERAL_GROUP].Add(new Message(m.Username, m.Text, username == m.Username, m.Date));
                 }
                 else
                 {

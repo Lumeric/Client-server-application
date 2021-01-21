@@ -65,13 +65,9 @@
     <Compile Include="DBModel\GroupList.cs" />
     <Compile Include="DBModel\MessageList.cs" />
     <Compile Include="DBModel\UserList.cs" />
-    <Compile Include="DBRequests\CreateGroupInfo.cs" />
-    <Compile Include="DBRequests\IHandleData.cs" />
     <Compile Include="NetworkManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="DBRequests\MessageInfo.cs" />
-    <Compile Include="DBRequests\UserInfo.cs" />
     <Compile Include="ServerSettings.cs" />
   </ItemGroup>
   <ItemGroup>

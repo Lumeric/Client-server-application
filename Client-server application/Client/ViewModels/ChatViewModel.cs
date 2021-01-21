@@ -28,7 +28,7 @@ namespace Client.ViewModels
         private IChatHandler _chatHandler;
         private Visibility _viewVisibility;
         private string _username;
-        private string _userIP;
+        private string _address;
         private string _typingText;
 
         private User _selectedUser;
@@ -61,10 +61,10 @@ namespace Client.ViewModels
             set => SetProperty(ref _username, value);
         }
 
-        public string UserIP
+        public string Address
         {
-            get => _userIP;
-            set => SetProperty(ref _userIP, value);
+            get => _address;
+            set => SetProperty(ref _address, value);
         }
 
         public string TypingText
@@ -95,17 +95,6 @@ namespace Client.ViewModels
         {
             get => _users;
             set => SetProperty(ref _users, value);
-        }
-
-        public ObservableCollection<User> ActiveUsers
-        {
-            get => _activeUsers;
-            set => SetProperty(ref _activeUsers, value);
-        }
-        public ObservableCollection<User> InactiveUsers
-        {
-            get => _inactiveUsers;
-            set => SetProperty(ref _inactiveUsers, value);
         }
 
         public ObservableCollection<User> GroupList
@@ -161,12 +150,8 @@ namespace Client.ViewModels
             _eventAggregator = eventAggregator;
             _chatHandler = chatHandler;
             _viewVisibility = Visibility.Collapsed;
-            _username = "Valera";
-            _userIP = "123.123.123.0";
 
             _users = new ObservableCollection<User>();
-            _activeUsers = new ObservableCollection<User>();
-            _inactiveUsers = new ObservableCollection<User>();
 
             _groupList = new ObservableCollection<User>();
             _groupMessages = new ObservableCollection<Message>();
@@ -191,15 +176,6 @@ namespace Client.ViewModels
             LeaveGroupCommand = new DelegateCommand(ExecuteLeaveGroupCommand);
 
             //test
-            //_activeUsers.Add(new User("Valera", true));
-            //_activeUsers.Add(new User("Sanya", true));
-            //_activeUsers.Add(new User("Cepera", true));
-
-            //_inactiveUsers.Add(new User("Maks", false));
-            //_inactiveUsers.Add(new User("Oniq", false));
-
-            //_groupMessages.Add(new Message("Sanya", "Privet kotikam", true, DateTime.Now));
-            //_groupMessages.Add(new Message("Cepera", "Privet chelovekam", false, DateTime.Now));
         }
 
         #endregion //Constructors
@@ -288,10 +264,7 @@ namespace Client.ViewModels
             if (e.IsConnected)
             {
                 _username = e.Username;
-
-                ViewVisibility = Visibility.Visible;
-
-                Username = $"Username: {_username}";
+                ViewVisibility = Visibility.Visible;                
 
                 App.Current.Dispatcher.Invoke((Action)delegate
                 {

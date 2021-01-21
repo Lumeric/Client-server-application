@@ -94,7 +94,7 @@
             }
         }
 
-        internal void HandleMessage(Guid clientId, MessageContainer container)
+        internal void OnMessage(Guid clientId, MessageContainer container)
         {
             if (!_connections.TryGetValue(clientId, out WsConnection connection))
                 return;
@@ -122,6 +122,7 @@
                         connection.Username = connectionRequest.Username;
                         connectionResponse.ActiveUsers = _connections.Where(c => c.Value.Username != null).Select(u => u.Value.Username).ToList();
                         connection.Send(connectionResponse.GetContainer());
+                        ConnectionStateChanged?.Invoke(this, new ConnectionStateChangedEventArgs(connection.Username, true, DateTime.Now));
                         ConnectionReceived?.Invoke(this, new ConnectionStateChangedEventArgs(connection.Username, true, DateTime.Now));
                     }
                     break;

@@ -23,12 +23,6 @@
 
         #endregion //Constants
 
-        #region Events
-
-
-
-        #endregion //Events
-
         #region Fields
 
         private IEventAggregator _eventAggregator;
@@ -43,7 +37,7 @@
 
         private List<string> _sockets;
         private string _selectedSocket;
-        private string _helpText;
+        private string _helpText = "Enter address and port.";
 
         private bool _isConnected;
         private bool _isLightTheme = true;
@@ -217,7 +211,10 @@
             _loginController = loginController;
 
             _viewVisibility = Visibility.Visible;
-            _helpText = "Enter address and port.";
+            //_ip = String.Empty;
+            //_port = String.Empty;
+            //_username = String.Empty;
+            //test
             _ip = "192.168.37.107";
             _port = "65000";
             _username = "ValeraVolodya";
@@ -234,7 +231,8 @@
 
             ConnectCommand = new DelegateCommand(ExecuteConnectCommand, CanExecuteConnectCommand).ObservesProperty(() => IP)
                 .ObservesProperty(() => Port)
-                .ObservesProperty(() => Username);
+                .ObservesProperty(() => Username)
+                .ObservesProperty(() => HelpText);
             LoginCommand = new DelegateCommand(ExecuteLoginCommand, CanExecuteLoginCommand).ObservesProperty(() => IsConnected);
 
             _loginController.ConnectionStateChanged += OnConnectionStateChanged;
@@ -298,6 +296,7 @@
         {
             Username = String.Empty;
             IsConnected = false;
+            HelpText = _helpText;
 
             ViewVisibility = Visibility.Visible;
         }

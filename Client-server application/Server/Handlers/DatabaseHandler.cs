@@ -41,7 +41,7 @@ namespace Server.Handlers
                     using (dbContext)
                     {
                         dbContext.UserLists.Add(user);
-                        dbContext.SaveChangesAsync();
+                        dbContext.SaveChanges();
                     }
                 }
             }
@@ -103,7 +103,7 @@ namespace Server.Handlers
                 using (dbContext)
                 {
                     dbContext.EventLogs.Add(log);
-                    dbContext.SaveChangesAsync();
+                    dbContext.SaveChanges();
                 }
             }
             catch (NullReferenceException ex)
@@ -119,7 +119,7 @@ namespace Server.Handlers
                         Text = error,
                         Date = date
                     });
-                    dbContext.SaveChangesAsync();
+                    dbContext.SaveChanges();
                 }
             }
             catch (Exception ex)
@@ -188,7 +188,7 @@ namespace Server.Handlers
         public List<MessageList> GetMessageLogs(string username)
         {
             List<MessageList> messageLog = new List<MessageList>();
-            List<string> groups = GetGroups(username).Select(item => item.Groupname).ToList();
+            List<string> groups = GetGroups(username).Select(g => g.Groupname).ToList();
 
             var messages = _dbContext.MessageLists.Where(m => m.Username == username || m.Target == username || String.IsNullOrEmpty(m.Target) ||
                                                           groups.Contains(m.Target));

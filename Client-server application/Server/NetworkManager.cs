@@ -42,7 +42,7 @@ namespace Server
                     {
                         _wsServer = new WsServer(new IPEndPoint(_ip, _port));
                         _wsServer.ConnectionStateChanged += OnConnectionStateChanged;
-                        _wsServer.ConnectionStateChanged += OnConnectionReceived;
+                        _wsServer.ConnectionReceived += OnConnectionReceived;
                         _wsServer.MessageReceived += OnMessageReceived;
                         _wsServer.ErrorReceived += OnErrorReceived;
                         _wsServer.FiltrationReceived += OnFiltrationReceived;

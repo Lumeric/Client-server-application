@@ -79,7 +79,7 @@
             if (e.IsText)
             {
                 var message = JsonConvert.DeserializeObject<MessageContainer>(e.Data);
-                _wsServer.HandleMessage(Id, message);
+                _wsServer.OnMessage(Id, message);
             }
         }
 
@@ -101,7 +101,7 @@
             if (!IsConnected)
                 return;
 
-            if (!_sendQueue.TryDequeue(out var message) && Interlocked.CompareExchange(ref _sending, 1, 0) == 1)
+            if (!_sendQueue.TryDequeue(out var message) && Interlocked.CompareExchange(ref _sending, 0, 1) == 1)
                 return;
 
             var settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
