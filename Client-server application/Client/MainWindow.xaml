@@ -9,7 +9,7 @@
         xmlns:interactivity="http://prismlibrary.com/"
         interactivity:ViewModelLocator.AutoWireViewModel="True"
         mc:Ignorable="d"
-        Title="MainWindow" MinHeight="150" MinWidth="300"
+        Title="Messenger" MinHeight="150" MinWidth="300"
         SizeToContent="WidthAndHeight" 
         MaxHeight="500" MaxWidth="900" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize"
         d:DataContext="{d:DesignInstance viewModel:MainWindowViewModel}">

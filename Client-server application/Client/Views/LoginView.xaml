@@ -37,7 +37,7 @@
 
         <TextBox Grid.Row="0" Grid.Column="1" Margin="5" Text="{Binding IP, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" ToolTip="{Binding Errors[IP], UpdateSourceTrigger=PropertyChanged}"/>
         <TextBox Grid.Row="1" Grid.Column="1" Margin="5" Text="{Binding Port, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" ToolTip="{Binding Errors[Port], UpdateSourceTrigger=PropertyChanged}"/>
-        <ComboBox Grid.Row="0" Grid.Column="4" Margin="5" Grid.ColumnSpan="3" ItemsSource="{Binding Sockets}" SelectedItem="{Binding SelectedSocket, UpdateSourceTrigger=PropertyChanged}"/>
+        <ComboBox Grid.Row="0" Grid.Column="4" Margin="5" Grid.ColumnSpan="3" ItemsSource="{Binding Sockets}" SelectedItem="{Binding SelectedSocket, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
         <TextBox Grid.Row="1" Grid.Column="4" Margin="5" Grid.ColumnSpan="3" Text="{Binding Username, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" ToolTip="{Binding Errors[Username], UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsConnected}"/>
 
         <Button x:Name="buttonConnect" Command="{Binding ConnectCommand}" Content="Connect" Grid.Row="2" Grid.Column="4" Margin="5" Style="{StaticResource PrimaryButtonStyle}"/>

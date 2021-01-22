@@ -22,7 +22,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                    <Border x:Name="Border" Margin="0,5" HorizontalAlignment="Left" Background="{StaticResource LightThemePressed}" CornerRadius="5">
+                    <Border x:Name="Border" Margin="0,5" HorizontalAlignment="Left" Background="{StaticResource LightThemePressed}" CornerRadius="5" Opacity="0.85">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition/>
@@ -45,6 +45,9 @@
                         <DataTrigger Binding="{Binding IsOwner}" Value="True">
                             <Setter Property="Background" Value="{StaticResource LightThemeOwner}" TargetName="Border"/>
                             <Setter Property="HorizontalAlignment" Value="Right" TargetName="Border"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsLightTheme}" Value="False">
+                            <Setter Property="Background" Value="{StaticResource DarkThemeListBox_}" TargetName="Border"/>
                         </DataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

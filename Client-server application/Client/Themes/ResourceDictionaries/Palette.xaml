@@ -15,8 +15,9 @@
 
     <SolidColorBrush x:Key="DarkTheme">#474542</SolidColorBrush>
     <Color x:Key="DarkThemeButton">#23272a</Color>
-    <SolidColorBrush x:Key="DarkThemeListBox">#998662</SolidColorBrush>
-    <Color x:Key="DarkThemeTextBox">#54463c</Color>
+    <SolidColorBrush x:Key="DarkThemeListBox_">#918a7d</SolidColorBrush>
+    <SolidColorBrush x:Key="DarkThemeListBox">#706b62</SolidColorBrush>
+    <SolidColorBrush x:Key="DarkThemeTextBox">#54463c</SolidColorBrush>
     <SolidColorBrush x:Key="DarkThemeText">#dedcce</SolidColorBrush>
     
 </ResourceDictionary>

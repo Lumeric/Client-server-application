@@ -211,14 +211,14 @@
             _loginController = loginController;
 
             _viewVisibility = Visibility.Visible;
-            //_ip = String.Empty;
-            //_port = String.Empty;
-            //_username = String.Empty;
+            _ip = String.Empty;
+            _port = String.Empty;
+            _username = String.Empty;
 
             //test
-            _ip = "192.168.37.107";
-            _port = "65000";
-            _username = "ValeraVolodya";
+            //_ip = "192.168.37.107";
+            //_port = "65000";
+            //_username = "ValeraVolodya";
             _isConnected = false;
             Errors = new Dictionary<string, string>();
 
