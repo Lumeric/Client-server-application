@@ -30,15 +30,6 @@
                         <Trigger Property="IsPressed" Value="True">
                             <Setter TargetName="Border" Property="Background" Value="{StaticResource LightThemePressed}"/>
                         </Trigger>
-                        <!--<MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Binding="{Binding IsLightTheme}" Value="False"/>
-                                <Condition Property="IsMouseOver" Value="True"/>
-                            </MultiTrigger.Conditions>
-                            <MultiTrigger.Setters>
-                                <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource DarkThemeText}"/>
-                            </MultiTrigger.Setters>
-                        </MultiTrigger>-->
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -74,10 +65,30 @@
     </Style>
 
     <Style x:Key="SendButtonStyle" TargetType="{x:Type Button}">
+        <Setter Property="Foreground" Value="{StaticResource LightThemeText}"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="FontWeight" Value="DemiBold"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
-                    <Image Source="Icons/send.png"></Image>
+                    <Border x:Name="Border" CornerRadius="5" BorderThickness="1.5">
+                        <Image Source="Icons/send.png"></Image>
+                        <Border.Background>
+                            <SolidColorBrush Color="{StaticResource LightThemeButton}"/>
+                        </Border.Background>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource LightThemeDisabled}"/>
+                            <Setter Property="Foreground" Value="{StaticResource LightThemeDisabledText}"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Border" Property="BorderBrush" Value="Black"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource LightThemePressed}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

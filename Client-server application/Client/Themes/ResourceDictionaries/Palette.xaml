@@ -5,7 +5,7 @@
     <SolidColorBrush x:Key="LightTheme">#e6d6c2</SolidColorBrush>
     <SolidColorBrush x:Key="LightThemeGrey">#c99d65</SolidColorBrush>
     <SolidColorBrush x:Key="LightThemePressed">#997242</SolidColorBrush>
-    <SolidColorBrush x:Key="LightThemeOwner">#755328</SolidColorBrush>
+    <SolidColorBrush x:Key="LightThemeOwner">#ad7936</SolidColorBrush>
     <SolidColorBrush x:Key="LightThemeDisabled">#c9c5bf</SolidColorBrush>
     <SolidColorBrush x:Key="LightThemeDisabledText">#999691</SolidColorBrush>
     <Color x:Key="LightThemeButton">#b59f81</Color>
