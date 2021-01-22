@@ -16,6 +16,7 @@ namespace Server
         private const string GENERAL_GROUP = "General";
 
         #endregion // Constants
+
         #region Fields
 
         private readonly DatabaseHandler _dbHandler;

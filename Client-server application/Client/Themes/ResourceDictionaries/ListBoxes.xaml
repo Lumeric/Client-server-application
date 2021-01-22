@@ -22,7 +22,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                    <Border x:Name="Border" HorizontalAlignment="Left">
+                    <Border x:Name="Border" Margin="0,5" HorizontalAlignment="Left" Background="{StaticResource LightThemePressed}" CornerRadius="5">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition/>
@@ -32,18 +32,18 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Row="0" Text="{Binding Username}" FontWeight="DemiBold"/>
+                            <TextBlock Grid.Row="0" Margin="5,0,0,0" Text="{Binding Username}" FontWeight="DemiBold"/>
                             <ScrollViewer  Grid.Row="1"  MaxHeight="200" VerticalScrollBarVisibility="Auto">
-                                <Border x:Name="TextBorder" Background="{StaticResource LightThemePressed}" CornerRadius="5">
+                                <Border x:Name="TextBorder">
                                     <TextBlock Text="{Binding Text}" MaxWidth="250" TextWrapping="Wrap" Margin="5"/>
                                 </Border>
                             </ScrollViewer>
-                            <TextBlock Grid.Row="2" FontSize="10" Foreground="{StaticResource LightThemeText}" Opacity="0.5" Text="{Binding DateTime}"/>
+                            <TextBlock Grid.Row="2" FontSize="10" Margin="5,0,0,0" Foreground="{StaticResource LightThemeText}" Opacity="0.7" Text="{Binding DateTime}"/>
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
                         <DataTrigger Binding="{Binding IsOwner}" Value="True">
-                            <Setter Property="Background" Value="{StaticResource LightThemeOwner}" TargetName="TextBorder"/>
+                            <Setter Property="Background" Value="{StaticResource LightThemeOwner}" TargetName="Border"/>
                             <Setter Property="HorizontalAlignment" Value="Right" TargetName="Border"/>
                         </DataTrigger>
                     </ControlTemplate.Triggers>

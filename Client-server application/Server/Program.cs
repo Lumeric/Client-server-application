@@ -15,9 +15,6 @@ namespace Server
                 Console.ReadLine();
 
                 networkManager.Stop();
-
-                //temp check for server stopping
-                Console.ReadLine();
             }
             catch (Exception ex)
             {
